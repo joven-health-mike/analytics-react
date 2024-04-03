@@ -41,6 +41,11 @@ const HomePage: React.FC = () => {
               Customer Report
             </CustomButton>
           </DefaultGridItem>
+          <DefaultGridItem>
+            <CustomButton onClick={() => navigate("/provider")}>
+              Provider Report
+            </CustomButton>
+          </DefaultGridItem>
         </DefaultGrid>
       )}
     </>
