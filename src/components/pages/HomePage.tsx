@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
+import React, { useContext } from "react"
 import styled from "styled-components"
 import { buttonStyles } from "../styles/mixins"
 import Navbar from "../navbar/Navbar"
@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom"
 import DefaultGrid from "../widgets/DefaultGrid"
 import DefaultGridItem from "../widgets/DefaultGridItem"
 import DefaultHeader from "../widgets/DefaultHeader"
+import ProviderReportUploadWidget from "../data-widgets/ProviderReportUploadWidget"
+import HorizontalLine from "../widgets/HorizontalLine"
+import { SessionsContext } from "../../data/providers/SessionProvider"
 
 const CustomButton = styled.button`
   ${buttonStyles}
@@ -16,18 +19,25 @@ const CustomButton = styled.button`
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate()
+  const { sessions: allSessions } = useContext(SessionsContext)
 
   return (
     <>
       <Navbar />
       <DefaultHeader>Home</DefaultHeader>
-      <DefaultGrid direction="row">
-        <DefaultGridItem>
-          <CustomButton onClick={() => navigate("/analytics")}>
-            Analytics
-          </CustomButton>
-        </DefaultGridItem>
-      </DefaultGrid>
+      <>
+        <ProviderReportUploadWidget />
+        <HorizontalLine />
+      </>
+      {allSessions.length > 0 && (
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <CustomButton onClick={() => navigate("/analytics")}>
+              Analytics
+            </CustomButton>
+          </DefaultGridItem>
+        </DefaultGrid>
+      )}
     </>
   )
 }

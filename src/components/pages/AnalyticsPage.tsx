@@ -3,7 +3,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
-import ProviderReportUploadWidget from "../data-widgets/ProviderReportUploadWidget"
 import HorizontalLine from "../widgets/HorizontalLine"
 import JovenDataSection from "../data-widgets/JovenDataSection"
 import CustomerReportsSection from "../data-widgets/CustomerReportsSection"
@@ -126,10 +125,6 @@ const AnalyticsPage: React.FC = () => {
     <>
       <Navbar />
       <DefaultHeader>Analytics</DefaultHeader>
-      <>
-        <ProviderReportUploadWidget />
-        <HorizontalLine />
-      </>
       {allSessions.length > 0 && (
         <>
           <FilteredSessionsContext.Provider value={filteredSessions}>

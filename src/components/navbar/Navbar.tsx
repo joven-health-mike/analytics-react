@@ -1,11 +1,12 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
+import React, { useContext } from "react"
 import { IconContext } from "react-icons"
 import { Link } from "react-router-dom"
 import styled, { css } from "styled-components"
 import { spanStyles } from "../styles/mixins"
 import { allNavItems, NavItem } from "./navBarItems"
+import { SessionsContext } from "../../data/providers/SessionProvider"
 
 const linkStyles = css`
   text-decoration: none;
@@ -62,6 +63,8 @@ const ListItem = styled.li`
 `
 
 const Navbar: React.FC = () => {
+  const { sessions: allSessions } = useContext(SessionsContext)
+
   return (
     <>
       <nav>
@@ -69,12 +72,16 @@ const Navbar: React.FC = () => {
           <Wrapper>
             <List>
               {allNavItems.map((item: NavItem, index: number) => (
-                <ListItem key={index}>
-                  <StyledLink to={item.path}>
-                    {item.icon}
-                    <LinkTitle>{item.title}</LinkTitle>
-                  </StyledLink>
-                </ListItem>
+                <>
+                  {item.shouldDisplay(allSessions.length) && (
+                    <ListItem key={index}>
+                      <StyledLink to={item.path}>
+                        {item.icon}
+                        <LinkTitle>{item.title}</LinkTitle>
+                      </StyledLink>
+                    </ListItem>
+                  )}
+                </>
               ))}
             </List>
           </Wrapper>

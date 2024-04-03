@@ -14,6 +14,7 @@ export type NavItem = {
   title: string
   icon: ReactElement
   path: string
+  shouldDisplay: (sessionsLength: number) => boolean
 }
 
 export const allNavItems: NavItem[] = [
@@ -21,15 +22,18 @@ export const allNavItems: NavItem[] = [
     title: "Joven Health",
     icon: <Image src={image} alt="logo" />,
     path: "/",
+    shouldDisplay: () => true,
   },
   {
     title: "Home",
     icon: <FaHome />,
     path: "/",
+    shouldDisplay: () => true,
   },
   {
     title: "Analytics",
     icon: <FaChartLine />,
     path: "/analytics",
+    shouldDisplay: (sessionsLength) => sessionsLength > 0,
   },
 ]
