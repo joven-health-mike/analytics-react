@@ -13,8 +13,6 @@ import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
 import SessionGroup from "../../data/SessionGroup"
-import { ProviderNameContext } from "./ProviderReportsSection"
-import { ProviderSessionGroupsContext } from "../pages/AnalyticsPage"
 import { shiftedMonths } from "../../utils/DateUtils"
 import AllHoursLineChart from "./charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "./charts/AllHoursStackedBarChart"
@@ -24,6 +22,7 @@ import {
   filterByType as byType,
 } from "../../data/Session"
 import Printable from "../widgets/Printable"
+import { ProviderNameContext } from "../pages/ProviderReportPage"
 
 const CHART_MONTH_OFFSET = 6
 
@@ -236,21 +235,22 @@ const NoShowRatesByWeekSection: React.FC = () => {
 }
 
 const ProviderHoursLineSection: React.FC = () => {
-  const filteredTypeSessionGroups = useContext(ProviderSessionGroupsContext)
+  const { providerSessionGroups: filteredProviderSessionGroups } =
+    useContext(SessionsContext)
   const providerName = useContext(ProviderNameContext)
   const [hoursByMonthData, setHoursByMonthData] = useState<Map<string, number>>(
     new Map()
   )
 
   useEffect(() => {
-    if (!filteredTypeSessionGroups) {
+    if (!filteredProviderSessionGroups) {
       setHoursByMonthData(new Map())
       return
     }
 
     const newData: Map<string, number> = new Map()
 
-    for (const sessionGroup of filteredTypeSessionGroups) {
+    for (const sessionGroup of filteredProviderSessionGroups) {
       if (sessionGroup.name !== providerName) continue
       const monthGenerator = shiftedMonths(CHART_MONTH_OFFSET)
       for (const month of monthGenerator) {
@@ -266,7 +266,7 @@ const ProviderHoursLineSection: React.FC = () => {
     }
 
     setHoursByMonthData(newData)
-  }, [filteredTypeSessionGroups, providerName])
+  }, [filteredProviderSessionGroups, providerName])
 
   return (
     <>
@@ -281,7 +281,8 @@ const ProviderHoursLineSection: React.FC = () => {
 }
 
 const ProviderHoursStackedSection: React.FC = () => {
-  const filteredProviderSessionGroups = useContext(ProviderSessionGroupsContext)
+  const { providerSessionGroups: filteredProviderSessionGroups } =
+    useContext(SessionsContext)
   const providerName = useContext(ProviderNameContext)
   const [hoursByServiceData, setHoursByServiceData] = useState<
     Map<string, Map<string, number>>
@@ -329,7 +330,8 @@ const ProviderHoursStackedSection: React.FC = () => {
 }
 
 const ProviderCustomerStackedSection: React.FC = () => {
-  const filteredProviderSessionGroups = useContext(ProviderSessionGroupsContext)
+  const { providerSessionGroups: filteredProviderSessionGroups } =
+    useContext(SessionsContext)
   const providerName = useContext(ProviderNameContext)
   const [hoursByServiceData, setHoursByServiceData] = useState<
     Map<string, Map<string, number>>

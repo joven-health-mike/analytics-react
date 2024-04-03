@@ -1,7 +1,12 @@
 // Copyright 2022 Social Fabric, LLC
 
 import React, { ReactElement } from "react"
-import { FaChartLine, FaHome, FaPersonBooth } from "react-icons/fa"
+import {
+  FaChartLine,
+  FaHome,
+  FaPersonBooth,
+  FaWizardsOfTheCoast,
+} from "react-icons/fa"
 import styled from "styled-components"
 import image from "../../assets/Logo-192sq-alphabg.png"
 
@@ -44,6 +49,12 @@ export const allNavItems: NavItem[] = [
     title: "Customer Report",
     icon: <FaPersonBooth />,
     path: "/customer",
+    shouldDisplay: ifSessionsExist,
+  },
+  {
+    title: "Provider Report",
+    icon: <FaWizardsOfTheCoast />,
+    path: "/provider",
     shouldDisplay: ifSessionsExist,
   },
 ]
