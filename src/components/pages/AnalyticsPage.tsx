@@ -9,17 +9,18 @@ import CustomerReportsSection from "../data-widgets/CustomerReportsSection"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultGrid from "../widgets/DefaultGrid"
 import DefaultGridItem from "../widgets/DefaultGridItem"
-import SelectByName, {
-  byCustomer,
-  byProvider,
-  byType,
-} from "../data-widgets/SelectByName"
+import SelectByName from "../data-widgets/SelectByName"
 import Session from "../../data/Session"
 import SessionGroups, {
   createEmptySessionGroups,
   createSessionGroups,
 } from "../../data/SessionGroups"
 import ProviderReportsSection from "../data-widgets/ProviderReportsSection"
+import {
+  filterByCustomer as byCustomer,
+  filterByProvider as byProvider,
+  filterByType as byType,
+} from "../../data/Session"
 
 const emptySessionGroups = createEmptySessionGroups()
 

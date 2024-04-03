@@ -3,7 +3,8 @@
 import React from "react"
 import PrivateRoutes from "./PrivateRoutes"
 import HomePage from "../components/pages/HomePage"
-import AnalyticsPage from "../components/pages/AnalyticsPage"
+import JovenReportPage from "../components/pages/JovenReportPage"
+import CustomerReportPage from "../components/pages/CustomerReportPage"
 
 const AppRouter: React.FC = () => {
   return <PrivateRoutes />
@@ -11,7 +12,8 @@ const AppRouter: React.FC = () => {
 
 export const AvailableRoutes = [
   { url: "/", element: <HomePage /> },
-  { url: "/analytics", element: <AnalyticsPage /> },
+  { url: "/joven", element: <JovenReportPage /> },
+  { url: "/customer", element: <CustomerReportPage /> },
 ]
 
 export default AppRouter

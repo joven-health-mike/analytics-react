@@ -11,9 +11,9 @@ import { formatPercent } from "../../utils/MathUtils"
 import NoShowLineChart from "./charts/NoShowLineChart"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
-import { CustomerNameContext } from "./CustomerReportsSection"
 import { sortMapByValue } from "../../utils/SortUtils"
 import SessionGroup from "../../data/SessionGroup"
+import { CustomerNameContext } from "../pages/CustomerReportPage"
 
 const CustomerReport: React.FC = () => {
   const customerName = useContext(CustomerNameContext)

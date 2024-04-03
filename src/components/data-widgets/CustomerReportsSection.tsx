@@ -4,17 +4,16 @@ import React, { useContext, useEffect, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import CustomerReport from "./CustomerReport"
-import { FilteredSessionsContext } from "../pages/AnalyticsPage"
 import SessionGroups, {
   createEmptySessionGroups,
   createSessionGroups,
 } from "../../data/SessionGroups"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { byCustomer } from "./SelectByName"
+import { filterByCustomer as byCustomer } from "../../data/Session"
 
 const CustomerReportsSection: React.FC = () => {
   const { sessions: allSessions } = useContext(SessionsContext)
-  const filteredSessions = useContext(FilteredSessionsContext)
+  const filteredSessions = allSessions
   const [selectedCustomer, setSelectedCustomer] = useState<string>("")
   const [customerNames, setCustomerNames] = useState<string[]>([])
   const [customerSessionGroups, setCustomerSessionGroups] =

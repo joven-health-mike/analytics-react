@@ -19,7 +19,10 @@ import { shiftedMonths } from "../../utils/DateUtils"
 import AllHoursLineChart from "./charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "./charts/AllHoursStackedBarChart"
 import { createSessionGroups } from "../../data/SessionGroups"
-import { byCustomer, byType } from "./SelectByName"
+import {
+  filterByCustomer as byCustomer,
+  filterByType as byType,
+} from "../../data/Session"
 import Printable from "../widgets/Printable"
 
 const CHART_MONTH_OFFSET = 6

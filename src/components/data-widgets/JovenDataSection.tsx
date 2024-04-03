@@ -1,7 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
 import React, { useContext, useEffect, useState } from "react"
-import DefaultHeader from "../widgets/DefaultHeader"
 import { Box } from "@mui/material"
 import NoShowChart from "./charts/NoShowChart"
 import { sortMapByValue } from "../../utils/SortUtils"
@@ -11,26 +10,21 @@ import AllHoursLineChart from "./charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "./charts/AllProvidersStackedBarChart"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
-import {
-  CustomerSessionGroupsContext,
-  ProviderSessionGroupsContext,
-  TypeSessionGroupsContext,
-} from "../pages/AnalyticsPage"
+import { SessionsContext } from "../../data/providers/SessionProvider"
 
 const CHART_MONTH_OFFSET = 6
-const TITLE = "Joven Health Analytics"
+const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
 
 const JovenDataSection: React.FC = () => {
   return (
     <>
-      <DefaultHeader>{TITLE}</DefaultHeader>
       <Box
         sx={{ m: 2 }}
         flexDirection={"column"}
         justifyContent="center"
         display="flex"
       >
-        <Printable docTitle={`${TITLE}.pdf`}>
+        <Printable docTitle={`${PDF_DOWNLOAD_FILENAME}.pdf`}>
           <DefaultAccordionGroup
             labels={[
               "Total Hours Delivered by Month",
@@ -63,7 +57,8 @@ type AllHoursLineSectionProps = {
 }
 
 const AllHoursLineSection: React.FC<AllHoursLineSectionProps> = ({ label }) => {
-  const filteredTypeSessionGroups = useContext(CustomerSessionGroupsContext)
+  const { typeSessionGroups: filteredTypeSessionGroups } =
+    useContext(SessionsContext)
   const [hoursByMonthData, setHoursByMonthData] = useState<Map<string, number>>(
     new Map()
   )
@@ -109,7 +104,8 @@ type AllHoursStackedSectionProps = {
 const AllHoursStackedSection: React.FC<AllHoursStackedSectionProps> = ({
   label,
 }) => {
-  const filteredTypeSessionGroups = useContext(TypeSessionGroupsContext)
+  const { typeSessionGroups: filteredTypeSessionGroups } =
+    useContext(SessionsContext)
   const [hoursByServiceData, setHoursByServiceData] = useState<
     Map<string, Map<string, number>>
   >(new Map())
@@ -155,7 +151,8 @@ const HoursByProviderSection: React.FC<HoursByProviderSectionProps> = ({
   const [hoursByProviderData, setHoursByProviderData] = useState<
     Map<string, Map<string, number>>
   >(new Map())
-  const filteredProviderSessionGroups = useContext(ProviderSessionGroupsContext)
+  const { providerSessionGroups: filteredProviderSessionGroups } =
+    useContext(SessionsContext)
 
   useEffect(() => {
     if (!filteredProviderSessionGroups) {
@@ -198,7 +195,8 @@ type CustomerNoShowSectionProps = {
 const CustomerNoShowSection: React.FC<CustomerNoShowSectionProps> = ({
   label,
 }) => {
-  const filteredCustomerSessionGroups = useContext(CustomerSessionGroupsContext)
+  const { customerSessionGroups: filteredCustomerSessionGroups } =
+    useContext(SessionsContext)
   const [customerNoShowData, setCustomerNoShowData] =
     useState<Map<string, number>>()
 
@@ -236,7 +234,8 @@ type ProviderNoShowSectionProps = {
 const ProviderNoShowSection: React.FC<ProviderNoShowSectionProps> = ({
   label,
 }) => {
-  const filteredProviderSessionGroups = useContext(ProviderSessionGroupsContext)
+  const { providerSessionGroups: filteredProviderSessionGroups } =
+    useContext(SessionsContext)
   const [providerNoShowData, setProviderNoShowData] =
     useState<Map<string, number>>()
 

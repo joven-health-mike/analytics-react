@@ -32,8 +32,13 @@ const HomePage: React.FC = () => {
       {allSessions.length > 0 && (
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <CustomButton onClick={() => navigate("/analytics")}>
-              Analytics
+            <CustomButton onClick={() => navigate("/joven")}>
+              Joven Health Report
+            </CustomButton>
+          </DefaultGridItem>
+          <DefaultGridItem>
+            <CustomButton onClick={() => navigate("/customer")}>
+              Customer Report
             </CustomButton>
           </DefaultGridItem>
         </DefaultGrid>

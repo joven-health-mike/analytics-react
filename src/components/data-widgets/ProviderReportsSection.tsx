@@ -9,7 +9,7 @@ import SessionGroups, {
   createSessionGroups,
 } from "../../data/SessionGroups"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { byProvider } from "./SelectByName"
+import { filterByProvider as byProvider } from "../../data/Session"
 import ProviderReport from "./ProviderReport"
 
 const ProviderReportsSection: React.FC = () => {
