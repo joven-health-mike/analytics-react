@@ -23,24 +23,6 @@ const HomePage: React.FC = () => {
       <DefaultHeader>Home</DefaultHeader>
       <DefaultGrid direction="row">
         <DefaultGridItem>
-          <CustomButton onClick={() => navigate("/payroll")}>
-            Payroll
-          </CustomButton>
-        </DefaultGridItem>
-        <DefaultGridItem>
-          <CustomButton onClick={() => navigate("/invoices")}>
-            Invoices
-          </CustomButton>
-        </DefaultGridItem>
-        <DefaultGridItem>
-          <CustomButton onClick={() => navigate("/transactions")}>
-            Transactions
-          </CustomButton>
-        </DefaultGridItem>
-        <DefaultGridItem>
-          <CustomButton onClick={() => navigate("/tools")}>Tools</CustomButton>
-        </DefaultGridItem>
-        <DefaultGridItem>
           <CustomButton onClick={() => navigate("/analytics")}>
             Analytics
           </CustomButton>
