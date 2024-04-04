@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useContext } from "react"
+import React from "react"
 import styled from "styled-components"
 import { buttonStyles } from "../styles/mixins"
 import Navbar from "../navbar/Navbar"
@@ -10,7 +10,7 @@ import DefaultGridItem from "../widgets/DefaultGridItem"
 import DefaultHeader from "../widgets/DefaultHeader"
 import UploadServiceDataWidget from "../widgets/UploadServiceDataWidget"
 import HorizontalLine from "../widgets/HorizontalLine"
-import { SessionsContext } from "../../data/providers/SessionProvider"
+import useSessionsPopulated from "../hooks/SessionsPopulated"
 
 const CustomButton = styled.button`
   ${buttonStyles}
@@ -19,7 +19,13 @@ const CustomButton = styled.button`
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate()
-  const { sessions: allSessions } = useContext(SessionsContext)
+  const { sessionsPopulated } = useSessionsPopulated()
+
+  const buttons = [
+    { name: "Joven Health Report", onClick: () => navigate("/joven") },
+    { name: "Customer Report", onClick: () => navigate("/customer") },
+    { name: "Provider Report", onClick: () => navigate("/provider") },
+  ]
 
   return (
     <>
@@ -27,23 +33,15 @@ const HomePage: React.FC = () => {
       <DefaultHeader>Home</DefaultHeader>
       <UploadServiceDataWidget />
       <HorizontalLine />
-      {allSessions.length > 0 && (
+      {sessionsPopulated && (
         <DefaultGrid direction="row">
-          <DefaultGridItem>
-            <CustomButton onClick={() => navigate("/joven")}>
-              Joven Health Report
-            </CustomButton>
-          </DefaultGridItem>
-          <DefaultGridItem>
-            <CustomButton onClick={() => navigate("/customer")}>
-              Customer Report
-            </CustomButton>
-          </DefaultGridItem>
-          <DefaultGridItem>
-            <CustomButton onClick={() => navigate("/provider")}>
-              Provider Report
-            </CustomButton>
-          </DefaultGridItem>
+          {buttons.map((button, index) => (
+            <DefaultGridItem key={index}>
+              <CustomButton onClick={button.onClick}>
+                {button.name}
+              </CustomButton>
+            </DefaultGridItem>
+          ))}
         </DefaultGrid>
       )}
     </>

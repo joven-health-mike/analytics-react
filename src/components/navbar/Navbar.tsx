@@ -72,7 +72,7 @@ const Navbar: React.FC = () => {
           <Wrapper>
             <List>
               {allNavItems.map((item: NavItem, index: number) => (
-                <>
+                <div key={index}>
                   {item.shouldDisplay(allSessions.length) && (
                     <ListItem key={index}>
                       <StyledLink to={item.path}>
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
                       </StyledLink>
                     </ListItem>
                   )}
-                </>
+                </div>
               ))}
             </List>
           </Wrapper>
