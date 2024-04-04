@@ -12,6 +12,9 @@ import DefaultText from "../widgets/DefaultText"
 import ServiceTypePieChart from "./charts/ServiceTypePieChart"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { CustomerNameContext } from "../pages/CustomerReportPage"
+import AllHoursLineChart from "./charts/AllHoursLineChart"
+import NoShowPieChart from "./charts/NoShowPieChart"
+import NoShowLineChart from "./charts/NoShowLineChart"
 
 const CustomerReport: React.FC = () => {
   const { currentSessionGroup } = useCurrentSessionGroup()
@@ -21,30 +24,33 @@ const CustomerReport: React.FC = () => {
     const [numberOfUniqueStudents, setNumberOfUniqueStudents] =
       useState<number>(0)
     const [numberOfHours, setNumberOfHours] = useState<number>(0)
-    const [absentRate, setAbsentRate] = useState<number>(0)
 
     useEffect(() => {
       setNumberOfUniqueStudents(currentSessionGroup.uniqueStudents())
       setNumberOfHours(currentSessionGroup.totalHours())
-      setAbsentRate(currentSessionGroup.absentRate())
     }, [])
 
     return (
       <DefaultGrid direction="column">
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <DefaultSubHeader>Unique Students Serviced</DefaultSubHeader>
+            <DefaultSubHeader>Total Unique Students Serviced</DefaultSubHeader>
             <DefaultText>{numberOfUniqueStudents}</DefaultText>
           </DefaultGridItem>
           <DefaultGridItem>
-            <DefaultSubHeader>Total Hours Delivered</DefaultSubHeader>
-            <DefaultText>{numberOfHours}</DefaultText>
+            <DefaultSubHeader>Total Service Hours Provided</DefaultSubHeader>
+            <DefaultText>{numberOfHours.toFixed(1)}</DefaultText>
           </DefaultGridItem>
         </DefaultGrid>
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <DefaultSubHeader>% Absent Rate</DefaultSubHeader>
-            <DefaultText>{`${absentRate}%`}</DefaultText>
+            <DefaultSubHeader>
+              Average Service Hours per Student
+            </DefaultSubHeader>
+            <DefaultText>{`${(numberOfUniqueStudents === 0
+              ? 0
+              : numberOfHours / numberOfUniqueStudents
+            ).toFixed(1)}`}</DefaultText>
           </DefaultGridItem>
         </DefaultGrid>
       </DefaultGrid>
@@ -52,20 +58,48 @@ const CustomerReport: React.FC = () => {
   }
 
   const ChartsSection: React.FC = () => {
+    const [presences, setPresences] = useState<number>(0)
+    const [absences, setAbsences] = useState<number>(0)
+    const [absentRateByMonth, setAbsentRateByMonth] = useState<
+      Map<string, number>
+    >(new Map())
     const [hoursByServiceType, setHoursByServiceType] = useState<
       Map<string, number>
     >(new Map())
+    const [hoursByMonth, setHoursByMonth] = useState<Map<string, number>>(
+      new Map()
+    )
 
     useEffect(() => {
+      setPresences(currentSessionGroup.presences())
+      setAbsences(currentSessionGroup.absences())
+      setAbsentRateByMonth(currentSessionGroup.noShowRatesByMonth())
       setHoursByServiceType(currentSessionGroup.sessionTypeTimes())
+      setHoursByMonth(currentSessionGroup.hoursByMonth())
     }, [])
 
     return (
       <DefaultGrid direction="column">
-        <DefaultGridItem>
-          <DefaultSubHeader>Hours By Service Type</DefaultSubHeader>
-          <ServiceTypePieChart hoursByServiceType={hoursByServiceType} />
-        </DefaultGridItem>
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <DefaultSubHeader>Hours By Service Type</DefaultSubHeader>
+            <ServiceTypePieChart hoursByServiceType={hoursByServiceType} />
+          </DefaultGridItem>
+          <DefaultGridItem>
+            <DefaultSubHeader>Hours By Month</DefaultSubHeader>
+            <AllHoursLineChart data={hoursByMonth} />
+          </DefaultGridItem>
+        </DefaultGrid>
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <DefaultSubHeader>Attendance</DefaultSubHeader>
+            <NoShowPieChart absences={absences} presences={presences} />
+          </DefaultGridItem>
+          <DefaultGridItem>
+            <DefaultSubHeader>Absent Rates By Month</DefaultSubHeader>
+            <NoShowLineChart data={absentRateByMonth} />
+          </DefaultGridItem>
+        </DefaultGrid>
       </DefaultGrid>
     )
   }

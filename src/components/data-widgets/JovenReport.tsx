@@ -5,7 +5,7 @@ import { Box } from "@mui/material"
 import NoShowChart from "./charts/NoShowChart"
 import { sortMapByValue } from "../../utils/SortUtils"
 import AllHoursStackedBarChart from "./charts/AllHoursStackedBarChart"
-import { shiftedMonths } from "../../utils/DateUtils"
+import { monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "./charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "./charts/AllProvidersStackedBarChart"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
@@ -72,7 +72,7 @@ const AllHoursLineSection: React.FC<AllHoursLineSectionProps> = ({ label }) => {
     const newData: Map<string, number> = new Map()
 
     for (const sessionGroup of filteredTypeSessionGroups) {
-      const monthGenerator = shiftedMonths(CHART_MONTH_OFFSET)
+      const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
       for (const month of monthGenerator) {
         const hoursForMonth = sessionGroup.totalHours(month)
         const newHoursValue = (newData.get(month) ?? 0) + hoursForMonth
@@ -120,7 +120,7 @@ const AllHoursStackedSection: React.FC<AllHoursStackedSectionProps> = ({
 
     for (const sessionGroup of filteredTypeSessionGroups) {
       const monthlyMap = new Map()
-      const monthGenerator = shiftedMonths(CHART_MONTH_OFFSET)
+      const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
       for (const month of monthGenerator) {
         const hoursForMonth = sessionGroup.totalHours(month)
         const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
@@ -164,7 +164,7 @@ const HoursByProviderSection: React.FC<HoursByProviderSectionProps> = ({
 
     for (const sessionGroup of filteredProviderSessionGroups) {
       const monthlyMap = new Map()
-      const monthGenerator = shiftedMonths(CHART_MONTH_OFFSET)
+      const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
       for (const month of monthGenerator) {
         const hoursForMonth = sessionGroup.totalHours(month)
         const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth

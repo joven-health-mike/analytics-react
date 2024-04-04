@@ -3,7 +3,7 @@ import {
   getFirstDayOfWeekName,
   getLaterDate,
   getMonthName,
-  shiftedMonths,
+  monthOfYearIterator,
   weekIterator,
 } from "../utils/DateUtils"
 import Session from "./Session"
@@ -43,7 +43,7 @@ export default class SessionGroupData {
 
   private calculateHoursByMonth(): void {
     // calculate absent rates for each month
-    for (const monthName of shiftedMonths(6)) {
+    for (const monthName of monthOfYearIterator(6)) {
       const minutesForMonth = this.minutesByMonth!.get(monthName) ?? 0
       this.hoursByMonth.set(
         monthName,
@@ -89,7 +89,7 @@ export default class SessionGroupData {
   }
 
   private calculateMonthlyAbsentRates = () => {
-    for (const monthName of shiftedMonths(6)) {
+    for (const monthName of monthOfYearIterator(6)) {
       const presencesForMonth = this.presencesByMonth!.get(monthName) ?? 0
       const absencesForMonth = this.absencesByMonth!.get(monthName) ?? 0
       this.absenceRatesByMonth.set(

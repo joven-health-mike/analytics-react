@@ -5,12 +5,12 @@ import { randomColor } from "../../../utils/Colors"
 import { LineChart } from "../../widgets/LineChart"
 
 type AllHoursLineChartProps = {
-  chartTitle: string
+  chartTitle?: string
   data: Map<string, number>
 }
 
 const AllHoursLineChart: React.FC<AllHoursLineChartProps> = ({
-  chartTitle,
+  chartTitle = "",
   data,
 }) => {
   const noShowChartData = {
@@ -25,11 +25,7 @@ const AllHoursLineChart: React.FC<AllHoursLineChartProps> = ({
     ],
   }
 
-  return (
-    <>
-      <LineChart chartTitle={chartTitle} chartData={noShowChartData} />
-    </>
-  )
+  return <LineChart chartTitle={chartTitle} chartData={noShowChartData} />
 }
 
 export default AllHoursLineChart

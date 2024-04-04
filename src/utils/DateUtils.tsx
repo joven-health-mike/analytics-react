@@ -13,7 +13,7 @@ const MONTH_NAMES = [
   "December",
 ]
 
-export function* shiftedMonths(shiftAmount: number = 0) {
+export function* monthOfYearIterator(shiftAmount: number = 0) {
   for (let i = 0; i < MONTH_NAMES.length; i++) {
     yield MONTH_NAMES[(i + shiftAmount) % 12]
   }
