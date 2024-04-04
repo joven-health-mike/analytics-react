@@ -1,15 +1,15 @@
 import React, { useContext } from "react"
-import UploadDataWidget from "../widgets/UploadDataWidget"
+import UploadDataWidget from "./UploadDataWidget"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { createSession } from "../../data/Session"
 import { adaptTeleTeachersData } from "../../utils/TeleTeachersAdapter"
 import { createItemsFromCsv } from "../../utils/CsvUtils"
 
-type ProviderReportUploadWidgetProps = {
+type UploadServiceDataWidgetProps = {
   sessionDataAdapter?: (input: string[][]) => string[][]
 }
 
-const ProviderReportUploadWidget: React.FC<ProviderReportUploadWidgetProps> = ({
+const UploadServiceDataWidget: React.FC<UploadServiceDataWidgetProps> = ({
   sessionDataAdapter = adaptTeleTeachersData,
 }) => {
   const { sessions, setSessions } = useContext(SessionsContext)
@@ -41,4 +41,4 @@ const ProviderReportUploadWidget: React.FC<ProviderReportUploadWidgetProps> = ({
   )
 }
 
-export default ProviderReportUploadWidget
+export default UploadServiceDataWidget

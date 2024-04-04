@@ -15,7 +15,7 @@ import { SessionsContext } from "../../data/providers/SessionProvider"
 const CHART_MONTH_OFFSET = 6
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
 
-const JovenDataSection: React.FC = () => {
+const JovenReport: React.FC = () => {
   return (
     <>
       <Box
@@ -266,4 +266,4 @@ const ProviderNoShowSection: React.FC<ProviderNoShowSectionProps> = ({
   )
 }
 
-export default JovenDataSection
+export default JovenReport

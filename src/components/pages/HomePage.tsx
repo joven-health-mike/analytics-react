@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 import DefaultGrid from "../widgets/DefaultGrid"
 import DefaultGridItem from "../widgets/DefaultGridItem"
 import DefaultHeader from "../widgets/DefaultHeader"
-import ProviderReportUploadWidget from "../data-widgets/ProviderReportUploadWidget"
+import UploadServiceDataWidget from "../widgets/UploadServiceDataWidget"
 import HorizontalLine from "../widgets/HorizontalLine"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 
@@ -26,7 +26,7 @@ const HomePage: React.FC = () => {
       <Navbar />
       <DefaultHeader>Home</DefaultHeader>
       <>
-        <ProviderReportUploadWidget />
+        <UploadServiceDataWidget />
         <HorizontalLine />
       </>
       {allSessions.length > 0 && (
