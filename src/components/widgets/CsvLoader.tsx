@@ -30,12 +30,7 @@ const CsvLoader: React.FC<CsvLoaderProps> = ({
           setCsvData(results.data)
         }}
       >
-        {({
-          getRootProps,
-          acceptedFile,
-          ProgressBar,
-          getRemoveFileProps,
-        }: any) => {
+        {({ getRootProps, ProgressBar, getRemoveFileProps }: any) => {
           return (
             <>
               <CustomButton {...getRootProps()}>{buttonText}</CustomButton>

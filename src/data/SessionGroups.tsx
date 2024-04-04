@@ -3,7 +3,6 @@ import SessionGroup, { createSessionGroup } from "./SessionGroup"
 
 export default class SessionGroups {
   constructor(public sessions: Map<string, SessionGroup>) {}
-  private groupNames: string[] = []
 
   getSessionGroupForName(name: string): SessionGroup | undefined {
     return this.sessions.get(name)
