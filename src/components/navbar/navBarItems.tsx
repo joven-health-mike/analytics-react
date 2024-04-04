@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { ReactElement } from "react"
+import { ReactElement } from "react"
 import {
   FaChartLine,
   FaHome,

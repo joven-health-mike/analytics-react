@@ -31,7 +31,7 @@ export const SessionsContext = React.createContext<SessionsContextData>({
   customerSessionGroups: emptySessionGroups,
   providerSessionGroups: emptySessionGroups,
   typeSessionGroups: emptySessionGroups,
-  setSessions: (data: Session[]) => null,
+  setSessions: () => null,
 })
 
 export const AllSessionsProvider: React.FC<SessionsDataProviderProps> = ({
