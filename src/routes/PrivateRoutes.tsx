@@ -3,8 +3,8 @@
 import React from "react"
 import { Route, Routes } from "react-router-dom"
 import styled from "styled-components"
-import { AvailableRoutes } from "./AppRouter"
 import { h1Styles } from "../components/styles/mixins"
+import { AvailableRoutes } from "./AvailableRoutes"
 
 const Header = styled.h1`
   ${h1Styles}
