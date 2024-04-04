@@ -11,6 +11,16 @@ export const downloadCsv = (dataStr: string, filename: string) => {
   URL.revokeObjectURL(url)
 }
 
+export const createItemsFromCsv = <T,>(
+  data: string[][],
+  setData: (data: T[]) => void,
+  createItem: (datum: string[]) => T
+) => {
+  // call factory method on every item, skipping the 1st line of headers
+  const newData: T[] = data.slice(1).map((datum) => createItem(datum))
+  setData(newData)
+}
+
 export const makeCSVSafe = (input: string) => {
   // If the string contains double quotes, escape them by doubling them up
   let output = input

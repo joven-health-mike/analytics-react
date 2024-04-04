@@ -34,9 +34,9 @@ const ProviderReportPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <DefaultHeader>Customer Report</DefaultHeader>
+      <DefaultHeader>Provider Report</DefaultHeader>
       <DefaultSelectInput
-        label="Select a Customer"
+        label="Select a Provider"
         items={providerNames}
         enableSelectAll={false}
         onItemSelected={(item) => {

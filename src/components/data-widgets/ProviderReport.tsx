@@ -58,7 +58,7 @@ const ProviderReport: React.FC = () => {
               <ProviderHoursStackedSection />,
               <ProviderCustomerStackedSection />,
             ]}
-            defaultExpanded={[false, false, false, false, false, false, true]}
+            defaultExpanded={[false, true, true, true, true, true, true]}
           />
         </Printable>
 

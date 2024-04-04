@@ -1,9 +1,9 @@
 import React, { useContext } from "react"
 import UploadDataWidget from "../widgets/UploadDataWidget"
-import { handleUploadDataNew } from "../../utils/DataProcessor"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { createSession } from "../../data/Session"
 import { adaptTeleTeachersData } from "../../utils/TeleTeachersAdapter"
+import { createItemsFromCsv } from "../../utils/CsvUtils"
 
 type ProviderReportUploadWidgetProps = {
   sessionDataAdapter?: (input: string[][]) => string[][]
@@ -17,21 +17,21 @@ const ProviderReportUploadWidget: React.FC<ProviderReportUploadWidgetProps> = ({
   return (
     <>
       <UploadDataWidget
-        prompt="Provider Report"
-        subPrompt="The Provider Report can be exported from either the **Session Analysis Dashboard (SAD)** or from **TeleTeachers**. Select the option that coorelates with where the data was exported from."
+        prompt="Upload Service Data"
+        subPrompt="Service data can be uploaded in either SAD or TeleTeachers format. Select the appropriate format below."
         button1Text={"Upload SAD Format"}
         button2Text={"Upload TeleTeachers Format"}
         enableSecondOption={true}
         hasData={sessions.length > 0}
         onDataLoaded={(data: string[][]) => {
-          handleUploadDataNew(data, setSessions, createSession)
+          createItemsFromCsv(data, setSessions, createSession)
         }}
         onDataCleared={() => {
           setSessions([])
         }}
         onData2Loaded={(data: string[][]) => {
           data = sessionDataAdapter ? sessionDataAdapter(data) : data
-          handleUploadDataNew(data, setSessions, createSession)
+          createItemsFromCsv(data, setSessions, createSession)
         }}
         onData2Cleared={() => {
           setSessions([])
