@@ -22,12 +22,12 @@ import {
   filterByType as byType,
 } from "../../data/Session"
 import Printable from "../widgets/Printable"
-import { ProviderNameContext } from "../pages/ProviderReportPage"
+import useCurrentProviderSessionGroup from "../hooks/CurrentProviderSessionGroup"
 
 const CHART_MONTH_OFFSET = 6
 
 const ProviderReport: React.FC = () => {
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   return (
     <>
       <Box
@@ -70,7 +70,7 @@ const ProviderReport: React.FC = () => {
 
 const ServiceOverviewSection: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [monthlyReportData, setMonthlyReportData] = useState<
     Map<string, number>
   >(new Map())
@@ -120,7 +120,7 @@ const ServiceOverviewSection: React.FC = () => {
 
 const AbsencesMetricsSection: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [presences, setPresences] = useState<number>(0)
   const [absences, setAbsences] = useState<number>(0)
 
@@ -162,7 +162,7 @@ const AbsencesMetricsSection: React.FC = () => {
 
 const NoShowRatesByMonthSection: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [currentSessionGroup, setCurrentSessionGroup] = useState<
     SessionGroup | undefined
   >(undefined)
@@ -199,7 +199,7 @@ const NoShowRatesByMonthSection: React.FC = () => {
 
 const NoShowRatesByWeekSection: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [currentSessionGroup, setCurrentSessionGroup] = useState<
     SessionGroup | undefined
   >(undefined)
@@ -237,7 +237,7 @@ const NoShowRatesByWeekSection: React.FC = () => {
 const ProviderHoursLineSection: React.FC = () => {
   const { providerSessionGroups: filteredProviderSessionGroups } =
     useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [hoursByMonthData, setHoursByMonthData] = useState<Map<string, number>>(
     new Map()
   )
@@ -283,7 +283,7 @@ const ProviderHoursLineSection: React.FC = () => {
 const ProviderHoursStackedSection: React.FC = () => {
   const { providerSessionGroups: filteredProviderSessionGroups } =
     useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [hoursByServiceData, setHoursByServiceData] = useState<
     Map<string, Map<string, number>>
   >(new Map())
@@ -332,7 +332,7 @@ const ProviderHoursStackedSection: React.FC = () => {
 const ProviderCustomerStackedSection: React.FC = () => {
   const { providerSessionGroups: filteredProviderSessionGroups } =
     useContext(SessionsContext)
-  const providerName = useContext(ProviderNameContext)
+  const { providerName } = useCurrentProviderSessionGroup()
   const [hoursByServiceData, setHoursByServiceData] = useState<
     Map<string, Map<string, number>>
   >(new Map())

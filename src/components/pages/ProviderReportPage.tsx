@@ -7,6 +7,7 @@ import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import ProviderReport from "../data-widgets/ProviderReport"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
+import { ProviderNameContext } from "../../data/providers/ProviderNameProvider"
 
 const ProviderReportPage: React.FC = () => {
   useNavigateToHomeWhenSessionsCleared()
@@ -51,7 +52,5 @@ const ProviderReportPage: React.FC = () => {
     </>
   )
 }
-
-export const ProviderNameContext = React.createContext<string>("")
 
 export default ProviderReportPage

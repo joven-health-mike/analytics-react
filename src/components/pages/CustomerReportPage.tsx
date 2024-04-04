@@ -7,6 +7,7 @@ import CustomerReport from "../data-widgets/CustomerReport"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
+import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
 
 const CustomerReportPage: React.FC = () => {
   useNavigateToHomeWhenSessionsCleared()
@@ -46,7 +47,5 @@ const CustomerReportPage: React.FC = () => {
     </>
   )
 }
-
-export const CustomerNameContext = React.createContext<string>("")
 
 export default CustomerReportPage

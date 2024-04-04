@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from "react"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { CustomerNameContext } from "../pages/CustomerReportPage"
 import SessionGroup, { createEmptySessionGroup } from "../../data/SessionGroup"
+import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
 
-const useCurrentSessionGroup = () => {
+const useCurrentCustomerSessionGroup = () => {
   const { customerSessionGroups } = useContext(SessionsContext)
   const customerName = useContext(CustomerNameContext)
   const [currentSessionGroup, setCurrentSessionGroup] = useState<SessionGroup>(
@@ -17,7 +17,7 @@ const useCurrentSessionGroup = () => {
     )
   }, [customerName, customerSessionGroups])
 
-  return { currentSessionGroup }
+  return { customerName, currentSessionGroup }
 }
 
-export default useCurrentSessionGroup
+export default useCurrentCustomerSessionGroup

@@ -23,8 +23,14 @@ export default class SessionGroups {
   }
 }
 
-export const createEmptySessionGroups = () =>
-  new SessionGroups(new Map<string, SessionGroup>())
+let emptySessionGroups: SessionGroups | undefined = undefined
+
+export const createEmptySessionGroups = () => {
+  if (!emptySessionGroups) {
+    emptySessionGroups = new SessionGroups(new Map<string, SessionGroup>())
+  }
+  return emptySessionGroups
+}
 
 export const createSessionGroups = (
   allSessions: Session[],

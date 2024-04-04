@@ -82,6 +82,11 @@ export const createSessionGroup = (name: string, sessions: Session[]) => {
   return new SessionGroup(name, sessions)
 }
 
+let emptySessionGroup: SessionGroup | undefined = undefined
+
 export const createEmptySessionGroup = () => {
-  return new SessionGroup("", [])
+  if (!emptySessionGroup) {
+    emptySessionGroup = new SessionGroup("", [])
+  }
+  return emptySessionGroup
 }
