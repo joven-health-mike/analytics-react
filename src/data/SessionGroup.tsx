@@ -7,6 +7,11 @@ export default class SessionGroup {
   private loaded = false
   private sessionGroupData = new SessionGroupData()
 
+  uniqueStudents(): number {
+    this.loadMetrics()
+    return [...this.sessionGroupData.uniqueStudents.keys()].length
+  }
+
   totalHours(month?: string): number {
     this.loadMetrics()
     if (month) {
@@ -70,4 +75,8 @@ export default class SessionGroup {
 
 export const createSessionGroup = (name: string, sessions: Session[]) => {
   return new SessionGroup(name, sessions)
+}
+
+export const createEmptySessionGroup = () => {
+  return new SessionGroup("", [])
 }

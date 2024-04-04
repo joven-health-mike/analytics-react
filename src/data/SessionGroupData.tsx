@@ -17,6 +17,8 @@ export default class SessionGroupData {
   numAbsences = 0
   absentRate = 0
 
+  uniqueStudents: Map<string, number> = new Map()
+
   presencesByMonth: Map<string, number> = new Map()
   absencesByMonth: Map<string, number> = new Map()
   absenceRatesByMonth: Map<string, number> = new Map()
@@ -118,6 +120,15 @@ export default class SessionGroupData {
     this.sessionTypeTimes.set(session.enhancedServiceName(), newValue)
   }
 
+  private calculateUniqueStudents = (session: Session) => {
+    if (session.isDirect()) {
+      for (const studentName of session.sessionStudents) {
+        const newUniqueStudents = this.uniqueStudents.get(studentName) ?? 0
+        this.uniqueStudents.set(studentName, newUniqueStudents + 1)
+      }
+    }
+  }
+
   processNewSession(session: Session): void {
     const sessionDate = new Date(session.date)
     this.earliestDate = getEarlierDate(this.earliestDate, sessionDate)
@@ -127,6 +138,7 @@ export default class SessionGroupData {
     this.calculateWeeklyAttendance(session)
     this.calculateMinutesByMonth(session)
     this.calculateSessionTypeTimes(session)
+    this.calculateUniqueStudents(session)
   }
 
   finalize(): void {
