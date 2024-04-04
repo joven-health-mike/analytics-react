@@ -1,30 +1,29 @@
 // Copyright 2022 Social Fabric, LLC
 
 import React from "react"
-import { BarChart } from "../../widgets/BarChart"
-import { randomColor } from "../../../utils/Colors"
+import { BarChart } from "../widgets/BarChart"
+import { randomColor } from "../../utils/Colors"
 
 const GRAPH_TRANSPARENCY = 0.6
 
-type AllHoursStackedBarChartProps = {
+type AllProvidersStackedBarChartProps = {
   chartTitle: string
   data: Map<string, Map<string, number>>
 }
 
-const AllHoursStackedBarChart: React.FC<AllHoursStackedBarChartProps> = ({
-  chartTitle,
-  data,
-}) => {
+const AllProvidersStackedBarChart: React.FC<
+  AllProvidersStackedBarChartProps
+> = ({ chartTitle, data }) => {
   const dataSets = []
   const dataLabels = new Set<string>()
-  for (const serviceName of data.keys()) {
+  for (const providerName of data.keys()) {
     const color = randomColor(GRAPH_TRANSPARENCY)
-    for (const month of (data.get(serviceName) ?? new Map()).keys()) {
+    for (const month of (data.get(providerName) ?? new Map()).keys()) {
       dataLabels.add(month)
     }
-    const dataSet = [...data.get(serviceName)!.values()]
+    const dataSet = [...data.get(providerName)!.values()]
     dataSets.push({
-      label: serviceName,
+      label: providerName,
       data: dataSet,
       backgroundColor: color,
       borderWidth: 1,
@@ -47,4 +46,4 @@ const AllHoursStackedBarChart: React.FC<AllHoursStackedBarChartProps> = ({
   )
 }
 
-export default AllHoursStackedBarChart
+export default AllProvidersStackedBarChart

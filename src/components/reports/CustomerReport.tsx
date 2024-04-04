@@ -9,11 +9,11 @@ import DefaultGridItem from "../widgets/DefaultGridItem"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import DefaultText from "../widgets/DefaultText"
-import ServiceTypePieChart from "./charts/ServiceTypePieChart"
+import ServiceTypePieChart from "../charts/ServiceTypePieChart"
 import useCurrentCustomerSessionGroup from "../hooks/CurrentCustomerSessionGroup"
-import AllHoursLineChart from "./charts/AllHoursLineChart"
-import NoShowPieChart from "./charts/NoShowPieChart"
-import NoShowLineChart from "./charts/NoShowLineChart"
+import AllHoursLineChart from "../charts/AllHoursLineChart"
+import NoShowPieChart from "../charts/NoShowPieChart"
+import NoShowLineChart from "../charts/NoShowLineChart"
 
 const CustomerReport: React.FC = () => {
   const { customerName, currentSessionGroup } = useCurrentCustomerSessionGroup()

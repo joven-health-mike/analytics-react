@@ -1,33 +1,23 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useContext, useEffect, useState } from "react"
 import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
-import CustomerReport from "../data-widgets/CustomerReport"
+import CustomerReport from "../reports/CustomerReport"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
-import { SessionsContext } from "../../data/providers/SessionProvider"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
+import useNamesWithSelector from "../hooks/CustomerNames"
+import { SessionsContext } from "../../data/providers/SessionProvider"
+import { useContext } from "react"
 
 const CustomerReportPage: React.FC = () => {
   useNavigateToHomeWhenSessionsCleared()
   const { customerSessionGroups } = useContext(SessionsContext)
-  const [selectedCustomer, setSelectedCustomer] = useState<string>("")
-  const [customerNames, setCustomerNames] = useState<string[]>([])
-
-  useEffect(() => {
-    const newCustomerNames = [...customerSessionGroups.names()]
-    if (selectedCustomer === undefined) {
-      setSelectedCustomer(newCustomerNames[0])
-    } else if (
-      selectedCustomer.length > 0 &&
-      !newCustomerNames.join().includes(selectedCustomer)
-    ) {
-      setSelectedCustomer(newCustomerNames[0])
-    }
-    setCustomerNames(newCustomerNames)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [customerSessionGroups])
+  const {
+    selected: selectedCustomer,
+    setSelected: setSelectedCustomer,
+    names: customerNames,
+  } = useNamesWithSelector(customerSessionGroups)
 
   return (
     <>

@@ -1,8 +1,8 @@
 // Copyright 2022 Social Fabric, LLC
 
 import React from "react"
-import { BarChart } from "../../widgets/BarChart"
-import { randomColor } from "../../../utils/Colors"
+import { BarChart } from "../widgets/BarChart"
+import { randomColor } from "../../utils/Colors"
 
 const GRAPH_TRANSPARENCY = 0.6
 
