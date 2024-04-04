@@ -8,9 +8,10 @@ import { SessionsContext } from "../../data/providers/SessionProvider"
 import ProviderReport from "../reports/ProviderReport"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import { ProviderNameContext } from "../../data/providers/ProviderNameProvider"
-import useNamesWithSelector from "../hooks/CustomerNames"
+import useNamesWithSelector from "../hooks/NamesWithSelector"
 
 const ProviderReportPage: React.FC = () => {
+  // TODO: This page is loading much slower than the other pages...
   useNavigateToHomeWhenSessionsCleared()
   const { providerSessionGroups } = useContext(SessionsContext)
   const {

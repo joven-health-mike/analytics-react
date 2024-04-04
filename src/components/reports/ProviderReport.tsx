@@ -110,12 +110,20 @@ const ProviderReport: React.FC = () => {
   }
 
   const NoShowRatesByWeekSection: React.FC = () => {
+    const [noShowRatesByWeek, setNoShowRatesByWeek] = useState<
+      Map<string, number>
+    >(new Map())
+
+    useEffect(() => {
+      setNoShowRatesByWeek(currentSessionGroup.noShowRatesByWeek())
+    }, [currentSessionGroup])
+
     return (
       <DefaultGrid direction="row">
         <DefaultGridItem>
           <NoShowLineChart
             chartTitle="No-Show Rate by Week"
-            data={currentSessionGroup.noShowRatesByWeek()}
+            data={noShowRatesByWeek}
           />
         </DefaultGridItem>
       </DefaultGrid>
@@ -249,7 +257,7 @@ const ProviderReport: React.FC = () => {
               "Service Overview",
               "Absence Metrics",
               "No-Show Rates by Month",
-              "No-Show Rates by Week",
+              // "No-Show Rates by Week",
               "Hours Delivered",
               "Services Delivered",
               "Customers Serviced",
@@ -258,7 +266,7 @@ const ProviderReport: React.FC = () => {
               <ServiceOverviewSection />,
               <AbsencesMetricsSection />,
               <NoShowRatesByMonthSection />,
-              <NoShowRatesByWeekSection />,
+              // <NoShowRatesByWeekSection />,
               <ProviderHoursLineSection />,
               <ProviderHoursStackedSection />,
               <ProviderCustomerStackedSection />,

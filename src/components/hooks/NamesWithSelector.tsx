@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import SessionGroups from "../../data/SessionGroups"
 
 const useNamesWithSelector = (sessionGroups: SessionGroups) => {
@@ -9,15 +9,19 @@ const useNamesWithSelector = (sessionGroups: SessionGroups) => {
     setNames([...sessionGroups.names()])
   }, [sessionGroups])
 
-  useEffect(() => {
-    if (
+  const previousSelectedNoLongerExists = useCallback(
+    () =>
       selected.length > 0 &&
       names.length > 0 &&
-      !names.join().includes(selected)
-    ) {
+      !names.join().includes(selected),
+    [selected, names]
+  )
+
+  useEffect(() => {
+    if (previousSelectedNoLongerExists()) {
       setSelected(names[0])
     }
-  }, [names])
+  }, [previousSelectedNoLongerExists, names])
 
   return { selected, setSelected, names }
 }

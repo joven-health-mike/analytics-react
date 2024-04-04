@@ -6,7 +6,7 @@ import CustomerReport from "../reports/CustomerReport"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
-import useNamesWithSelector from "../hooks/CustomerNames"
+import useNamesWithSelector from "../hooks/NamesWithSelector"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { useContext } from "react"
 

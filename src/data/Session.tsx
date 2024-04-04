@@ -86,22 +86,4 @@ export const skipAllJovenData = (session: Session): boolean => {
 
 export const filterByCustomer = (session: Session) => session.schoolName
 export const filterByProvider = (session: Session) => session.providerName
-export const filterByType = (session: Session) => {
-  if (
-    session.serviceName.includes("Psych") ||
-    session.serviceName.includes("SpEd") ||
-    session.serviceName.includes("Social Work")
-  ) {
-    return "Special Education"
-  } else if (session.serviceName.includes("Teaching")) {
-    return "Teaching"
-  } else if (session.serviceName.includes("Mental Health Counseling")) {
-    return "Counseling"
-  } else if (
-    session.serviceName.includes("Speech Therapy") ||
-    session.serviceName.includes("Evaluation")
-  ) {
-    return "Speech"
-  }
-  return "Indirect Time"
-}
+export const filterByType = (session: Session) => session.enhancedServiceName()
