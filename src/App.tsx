@@ -1,5 +1,4 @@
-import React, { useContext } from "react"
-import "./App.css"
+import { useContext } from "react"
 import AppRouter from "./routes/AppRouter"
 import {
   SessionsContext,
