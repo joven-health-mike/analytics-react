@@ -6,19 +6,16 @@ import DefaultHeader from "../widgets/DefaultHeader"
 import CustomerReport from "../data-widgets/CustomerReport"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
+import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 
 const CustomerReportPage: React.FC = () => {
+  useNavigateToHomeWhenSessionsCleared()
   const { customerSessionGroups } = useContext(SessionsContext)
   const [selectedCustomer, setSelectedCustomer] = useState<string>("")
   const [customerNames, setCustomerNames] = useState<string[]>([])
 
   useEffect(() => {
     const newCustomerNames = [...customerSessionGroups.names()]
-    if (newCustomerNames.length === 0) {
-      setSelectedCustomer("")
-      setCustomerNames([])
-      return
-    }
     if (selectedCustomer === undefined) {
       setSelectedCustomer(newCustomerNames[0])
     } else if (

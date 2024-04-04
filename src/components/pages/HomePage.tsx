@@ -25,10 +25,8 @@ const HomePage: React.FC = () => {
     <>
       <Navbar />
       <DefaultHeader>Home</DefaultHeader>
-      <>
-        <UploadServiceDataWidget />
-        <HorizontalLine />
-      </>
+      <UploadServiceDataWidget />
+      <HorizontalLine />
       {allSessions.length > 0 && (
         <DefaultGrid direction="row">
           <DefaultGridItem>

@@ -6,8 +6,10 @@ import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import ProviderReport from "../data-widgets/ProviderReport"
+import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 
 const ProviderReportPage: React.FC = () => {
+  useNavigateToHomeWhenSessionsCleared()
   const { providerSessionGroups } = useContext(SessionsContext)
   const [selectedProvider, setSelectedProvider] = useState<string>("")
   const [providerNames, setProviderNames] = useState<string[]>([])
