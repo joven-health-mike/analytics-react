@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
@@ -10,13 +10,19 @@ import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import DefaultText from "../widgets/DefaultText"
 import ServiceTypePieChart from "../charts/ServiceTypePieChart"
-import useCurrentCustomerSessionGroup from "../hooks/CurrentCustomerSessionGroup"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import NoShowLineChart from "../charts/NoShowLineChart"
+import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
+import { SessionsContext } from "../../data/providers/SessionProvider"
+import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
 
 const CustomerReport: React.FC = () => {
-  const { customerName, currentSessionGroup } = useCurrentCustomerSessionGroup()
+  const { customerSessionGroups } = useContext(SessionsContext)
+  const { name: customerName, currentSessionGroup } = useCurrentSessionGroup(
+    customerSessionGroups,
+    CustomerNameContext
+  )
 
   /** Overview Section */
   const OverviewSection: React.FC = () => {

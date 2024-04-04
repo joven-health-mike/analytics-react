@@ -12,7 +12,6 @@ import NoShowLineChart from "../charts/NoShowLineChart"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
-import SessionGroup from "../../data/SessionGroup"
 import { monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
@@ -22,12 +21,218 @@ import {
   filterByType as byType,
 } from "../../data/Session"
 import Printable from "../widgets/Printable"
-import useCurrentProviderSessionGroup from "../hooks/CurrentProviderSessionGroup"
+import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
+import { ProviderNameContext } from "../../data/providers/ProviderNameProvider"
 
 const CHART_MONTH_OFFSET = 6
 
 const ProviderReport: React.FC = () => {
-  const { providerName } = useCurrentProviderSessionGroup()
+  const { providerSessionGroups } = useContext(SessionsContext)
+  const { name: providerName, currentSessionGroup } = useCurrentSessionGroup(
+    providerSessionGroups,
+    ProviderNameContext
+  )
+
+  const ServiceOverviewSection: React.FC = () => {
+    const [monthlyReportData, setMonthlyReportData] = useState<
+      Map<string, number>
+    >(new Map())
+    const [reportViews, setReportViews] = useState<ReactNode[]>([])
+
+    useEffect(() => {
+      setMonthlyReportData(currentSessionGroup.sessionTypeTimes())
+    }, [providerSessionGroups, providerName])
+
+    useEffect(() => {
+      setReportViews([
+        ...monthlyReportViewGenerator(sortMapByValue(monthlyReportData)),
+      ])
+    }, [monthlyReportData])
+
+    function* monthlyReportViewGenerator(
+      monthlyReportData: Map<string, number>
+    ) {
+      let i = 0
+      for (const [key, value] of monthlyReportData.entries()) {
+        yield (
+          <DefaultSubHeader props={{ mt: 0 }} key={i}>
+            {`${key}: ${(value / 60).toFixed(1)} hours`}
+          </DefaultSubHeader>
+        )
+        i++
+      }
+    }
+
+    return <>{reportViews}</>
+  }
+
+  const AbsencesMetricsSection: React.FC = () => {
+    const [presences, setPresences] = useState<number>(0)
+    const [absences, setAbsences] = useState<number>(0)
+
+    useEffect(() => {
+      setPresences(currentSessionGroup.presences())
+      setAbsences(currentSessionGroup.absences())
+    }, [currentSessionGroup])
+
+    return (
+      <DefaultGrid direction="row">
+        <DefaultGridItem>
+          <NoShowPieChart
+            chartTitle={"Overall No-Show Rate"}
+            presences={presences}
+            absences={absences}
+          />
+        </DefaultGridItem>
+        <DefaultGridItem>
+          <DefaultHeader>
+            Total No-Show Rate:{" "}
+            {formatPercent(
+              presences + absences === 0 ? 0 : absences / (presences + absences)
+            )}
+          </DefaultHeader>
+        </DefaultGridItem>
+      </DefaultGrid>
+    )
+  }
+
+  const NoShowRatesByMonthSection: React.FC = () => {
+    return (
+      <DefaultGrid direction="row">
+        <DefaultGridItem>
+          <NoShowLineChart
+            chartTitle="No-Show Rate by Month"
+            data={currentSessionGroup.noShowRatesByMonth()}
+          />
+        </DefaultGridItem>
+      </DefaultGrid>
+    )
+  }
+
+  const NoShowRatesByWeekSection: React.FC = () => {
+    return (
+      <DefaultGrid direction="row">
+        <DefaultGridItem>
+          <NoShowLineChart
+            chartTitle="No-Show Rate by Week"
+            data={currentSessionGroup.noShowRatesByWeek()}
+          />
+        </DefaultGridItem>
+      </DefaultGrid>
+    )
+  }
+
+  const ProviderHoursLineSection: React.FC = () => {
+    const [hoursByMonthData, setHoursByMonthData] = useState<
+      Map<string, number>
+    >(new Map())
+
+    useEffect(() => {
+      const newData: Map<string, number> = new Map()
+
+      for (const sessionGroup of providerSessionGroups) {
+        if (sessionGroup.name !== providerName) continue
+        const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
+        for (const month of monthGenerator) {
+          const hoursForMonth = sessionGroup.totalHours(month)
+          const newHoursValue = (newData.get(month) ?? 0) + hoursForMonth
+          newData.set(month, newHoursValue)
+        }
+      }
+
+      // round all values after adding them up. reduces error
+      for (const [key, value] of newData.entries()) {
+        newData.set(key, parseFloat(value.toFixed(1)))
+      }
+
+      setHoursByMonthData(newData)
+    }, [providerSessionGroups, providerName])
+
+    return (
+      <AllHoursLineChart
+        chartTitle={"Hours Delivered"}
+        data={hoursByMonthData}
+      />
+    )
+  }
+
+  const ProviderHoursStackedSection: React.FC = () => {
+    const [hoursByServiceData, setHoursByServiceData] = useState<
+      Map<string, Map<string, number>>
+    >(new Map())
+
+    useEffect(() => {
+      const newData: Map<string, Map<string, number>> = new Map()
+
+      for (const sessionGroup of providerSessionGroups) {
+        if (sessionGroup.name !== providerName) continue
+        const providerSessions = [...sessionGroup]
+
+        const typeSessionGroups = createSessionGroups(providerSessions, byType)
+
+        for (const typeSessionGroup of typeSessionGroups) {
+          const monthlyMap = new Map()
+          const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
+          for (const month of monthGenerator) {
+            const hoursForMonth = typeSessionGroup.totalHours(month)
+            const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
+            monthlyMap.set(month, newHoursValue)
+          }
+          newData.set(typeSessionGroup.name, monthlyMap)
+        }
+      }
+
+      setHoursByServiceData(newData)
+    }, [providerSessionGroups, providerName])
+
+    return (
+      <AllHoursStackedBarChart
+        chartTitle={"Services Delivered"}
+        data={hoursByServiceData}
+      />
+    )
+  }
+
+  const ProviderCustomerStackedSection: React.FC = () => {
+    const [hoursByServiceData, setHoursByServiceData] = useState<
+      Map<string, Map<string, number>>
+    >(new Map())
+
+    useEffect(() => {
+      const newData: Map<string, Map<string, number>> = new Map()
+
+      for (const sessionGroup of providerSessionGroups) {
+        if (sessionGroup.name !== providerName) continue
+        const providerSessions = [...sessionGroup]
+
+        const customerSessionGroups = createSessionGroups(
+          providerSessions,
+          byCustomer
+        )
+
+        for (const customerSessionGroup of customerSessionGroups) {
+          const monthlyMap = new Map()
+          const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
+          for (const month of monthGenerator) {
+            const hoursForMonth = customerSessionGroup.totalHours(month)
+            const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
+            monthlyMap.set(month, newHoursValue)
+          }
+          newData.set(customerSessionGroup.name, monthlyMap)
+        }
+      }
+
+      setHoursByServiceData(newData)
+    }, [providerSessionGroups, providerName])
+
+    return (
+      <AllHoursStackedBarChart
+        chartTitle={"Customers Serviced"}
+        data={hoursByServiceData}
+      />
+    )
+  }
+
   return (
     <>
       <Box
@@ -64,319 +269,6 @@ const ProviderReport: React.FC = () => {
 
         <Box sx={{ mb: 2 }}></Box>
       </Box>
-    </>
-  )
-}
-
-const ServiceOverviewSection: React.FC = () => {
-  const { providerSessionGroups } = useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [monthlyReportData, setMonthlyReportData] = useState<
-    Map<string, number>
-  >(new Map())
-  const [reportViews, setReportViews] = useState<ReactNode[]>([])
-
-  useEffect(() => {
-    if (
-      providerSessionGroups &&
-      providerSessionGroups.getSessionGroupForName(providerName)
-    ) {
-      setMonthlyReportData(
-        providerSessionGroups
-          .getSessionGroupForName(providerName)!
-          .sessionTypeTimes()
-      )
-    } else {
-      setMonthlyReportData(new Map())
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerSessionGroups, providerName])
-
-  useEffect(() => {
-    const data = []
-
-    for (const view of sessionListGenerator(
-      sortMapByValue(monthlyReportData)
-    )) {
-      data.push(view)
-    }
-    setReportViews(data)
-  }, [monthlyReportData])
-
-  function* sessionListGenerator(monthlyReportData: Map<string, number>) {
-    let i = 0
-    for (const [key, value] of monthlyReportData.entries()) {
-      yield (
-        <DefaultSubHeader props={{ mt: 0 }} key={i}>
-          {`${key}: ${(value / 60).toFixed(1)} hours`}
-        </DefaultSubHeader>
-      )
-      i++
-    }
-  }
-
-  return <>{reportViews}</>
-}
-
-const AbsencesMetricsSection: React.FC = () => {
-  const { providerSessionGroups } = useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [presences, setPresences] = useState<number>(0)
-  const [absences, setAbsences] = useState<number>(0)
-
-  useEffect(() => {
-    if (
-      providerSessionGroups &&
-      providerSessionGroups.getSessionGroupForName(providerName)
-    ) {
-      setPresences(
-        providerSessionGroups.getSessionGroupForName(providerName)!.presences()
-      )
-      setAbsences(
-        providerSessionGroups.getSessionGroupForName(providerName)!.absences()
-      )
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerSessionGroups, providerName])
-
-  return (
-    <DefaultGrid direction="row">
-      <DefaultGridItem>
-        <NoShowPieChart
-          chartTitle={"Overall No-Show Rate"}
-          presences={presences}
-          absences={absences}
-        />
-      </DefaultGridItem>
-      <DefaultGridItem>
-        <DefaultHeader>
-          Total No-Show Rate:{" "}
-          {formatPercent(
-            presences + absences === 0 ? 0 : absences / (presences + absences)
-          )}
-        </DefaultHeader>
-      </DefaultGridItem>
-    </DefaultGrid>
-  )
-}
-
-const NoShowRatesByMonthSection: React.FC = () => {
-  const { providerSessionGroups } = useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [currentSessionGroup, setCurrentSessionGroup] = useState<
-    SessionGroup | undefined
-  >(undefined)
-
-  useEffect(() => {
-    if (
-      providerSessionGroups &&
-      providerSessionGroups.getSessionGroupForName(providerName)
-    ) {
-      setCurrentSessionGroup(
-        providerSessionGroups.getSessionGroupForName(providerName)
-      )
-    } else {
-      setCurrentSessionGroup(undefined)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerSessionGroups, providerName])
-
-  return (
-    <>
-      {currentSessionGroup && (
-        <DefaultGrid direction="row">
-          <DefaultGridItem>
-            <NoShowLineChart
-              chartTitle="No-Show Rate by Month"
-              data={currentSessionGroup.noShowRatesByMonth()}
-            />
-          </DefaultGridItem>
-        </DefaultGrid>
-      )}
-    </>
-  )
-}
-
-const NoShowRatesByWeekSection: React.FC = () => {
-  const { providerSessionGroups } = useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [currentSessionGroup, setCurrentSessionGroup] = useState<
-    SessionGroup | undefined
-  >(undefined)
-
-  useEffect(() => {
-    if (
-      providerSessionGroups &&
-      providerSessionGroups.getSessionGroupForName(providerName)
-    ) {
-      setCurrentSessionGroup(
-        providerSessionGroups.getSessionGroupForName(providerName)
-      )
-    } else {
-      setCurrentSessionGroup(undefined)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [providerSessionGroups, providerName])
-
-  return (
-    <>
-      {currentSessionGroup && (
-        <DefaultGrid direction="row">
-          <DefaultGridItem>
-            <NoShowLineChart
-              chartTitle="No-Show Rate by Week"
-              data={currentSessionGroup.noShowRatesByWeek()}
-            />
-          </DefaultGridItem>
-        </DefaultGrid>
-      )}
-    </>
-  )
-}
-
-const ProviderHoursLineSection: React.FC = () => {
-  const { providerSessionGroups: filteredProviderSessionGroups } =
-    useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [hoursByMonthData, setHoursByMonthData] = useState<Map<string, number>>(
-    new Map()
-  )
-
-  useEffect(() => {
-    if (!filteredProviderSessionGroups) {
-      setHoursByMonthData(new Map())
-      return
-    }
-
-    const newData: Map<string, number> = new Map()
-
-    for (const sessionGroup of filteredProviderSessionGroups) {
-      if (sessionGroup.name !== providerName) continue
-      const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
-      for (const month of monthGenerator) {
-        const hoursForMonth = sessionGroup.totalHours(month)
-        const newHoursValue = (newData.get(month) ?? 0) + hoursForMonth
-        newData.set(month, newHoursValue)
-      }
-    }
-
-    // round all values after adding them up. reduces error
-    for (const [key, value] of newData.entries()) {
-      newData.set(key, parseFloat(value.toFixed(1)))
-    }
-
-    setHoursByMonthData(newData)
-  }, [filteredProviderSessionGroups, providerName])
-
-  return (
-    <>
-      {hoursByMonthData && (
-        <AllHoursLineChart
-          chartTitle={"Hours Delivered"}
-          data={hoursByMonthData}
-        />
-      )}
-    </>
-  )
-}
-
-const ProviderHoursStackedSection: React.FC = () => {
-  const { providerSessionGroups: filteredProviderSessionGroups } =
-    useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [hoursByServiceData, setHoursByServiceData] = useState<
-    Map<string, Map<string, number>>
-  >(new Map())
-
-  useEffect(() => {
-    if (!filteredProviderSessionGroups) {
-      setHoursByServiceData(new Map())
-      return
-    }
-
-    const newData: Map<string, Map<string, number>> = new Map()
-
-    for (const sessionGroup of filteredProviderSessionGroups) {
-      if (sessionGroup.name !== providerName) continue
-      const providerSessions = [...sessionGroup]
-
-      const typeSessionGroups = createSessionGroups(providerSessions, byType)
-
-      for (const typeSessionGroup of typeSessionGroups) {
-        const monthlyMap = new Map()
-        const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
-        for (const month of monthGenerator) {
-          const hoursForMonth = typeSessionGroup.totalHours(month)
-          const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
-          monthlyMap.set(month, newHoursValue)
-        }
-        newData.set(typeSessionGroup.name, monthlyMap)
-      }
-    }
-
-    setHoursByServiceData(newData)
-  }, [filteredProviderSessionGroups, providerName])
-
-  return (
-    <>
-      {hoursByServiceData && (
-        <AllHoursStackedBarChart
-          chartTitle={"Services Delivered"}
-          data={hoursByServiceData}
-        />
-      )}
-    </>
-  )
-}
-
-const ProviderCustomerStackedSection: React.FC = () => {
-  const { providerSessionGroups: filteredProviderSessionGroups } =
-    useContext(SessionsContext)
-  const { providerName } = useCurrentProviderSessionGroup()
-  const [hoursByServiceData, setHoursByServiceData] = useState<
-    Map<string, Map<string, number>>
-  >(new Map())
-
-  useEffect(() => {
-    if (!filteredProviderSessionGroups) {
-      setHoursByServiceData(new Map())
-      return
-    }
-
-    const newData: Map<string, Map<string, number>> = new Map()
-
-    for (const sessionGroup of filteredProviderSessionGroups) {
-      if (sessionGroup.name !== providerName) continue
-      const providerSessions = [...sessionGroup]
-
-      const customerSessionGroups = createSessionGroups(
-        providerSessions,
-        byCustomer
-      )
-
-      for (const customerSessionGroup of customerSessionGroups) {
-        const monthlyMap = new Map()
-        const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
-        for (const month of monthGenerator) {
-          const hoursForMonth = customerSessionGroup.totalHours(month)
-          const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
-          monthlyMap.set(month, newHoursValue)
-        }
-        newData.set(customerSessionGroup.name, monthlyMap)
-      }
-    }
-
-    setHoursByServiceData(newData)
-  }, [filteredProviderSessionGroups, providerName])
-
-  return (
-    <>
-      {hoursByServiceData && (
-        <AllHoursStackedBarChart
-          chartTitle={"Customers Serviced"}
-          data={hoursByServiceData}
-        />
-      )}
     </>
   )
 }
