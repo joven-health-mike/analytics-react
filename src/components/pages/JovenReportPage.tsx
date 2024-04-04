@@ -1,6 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
 import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
 import JovenReport from "../reports/JovenReport"

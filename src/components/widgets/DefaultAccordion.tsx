@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 import { Accordion, AccordionDetails, AccordionSummary } from "@mui/material"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 

@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { ReactNode, useContext, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
@@ -15,7 +15,7 @@ import { sortMapByValue } from "../../utils/SortUtils"
 import { monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
-import { createSessionGroups } from "../../data/SessionGroups"
+import SessionGroups, { createSessionGroups } from "../../data/SessionGroups"
 import {
   filterByCustomer as byCustomer,
   filterByType as byType,
@@ -109,26 +109,26 @@ const ProviderReport: React.FC = () => {
     )
   }
 
-  // const NoShowRatesByWeekSection: React.FC = () => {
-  //   const [noShowRatesByWeek, setNoShowRatesByWeek] = useState<
-  //     Map<string, number>
-  //   >(new Map())
+  const NoShowRatesByWeekSection: React.FC = () => {
+    const [noShowRatesByWeek, setNoShowRatesByWeek] = useState<
+      Map<string, number>
+    >(new Map())
 
-  //   useEffect(() => {
-  //     setNoShowRatesByWeek(currentSessionGroup.noShowRatesByWeek())
-  //   }, [currentSessionGroup])
+    useEffect(() => {
+      setNoShowRatesByWeek(currentSessionGroup.noShowRatesByWeek())
+    }, [currentSessionGroup])
 
-  //   return (
-  //     <DefaultGrid direction="row">
-  //       <DefaultGridItem>
-  //         <NoShowLineChart
-  //           chartTitle="No-Show Rate by Week"
-  //           data={noShowRatesByWeek}
-  //         />
-  //       </DefaultGridItem>
-  //     </DefaultGrid>
-  //   )
-  // }
+    return (
+      <DefaultGrid direction="row">
+        <DefaultGridItem>
+          <NoShowLineChart
+            chartTitle="No-Show Rate by Week"
+            data={noShowRatesByWeek}
+          />
+        </DefaultGridItem>
+      </DefaultGrid>
+    )
+  }
 
   const ProviderHoursLineSection: React.FC = () => {
     const [hoursByMonthData, setHoursByMonthData] = useState<
@@ -168,30 +168,39 @@ const ProviderReport: React.FC = () => {
     const [hoursByServiceData, setHoursByServiceData] = useState<
       Map<string, Map<string, number>>
     >(new Map())
+    const [providerTypeGroups, setProviderTypeGroups] = useState<
+      Map<string, SessionGroups>
+    >(new Map())
+
+    useEffect(() => {
+      const newProviderTypeGroups = new Map()
+      for (const sessionGroup of providerSessionGroups) {
+        const providerSessions = [...sessionGroup]
+        const typeSessionGroups = createSessionGroups(providerSessions, byType)
+        newProviderTypeGroups.set(sessionGroup.name, typeSessionGroups)
+      }
+      setProviderTypeGroups(newProviderTypeGroups)
+    }, [providerSessionGroups])
 
     useEffect(() => {
       const newData: Map<string, Map<string, number>> = new Map()
 
-      for (const sessionGroup of providerSessionGroups) {
-        if (sessionGroup.name !== providerName) continue
-        const providerSessions = [...sessionGroup]
+      const providerTypeGroup = providerTypeGroups.get(providerName)
+      if (!providerTypeGroup) return
 
-        const typeSessionGroups = createSessionGroups(providerSessions, byType)
-
-        for (const typeSessionGroup of typeSessionGroups) {
-          const monthlyMap = new Map()
-          const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
-          for (const month of monthGenerator) {
-            const hoursForMonth = typeSessionGroup.totalHours(month)
-            const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
-            monthlyMap.set(month, newHoursValue)
-          }
-          newData.set(typeSessionGroup.name, monthlyMap)
+      for (const typeSessionGroup of providerTypeGroup) {
+        const monthlyMap = new Map()
+        const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
+        for (const month of monthGenerator) {
+          const hoursForMonth = typeSessionGroup.totalHours(month)
+          const newHoursValue = (monthlyMap.get(month) ?? 0) + hoursForMonth
+          monthlyMap.set(month, newHoursValue)
         }
+        newData.set(typeSessionGroup.name, monthlyMap)
       }
 
       setHoursByServiceData(newData)
-    }, [providerSessionGroups, providerName])
+    }, [providerName])
 
     return (
       <AllHoursStackedBarChart
@@ -257,7 +266,7 @@ const ProviderReport: React.FC = () => {
               "Service Overview",
               "Absence Metrics",
               "No-Show Rates by Month",
-              // "No-Show Rates by Week",
+              "No-Show Rates by Week",
               "Hours Delivered",
               "Services Delivered",
               "Customers Serviced",
@@ -266,7 +275,7 @@ const ProviderReport: React.FC = () => {
               <ServiceOverviewSection />,
               <AbsencesMetricsSection />,
               <NoShowRatesByMonthSection />,
-              // <NoShowRatesByWeekSection />,
+              <NoShowRatesByWeekSection />,
               <ProviderHoursLineSection />,
               <ProviderHoursStackedSection />,
               <ProviderCustomerStackedSection />,

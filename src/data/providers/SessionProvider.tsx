@@ -1,4 +1,4 @@
-import React, { ReactNode, useMemo, useState } from "react"
+import { ReactNode, createContext, useMemo, useState } from "react"
 import SessionGroups, {
   createEmptySessionGroups,
   createSessionGroups,
@@ -26,7 +26,7 @@ type SessionsContextData = {
 
 const emptySessionGroups = createEmptySessionGroups()
 
-export const SessionsContext = React.createContext<SessionsContextData>({
+export const SessionsContext = createContext<SessionsContextData>({
   sessions: [],
   customerSessionGroups: emptySessionGroups,
   providerSessionGroups: emptySessionGroups,

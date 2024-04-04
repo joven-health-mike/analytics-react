@@ -1,14 +1,14 @@
 // Copyright 2022 Social Fabric, LLC
 
+import { useContext } from "react"
 import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
-import CustomerReport from "../reports/CustomerReport"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
+import { SessionsContext } from "../../data/providers/SessionProvider"
+import CustomerReport from "../reports/CustomerReport"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
 import useNamesWithSelector from "../hooks/NamesWithSelector"
-import { SessionsContext } from "../../data/providers/SessionProvider"
-import { useContext } from "react"
 
 const CustomerReportPage: React.FC = () => {
   useNavigateToHomeWhenSessionsCleared()

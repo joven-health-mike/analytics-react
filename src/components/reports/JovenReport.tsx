@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Box } from "@mui/material"
 import NoShowChart from "../charts/NoShowChart"
 import { sortMapByValue } from "../../utils/SortUtils"

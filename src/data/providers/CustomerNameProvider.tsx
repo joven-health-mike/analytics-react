@@ -1,3 +1,3 @@
-import React from "react"
+import { createContext } from "react"
 
-export const CustomerNameContext = React.createContext<string>("")
+export const CustomerNameContext = createContext<string>("")

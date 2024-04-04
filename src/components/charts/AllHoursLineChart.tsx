@@ -1,6 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
 import { randomColor } from "../../utils/Colors"
 import { LineChart } from "../widgets/LineChart"
 

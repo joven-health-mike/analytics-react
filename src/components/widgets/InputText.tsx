@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { FormControl, Input, InputLabel } from "@mui/material"
 
 type InputTextProps = {

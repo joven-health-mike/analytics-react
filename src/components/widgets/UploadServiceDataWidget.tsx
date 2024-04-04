@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import { useContext } from "react"
 import UploadDataWidget from "./UploadDataWidget"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { createSession } from "../../data/Session"

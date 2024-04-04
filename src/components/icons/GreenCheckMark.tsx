@@ -1,6 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
 import CheckIcon from "@mui/icons-material/Check"
 
 type GreenCheckMarkProps = {

@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useState } from "react"
+import { useState } from "react"
 import DefaultSubHeader from "./DefaultSubHeader"
 import DefaultText from "./DefaultText"
 import DefaultGrid from "./DefaultGrid"

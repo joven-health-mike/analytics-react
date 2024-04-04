@@ -1,6 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
 import { useCSVReader } from "react-papaparse"
 import styled from "styled-components"
 import { buttonStyles } from "../styles/mixins"

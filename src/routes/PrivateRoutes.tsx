@@ -1,6 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React from "react"
 import { Route, Routes } from "react-router-dom"
 import styled from "styled-components"
 import { h1Styles } from "../components/styles/mixins"

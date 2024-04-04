@@ -1,3 +1,3 @@
-import React from "react"
+import { createContext } from "react"
 
-export const ProviderNameContext = React.createContext<string>("")
+export const ProviderNameContext = createContext<string>("")

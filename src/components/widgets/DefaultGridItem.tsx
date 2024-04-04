@@ -1,7 +1,7 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { Grid } from "@mui/material"
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 
 type DefaultGridItemProps = {
   children?: ReactNode

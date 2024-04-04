@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { ReactNode } from "react"
+import { ReactNode } from "react"
 import DefaultAccordion from "./DefaultAccordion"
 
 type DefaultAccordionGroupProps = {

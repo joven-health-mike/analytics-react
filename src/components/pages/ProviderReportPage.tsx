@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useContext } from "react"
+import { useContext } from "react"
 import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"

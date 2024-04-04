@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { ReactNode, useRef } from "react"
+import { ReactNode, useRef } from "react"
 import { useReactToPrint } from "react-to-print"
 import styled from "styled-components"
 import { buttonStyles } from "../styles/mixins"

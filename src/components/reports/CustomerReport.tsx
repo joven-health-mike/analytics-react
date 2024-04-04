@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import React, { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
