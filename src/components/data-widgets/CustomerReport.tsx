@@ -14,6 +14,7 @@ import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
 import SessionGroup from "../../data/SessionGroup"
 import { CustomerNameContext } from "../pages/CustomerReportPage"
+import Printable from "../widgets/Printable"
 
 const CustomerReport: React.FC = () => {
   const customerName = useContext(CustomerNameContext)
@@ -25,23 +26,25 @@ const CustomerReport: React.FC = () => {
         display="flex"
         sx={{ p: 2 }}
       >
-        <DefaultHeader props={{ mt: 0 }}>{customerName}</DefaultHeader>
+        <Printable docTitle={`Customer Report - ${customerName}`}>
+          <DefaultHeader props={{ mt: 0 }}>{customerName}</DefaultHeader>
 
-        <DefaultAccordionGroup
-          labels={[
-            "Service Overview",
-            "Absence Metrics",
-            "No-Show Rates by Month",
-            "No-Show Rates by Week",
-          ]}
-          nodes={[
-            <ServiceOverviewSection />,
-            <AbsencesMetricsSection />,
-            <NoShowRatesByMonthSection />,
-            <NoShowRatesByWeekSection />,
-          ]}
-          defaultExpanded={[false, true, true, true]}
-        />
+          <DefaultAccordionGroup
+            labels={[
+              "Service Overview",
+              "Absence Metrics",
+              "No-Show Rates by Month",
+              "No-Show Rates by Week",
+            ]}
+            nodes={[
+              <ServiceOverviewSection />,
+              <AbsencesMetricsSection />,
+              <NoShowRatesByMonthSection />,
+              <NoShowRatesByWeekSection />,
+            ]}
+            defaultExpanded={[false, true, true, true]}
+          />
+        </Printable>
 
         <Box sx={{ mb: 2 }}></Box>
       </Box>
