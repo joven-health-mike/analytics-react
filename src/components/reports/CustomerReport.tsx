@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useMemo, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
@@ -26,14 +26,12 @@ const CustomerReport: React.FC = () => {
 
   /** Overview Section */
   const OverviewSection: React.FC = () => {
-    const [numberOfUniqueStudents, setNumberOfUniqueStudents] =
-      useState<number>(0)
-    const [numberOfHours, setNumberOfHours] = useState<number>(0)
-
-    useEffect(() => {
-      setNumberOfUniqueStudents(currentSessionGroup.uniqueStudents())
-      setNumberOfHours(currentSessionGroup.totalHours())
-    }, [])
+    const numberOfUniqueStudents = useMemo(() => {
+      return currentSessionGroup.uniqueStudents()
+    }, [currentSessionGroup])
+    const numberOfHours = useMemo(() => {
+      return currentSessionGroup.totalHours()
+    }, [currentSessionGroup])
 
     return (
       <DefaultGrid direction="column">
