@@ -4,6 +4,7 @@ import { SessionsContext } from "../../data/providers/SessionProvider"
 import { createSession } from "../../data/Session"
 import { adaptTeleTeachersData } from "../../utils/TeleTeachersAdapter"
 import { createItemsFromCsv } from "../../utils/CsvUtils"
+import useSessionsPopulated from "../hooks/SessionsPopulated"
 
 type UploadServiceDataWidgetProps = {
   sessionDataAdapter?: (input: string[][]) => string[][]
@@ -12,7 +13,8 @@ type UploadServiceDataWidgetProps = {
 const UploadServiceDataWidget: React.FC<UploadServiceDataWidgetProps> = ({
   sessionDataAdapter = adaptTeleTeachersData,
 }) => {
-  const { sessions, setSessions } = useContext(SessionsContext)
+  const { setSessions } = useContext(SessionsContext)
+  const { sessionsPopulated } = useSessionsPopulated()
 
   return (
     <>
@@ -22,7 +24,7 @@ const UploadServiceDataWidget: React.FC<UploadServiceDataWidgetProps> = ({
         button1Text={"Upload SAD Format"}
         button2Text={"Upload TeleTeachers Format"}
         enableSecondOption={true}
-        hasData={sessions.length > 0}
+        hasData={sessionsPopulated}
         onDataLoaded={(data: string[][]) => {
           createItemsFromCsv(data, setSessions, createSession)
         }}

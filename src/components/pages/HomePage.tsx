@@ -26,6 +26,9 @@ const HomePage: React.FC = () => {
     { name: "Provider Report", onClick: () => navigate("/provider") },
   ]
 
+  // TODO: Add selection for "Joven" or "Customer" or "Provider" user type
+  // TODO: Add Student Report
+
   return (
     <>
       <Navbar />
