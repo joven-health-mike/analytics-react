@@ -33,6 +33,7 @@ const ProviderReport: React.FC = () => {
     ProviderNameContext
   )
 
+  /* ServiceOverviewSection */
   const ServiceOverviewSection: React.FC = () => {
     const [monthlyReportData, setMonthlyReportData] = useState<
       Map<string, number>
@@ -66,6 +67,7 @@ const ProviderReport: React.FC = () => {
     return <>{reportViews}</>
   }
 
+  /* AbsencesMetricsSection */
   const AbsencesMetricsSection: React.FC = () => {
     const [presences, setPresences] = useState<number>(0)
     const [absences, setAbsences] = useState<number>(0)
@@ -96,6 +98,7 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* NoShowRatesByMonthSection */
   const NoShowRatesByMonthSection: React.FC = () => {
     return (
       <DefaultGrid direction="row">
@@ -109,6 +112,7 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* NoShowRatesByWeekSection */
   const NoShowRatesByWeekSection: React.FC = () => {
     const [noShowRatesByWeek, setNoShowRatesByWeek] = useState<
       Map<string, number>
@@ -130,6 +134,7 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* ProviderHoursLineSection */
   const ProviderHoursLineSection: React.FC = () => {
     const [hoursByMonthData, setHoursByMonthData] = useState<
       Map<string, number>
@@ -164,6 +169,7 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* ProviderHoursStackedSection */
   const ProviderHoursStackedSection: React.FC = () => {
     const providerTypeGroups = useMemo(() => {
       const newProviderTypeGroups = new Map()
@@ -202,12 +208,9 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* ProviderCustomerStackedSection */
   const ProviderCustomerStackedSection: React.FC = () => {
-    const [hoursByServiceData, setHoursByServiceData] = useState<
-      Map<string, Map<string, number>>
-    >(new Map())
-
-    useEffect(() => {
+    const hoursByServiceData = useMemo(() => {
       const newData: Map<string, Map<string, number>> = new Map()
 
       for (const sessionGroup of providerSessionGroups) {
@@ -230,8 +233,7 @@ const ProviderReport: React.FC = () => {
           newData.set(customerSessionGroup.name, monthlyMap)
         }
       }
-
-      setHoursByServiceData(newData)
+      return newData
     }, [providerSessionGroups, providerName])
 
     return (
@@ -267,7 +269,6 @@ const ProviderReport: React.FC = () => {
               <ServiceOverviewSection />,
               <AbsencesMetricsSection />,
               <NoShowRatesByMonthSection />,
-              // TODO: NoShowRatesByWeekSection is causing this page to load much slower than the other pages...
               <NoShowRatesByWeekSection />,
               <ProviderHoursLineSection />,
               <ProviderHoursStackedSection />,
