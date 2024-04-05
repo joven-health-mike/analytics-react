@@ -14,15 +14,20 @@ const ServiceTypePieChart: React.FC<ServiceTypePieChartProps> = ({
   chartTitle = "",
   hoursByServiceType,
 }) => {
-  const labels: string[] = [...hoursByServiceType.keys()]
-  const randomColors: string[] = []
-  const data: number[] = []
-  labels.forEach((serviceType) => {
-    randomColors.push(randomColor(GRAPH_TRANSPARENCY))
-    data.push(
-      parseFloat(((hoursByServiceType.get(serviceType) ?? 0) / 60).toFixed(1))
-    )
-  })
+  const generatedData = [...dataGenerator()]
+  const labels = generatedData.map((dataSet) => dataSet.label)
+  const data = generatedData.map((dataSet) => dataSet.data)
+  const randomColors = generatedData.map((dataSet) => dataSet.color)
+
+  function* dataGenerator() {
+    for (const [serviceType, hours] of hoursByServiceType) {
+      yield {
+        data: hours,
+        label: serviceType,
+        color: randomColor(GRAPH_TRANSPARENCY),
+      }
+    }
+  }
 
   const noShowChartData = {
     labels: labels,

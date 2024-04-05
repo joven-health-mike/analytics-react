@@ -13,20 +13,24 @@ type AllProvidersStackedBarChartProps = {
 const AllProvidersStackedBarChart: React.FC<
   AllProvidersStackedBarChartProps
 > = ({ chartTitle, data }) => {
-  const dataSets = []
-  const dataLabels = new Set<string>()
-  for (const providerName of data.keys()) {
-    const color = randomColor(GRAPH_TRANSPARENCY)
-    for (const month of (data.get(providerName) ?? new Map()).keys()) {
-      dataLabels.add(month)
+  const generatedData = [...dataSetGenerator()]
+  const dataSets = generatedData.map((dataSet) => dataSet.dataSet)
+  const dataLabels = new Set(...generatedData.map((dataSet) => dataSet.labels))
+
+  function* dataSetGenerator() {
+    for (const [providerName, monthData] of data) {
+      const color = randomColor(GRAPH_TRANSPARENCY)
+      const dataSet = [...monthData.values()]
+      yield {
+        dataSet: {
+          label: providerName,
+          data: dataSet,
+          backgroundColor: color,
+          borderWidth: 1,
+        },
+        labels: monthData.keys(),
+      }
     }
-    const dataSet = [...data.get(providerName)!.values()]
-    dataSets.push({
-      label: providerName,
-      data: dataSet,
-      backgroundColor: color,
-      borderWidth: 1,
-    })
   }
 
   const noShowChartData = {

@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import { useContext, useEffect, useMemo, useState } from "react"
+import { useContext, useMemo } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
@@ -62,25 +62,34 @@ const CustomerReport: React.FC = () => {
 
   /** Charts Section */
   const ChartsSection: React.FC = () => {
-    const [presences, setPresences] = useState<number>(0)
-    const [absences, setAbsences] = useState<number>(0)
-    const [absentRateByMonth, setAbsentRateByMonth] = useState<
-      Map<string, number>
-    >(new Map())
-    const [hoursByServiceType, setHoursByServiceType] = useState<
-      Map<string, number>
-    >(new Map())
-    const [hoursByMonth, setHoursByMonth] = useState<Map<string, number>>(
-      new Map()
+    const presences = useMemo(
+      () => currentSessionGroup.presences(),
+      [currentSessionGroup]
     )
-
-    useEffect(() => {
-      setPresences(currentSessionGroup.presences())
-      setAbsences(currentSessionGroup.absences())
-      setAbsentRateByMonth(currentSessionGroup.noShowRatesByMonth())
-      setHoursByServiceType(currentSessionGroup.sessionTypeTimes())
-      setHoursByMonth(currentSessionGroup.hoursByMonth())
-    }, [])
+    const absences = useMemo(
+      () => currentSessionGroup.absences(),
+      [currentSessionGroup]
+    )
+    const absentRateByMonth = useMemo(
+      () => currentSessionGroup.noShowRatesByMonth(),
+      [currentSessionGroup]
+    )
+    const hoursByServiceType = useMemo(() => {
+      // convert sessionTypeTimes from minutes to hours
+      const serviceTypeHours = Array.from(
+        currentSessionGroup.sessionTypeTimes().entries()
+      ).map(([sessionType, timeInMinutes]) => ({
+        sessionType,
+        value: parseFloat((timeInMinutes / 60).toFixed(1)),
+      }))
+      return new Map(
+        serviceTypeHours.map(({ sessionType, value }) => [sessionType, value])
+      )
+    }, [currentSessionGroup])
+    const hoursByMonth = useMemo(
+      () => currentSessionGroup.hoursByMonth(),
+      [currentSessionGroup]
+    )
 
     return (
       <DefaultGrid direction="column">

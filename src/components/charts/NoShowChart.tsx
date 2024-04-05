@@ -11,10 +11,9 @@ type NoShowChartProps = {
 }
 
 const NoShowChart: React.FC<NoShowChartProps> = ({ chartTitle, data }) => {
-  const randomColors: string[] = []
-  Array.from({ length: data.size }).forEach(() => {
-    randomColors.push(randomColor(GRAPH_TRANSPARENCY))
-  })
+  const randomColors: string[] = Array.from({ length: data.size }).map(() =>
+    randomColor(GRAPH_TRANSPARENCY)
+  )
   const noShowChartData = {
     labels: [...data.keys()],
     datasets: [

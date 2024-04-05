@@ -14,20 +14,24 @@ const AllHoursStackedBarChart: React.FC<AllHoursStackedBarChartProps> = ({
   chartTitle,
   data,
 }) => {
-  const dataSets = []
-  const dataLabels = new Set<string>()
-  for (const serviceName of data.keys()) {
-    const color = randomColor(GRAPH_TRANSPARENCY)
-    for (const month of (data.get(serviceName) ?? new Map()).keys()) {
-      dataLabels.add(month)
+  const generatedData = [...dataSetGenerator()]
+  const dataSets = generatedData.map((dataSet) => dataSet.dataSet)
+  const dataLabels = new Set(...generatedData.map((dataSet) => dataSet.labels))
+
+  function* dataSetGenerator() {
+    for (const [serviceName, monthData] of data) {
+      const color = randomColor(GRAPH_TRANSPARENCY)
+      const dataSet = [...monthData.values()]
+      yield {
+        dataSet: {
+          label: serviceName,
+          data: dataSet,
+          backgroundColor: color,
+          borderWidth: 1,
+        },
+        labels: monthData.keys(),
+      }
     }
-    const dataSet = [...data.get(serviceName)!.values()]
-    dataSets.push({
-      label: serviceName,
-      data: dataSet,
-      backgroundColor: color,
-      borderWidth: 1,
-    })
   }
 
   const noShowChartData = {
