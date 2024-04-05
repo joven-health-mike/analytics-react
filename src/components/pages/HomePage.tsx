@@ -10,6 +10,7 @@ import DefaultHeader from "../widgets/DefaultHeader"
 import UploadServiceDataWidget from "../widgets/UploadServiceDataWidget"
 import HorizontalLine from "../widgets/HorizontalLine"
 import useSessionsPopulated from "../hooks/SessionsPopulated"
+import { useMemo } from "react"
 
 const CustomButton = styled.button`
   ${buttonStyles}
@@ -18,13 +19,42 @@ const CustomButton = styled.button`
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate()
-  const { sessionsPopulated } = useSessionsPopulated()
+  const {
+    sessionsPopulated,
+    customerSessionGroupsPopulated,
+    providerSessionGroupsPopulated,
+    studentSessionGroupsPopulated,
+  } = useSessionsPopulated()
 
-  const buttons = [
-    { name: "Joven Health Report", onClick: () => navigate("/joven") },
-    { name: "Customer Report", onClick: () => navigate("/customer") },
-    { name: "Provider Report", onClick: () => navigate("/provider") },
-  ]
+  const buttons = useMemo(
+    () => [
+      {
+        name: "Joven Health Report",
+        onClick: () => navigate("/joven"),
+        shouldDisplay: () => true,
+      },
+      {
+        name: "Customer Report",
+        onClick: () => navigate("/customer"),
+        shouldDisplay: () => customerSessionGroupsPopulated,
+      },
+      {
+        name: "Provider Report",
+        onClick: () => navigate("/provider"),
+        shouldDisplay: () => providerSessionGroupsPopulated,
+      },
+      {
+        name: "Student Report",
+        onClick: () => navigate("/student"),
+        shouldDisplay: () => studentSessionGroupsPopulated,
+      },
+    ],
+    [
+      customerSessionGroupsPopulated,
+      providerSessionGroupsPopulated,
+      studentSessionGroupsPopulated,
+    ]
+  )
 
   // TODO: Add selection for "Joven" or "Customer" or "Provider" user type
   // TODO: Add Student Report
@@ -37,13 +67,17 @@ const HomePage: React.FC = () => {
       <HorizontalLine />
       {sessionsPopulated && (
         <DefaultGrid direction="row">
-          {buttons.map((button, index) => (
-            <DefaultGridItem key={index}>
-              <CustomButton onClick={button.onClick}>
-                {button.name}
-              </CustomButton>
-            </DefaultGridItem>
-          ))}
+          {buttons.map((button, index) => {
+            return button.shouldDisplay() ? (
+              <DefaultGridItem key={index}>
+                <CustomButton onClick={button.onClick}>
+                  {button.name}
+                </CustomButton>
+              </DefaultGridItem>
+            ) : (
+              <></>
+            )
+          })}
         </DefaultGrid>
       )}
     </>

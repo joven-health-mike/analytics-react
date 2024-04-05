@@ -3,6 +3,7 @@
 import { ReactElement } from "react"
 import {
   FaChartLine,
+  FaChild,
   FaHome,
   FaPersonBooth,
   FaWizardsOfTheCoast,
@@ -19,7 +20,10 @@ export type NavItem = {
   title: string
   icon: ReactElement
   path: string
-  shouldDisplay: (sessionsLength: number) => boolean
+  shouldDisplay: (
+    sessionsLength: number,
+    studentSessionGroupsLength: number
+  ) => boolean
 }
 
 // should display convenience functions
@@ -55,6 +59,12 @@ export const allNavItems: NavItem[] = [
     title: "Provider Report",
     icon: <FaWizardsOfTheCoast />,
     path: "/provider",
+    shouldDisplay: ifSessionsExist,
+  },
+  {
+    title: "Student Report",
+    icon: <FaChild />,
+    path: "/student",
     shouldDisplay: ifSessionsExist,
   },
 ]

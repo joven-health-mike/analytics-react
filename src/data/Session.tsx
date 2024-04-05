@@ -87,3 +87,4 @@ export const skipAllJovenData = (session: Session): boolean => {
 export const filterByCustomer = (session: Session) => session.schoolName
 export const filterByProvider = (session: Session) => session.providerName
 export const filterByType = (session: Session) => session.enhancedServiceName()
+export const filterByStudent = (session: Session) => session.sessionStudents

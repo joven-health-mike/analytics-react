@@ -45,6 +45,7 @@ export const createSessionGroups = (
 
   for (const nextSession of sessionSkipper) {
     const name = nameFilter(nextSession)
+    if (name === "") continue
     newNames.add(name)
     const newSessionsValue = newSessions.get(name) ?? []
     newSessionsValue.push(nextSession)

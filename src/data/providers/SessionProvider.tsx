@@ -9,6 +9,7 @@ import {
   filterByCustomer as byCustomer,
   filterByProvider as byProvider,
   filterByType as byType,
+  filterByStudent as byStudent,
 } from "../Session"
 
 export type SessionsDataProviderProps = {
@@ -21,6 +22,7 @@ type SessionsContextData = {
   customerSessionGroups: SessionGroups
   providerSessionGroups: SessionGroups
   typeSessionGroups: SessionGroups
+  studentSessionGroups: SessionGroups
   setSessions: (input: Session[]) => void
 }
 
@@ -31,6 +33,7 @@ export const SessionsContext = createContext<SessionsContextData>({
   customerSessionGroups: emptySessionGroups,
   providerSessionGroups: emptySessionGroups,
   typeSessionGroups: emptySessionGroups,
+  studentSessionGroups: emptySessionGroups,
   setSessions: () => null,
 })
 
@@ -38,32 +41,39 @@ export const AllSessionsProvider: React.FC<SessionsDataProviderProps> = ({
   children,
 }) => {
   const [sessions, setSessions] = useState<Session[]>([])
-  const [customerSessionGroups, setCustomerSessionGroups] =
-    useState<SessionGroups>(emptySessionGroups)
-  const [providerSessionGroups, setProviderSessionGroups] =
-    useState<SessionGroups>(emptySessionGroups)
-  const [typeSessionGroups, setTypeSessionGroups] =
-    useState<SessionGroups>(emptySessionGroups)
+
+  const customerSessionGroups = useMemo(() => {
+    return sessions.length > 0
+      ? createSessionGroups(sessions, byCustomer)
+      : emptySessionGroups
+  }, [sessions.length])
+
+  const providerSessionGroups = useMemo(() => {
+    return sessions.length > 0
+      ? createSessionGroups(sessions, byProvider)
+      : emptySessionGroups
+  }, [sessions.length])
+
+  const typeSessionGroups = useMemo(() => {
+    return sessions.length > 0
+      ? createSessionGroups(sessions, byType)
+      : emptySessionGroups
+  }, [sessions.length])
+
+  const studentSessionGroups = useMemo(() => {
+    return sessions.length > 0
+      ? createSessionGroups(sessions, byStudent)
+      : emptySessionGroups
+  }, [sessions.length])
 
   const delegate: SessionsContextData = {
     sessions: sessions,
     customerSessionGroups: customerSessionGroups,
     providerSessionGroups: providerSessionGroups,
     typeSessionGroups: typeSessionGroups,
+    studentSessionGroups: studentSessionGroups,
     setSessions: setSessions,
   }
-
-  useMemo(() => {
-    if (sessions.length > 0) {
-      setCustomerSessionGroups(createSessionGroups(sessions, byCustomer))
-      setProviderSessionGroups(createSessionGroups(sessions, byProvider))
-      setTypeSessionGroups(createSessionGroups(sessions, byType))
-    } else {
-      setCustomerSessionGroups(emptySessionGroups)
-      setProviderSessionGroups(emptySessionGroups)
-      setTypeSessionGroups(emptySessionGroups)
-    }
-  }, [sessions])
 
   return (
     <SessionsContext.Provider

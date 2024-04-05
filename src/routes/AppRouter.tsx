@@ -5,7 +5,6 @@ import PrivateRoutes from "./PrivateRoutes"
 const AppRouter: React.FC = () => {
   return (
     <>
-      Hello World
       <PrivateRoutes />
     </>
   )

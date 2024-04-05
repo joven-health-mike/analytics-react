@@ -63,7 +63,8 @@ const ListItem = styled.li`
 `
 
 const Navbar: React.FC = () => {
-  const { sessions: allSessions } = useContext(SessionsContext)
+  const { sessions: allSessions, studentSessionGroups } =
+    useContext(SessionsContext)
 
   return (
     <>
@@ -73,7 +74,10 @@ const Navbar: React.FC = () => {
             <List>
               {allNavItems.map((item: NavItem, index: number) => (
                 <div key={index}>
-                  {item.shouldDisplay(allSessions.length) && (
+                  {item.shouldDisplay(
+                    allSessions.length,
+                    [...studentSessionGroups].length
+                  ) && (
                     <ListItem key={index}>
                       <StyledLink to={item.path}>
                         {item.icon}
