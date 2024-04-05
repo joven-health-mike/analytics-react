@@ -9,7 +9,6 @@ const useNavigateToHomeWhenSessionsCleared = () => {
   useEffect(() => {
     const sessionsPopulated = sessions.length > 0
     if (!sessionsPopulated) navigate("/")
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessions.length])
 
   return {}

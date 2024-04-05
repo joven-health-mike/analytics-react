@@ -63,7 +63,6 @@ export const AllSessionsProvider: React.FC<SessionsDataProviderProps> = ({
       setProviderSessionGroups(emptySessionGroups)
       setTypeSessionGroups(emptySessionGroups)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessions])
 
   return (

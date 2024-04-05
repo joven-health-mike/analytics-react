@@ -40,7 +40,6 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
     } else if (selection !== "") {
       onItemSelected(selection)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection])
 
   useEffect(() => {
@@ -88,7 +87,6 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
     }
 
     setSelectItems(newMenuItems)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items])
 
   return (

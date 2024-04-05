@@ -69,7 +69,6 @@ const DefaultMultiSelectInput: React.FC<DefaultMultiSelectInputProps> = ({
     onItemsSelected(
       selection.filter((item) => item !== "Select All" && item !== "Clear")
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selection.length])
 
   return (

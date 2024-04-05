@@ -275,6 +275,7 @@ const ProviderReport: React.FC = () => {
               <ServiceOverviewSection />,
               <AbsencesMetricsSection />,
               <NoShowRatesByMonthSection />,
+              // TODO: NoShowRatesByWeekSection is causing this page to load much slower than the other pages...
               <NoShowRatesByWeekSection />,
               <ProviderHoursLineSection />,
               <ProviderHoursStackedSection />,

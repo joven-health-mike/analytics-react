@@ -18,7 +18,6 @@ const InputText: React.FC<InputTextProps> = ({
 
   useEffect(() => {
     onTextChanged(text)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text.length])
 
   return (
