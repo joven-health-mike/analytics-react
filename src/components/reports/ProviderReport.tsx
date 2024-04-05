@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import { ReactNode, useContext, useEffect, useState } from "react"
+import { ReactNode, useContext, useEffect, useMemo, useState } from "react"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import { Box } from "@mui/material"
@@ -15,7 +15,7 @@ import { sortMapByValue } from "../../utils/SortUtils"
 import { monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
-import SessionGroups, { createSessionGroups } from "../../data/SessionGroups"
+import { createSessionGroups } from "../../data/SessionGroups"
 import {
   filterByCustomer as byCustomer,
   filterByType as byType,
@@ -165,28 +165,21 @@ const ProviderReport: React.FC = () => {
   }
 
   const ProviderHoursStackedSection: React.FC = () => {
-    const [hoursByServiceData, setHoursByServiceData] = useState<
-      Map<string, Map<string, number>>
-    >(new Map())
-    const [providerTypeGroups, setProviderTypeGroups] = useState<
-      Map<string, SessionGroups>
-    >(new Map())
-
-    useEffect(() => {
+    const providerTypeGroups = useMemo(() => {
       const newProviderTypeGroups = new Map()
       for (const sessionGroup of providerSessionGroups) {
         const providerSessions = [...sessionGroup]
         const typeSessionGroups = createSessionGroups(providerSessions, byType)
         newProviderTypeGroups.set(sessionGroup.name, typeSessionGroups)
       }
-      setProviderTypeGroups(newProviderTypeGroups)
+      return newProviderTypeGroups
     }, [providerSessionGroups])
 
-    useEffect(() => {
+    const hoursByServiceData = useMemo(() => {
       const newData: Map<string, Map<string, number>> = new Map()
 
       const providerTypeGroup = providerTypeGroups.get(providerName)
-      if (!providerTypeGroup) return
+      if (!providerTypeGroup) return newData
 
       for (const typeSessionGroup of providerTypeGroup) {
         const monthlyMap = new Map()
@@ -198,8 +191,7 @@ const ProviderReport: React.FC = () => {
         }
         newData.set(typeSessionGroup.name, monthlyMap)
       }
-
-      setHoursByServiceData(newData)
+      return newData
     }, [providerName])
 
     return (
