@@ -64,7 +64,8 @@ export default class SessionGroup {
   }
 
   private loadMetrics(): void {
-    if (this.loaded === false) {
+    // NOTE: When called with an empty session list, this function will cause slow-loading issues. So, skip loading metrics if there are no sessions.
+    if (this.sessions.length > 0 && this.loaded === false) {
       const sortedSessions = [...this.sessions]
       sortedSessions.sort((a: Session, b: Session) => {
         return compareDates(new Date(a.date), new Date(b.date))

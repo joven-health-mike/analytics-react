@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react"
-import SessionGroup, { createEmptySessionGroup } from "../../data/SessionGroup"
+import { useContext, useMemo } from "react"
+import { createEmptySessionGroup } from "../../data/SessionGroup"
 import SessionGroups from "../../data/SessionGroups"
 
 const useCurrentSessionGroup = (
@@ -7,15 +7,12 @@ const useCurrentSessionGroup = (
   nameContext: React.Context<string>
 ) => {
   const name = useContext(nameContext)
-  const [currentSessionGroup, setCurrentSessionGroup] = useState<SessionGroup>(
-    createEmptySessionGroup()
-  )
 
-  useEffect(() => {
-    setCurrentSessionGroup(
+  const currentSessionGroup = useMemo(() => {
+    return (
       sessionGroups.getSessionGroupForName(name) ?? createEmptySessionGroup()
     )
-  }, [name, sessionGroups])
+  }, [name])
 
   return { name, currentSessionGroup }
 }

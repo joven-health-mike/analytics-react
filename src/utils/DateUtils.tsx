@@ -157,13 +157,12 @@ export const getWeekOfYear = (date: Date) => {
 }
 
 export function* weekIterator(first: Date, second: Date) {
-  // TODO: test this. dates might not be getting placed in the correct week
   const numberOfWeeks = getFullWeeksBetweenDates(first, second)
   let previousWeek = first
 
   for (let i = 0; i <= numberOfWeeks; i++) {
-    yield getFirstDayOfWeekName(previousWeek)
-
+    const weekName = getFirstDayOfWeekName(previousWeek)
+    yield weekName
     previousWeek = addOneWeek(previousWeek)
   }
 }

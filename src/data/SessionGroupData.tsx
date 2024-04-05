@@ -8,6 +8,9 @@ import {
 } from "../utils/DateUtils"
 import Session from "./Session"
 
+const superEarlyDate = new Date("01/01/2990")
+const superLateDate = new Date("01/01/1990")
+
 export default class SessionGroupData {
   numMinutes = 0
   minutesByMonth: Map<string, number> = new Map()
@@ -29,8 +32,8 @@ export default class SessionGroupData {
 
   sessionTypeTimes: Map<string, number> = new Map()
 
-  private earliestDate: Date = new Date("01/01/2990")
-  private latestDate: Date = new Date("01/01/1990")
+  private earliestDate: Date = superEarlyDate
+  private latestDate: Date = superLateDate
 
   private calculateMinutesByMonth(session: Session): void {
     const sessionDate = new Date(session.date)
@@ -100,7 +103,13 @@ export default class SessionGroupData {
   }
 
   private calculateWeeklyAbsentRates = () => {
-    // TODO: Test this. weeks might be off by 1...
+    // if (
+    //   this.earliestDate === superEarlyDate ||
+    //   this.latestDate === superLateDate
+    // ) {
+    //   // this is called with initial values, so we don't want to calculate weekly absent rates yet. It will be updated on a future render.
+    //   return
+    // }
     for (const weekName of weekIterator(this.earliestDate, this.latestDate)) {
       this.absenceRatesByWeek.set(
         weekName,

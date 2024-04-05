@@ -1,13 +1,10 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import SessionGroups from "../../data/SessionGroups"
 
 const useNamesWithSelector = (sessionGroups: SessionGroups) => {
-  const [names, setNames] = useState<string[]>([])
   const [selected, setSelected] = useState<string>("")
 
-  useEffect(() => {
-    setNames([...sessionGroups.names()])
-  }, [sessionGroups])
+  const names = useMemo(() => [...sessionGroups.names()], [sessionGroups])
 
   const previousSelectedNoLongerExists = useCallback(
     () =>

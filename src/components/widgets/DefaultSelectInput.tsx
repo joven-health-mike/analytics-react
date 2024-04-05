@@ -8,7 +8,7 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 
 type DefaultSelectInputProps = {
   label: string
@@ -25,10 +25,26 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
   onAllSelected,
   enableSelectAll = true,
 }) => {
-  const defaultValue = (items: string[]) =>
-    items && items.length > 0 ? items[0] : ""
-  const [selection, setSelection] = useState<string>(defaultValue(items))
-  const [selectItems, setSelectItems] = useState<React.JSX.Element[]>()
+  const defaultValue = useCallback(
+    () => (items && items.length > 0 ? items[0] : ""),
+    [items]
+  )
+  const [selection, setSelection] = useState<string>("")
+  const itemElements = useMemo(() => {
+    return items.map((item) => {
+      return (
+        <MenuItem value={item} key={item}>
+          {item}
+        </MenuItem>
+      )
+    })
+  }, [items])
+
+  useEffect(() => {
+    if (selection === "") {
+      setSelection(defaultValue())
+    }
+  }, [selection])
 
   useEffect(() => {
     if (
@@ -42,53 +58,6 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
     }
   }, [selection])
 
-  useEffect(() => {
-    if (items === undefined) {
-      return
-    }
-
-    const newMenuItems = items.map((item) => {
-      return (
-        <MenuItem value={item} key={item}>
-          {item}
-        </MenuItem>
-      )
-    })
-
-    if (selection === "") {
-      if (items.length > 0) {
-        setSelection(items[0])
-      } else {
-        setSelection("")
-      }
-    } else {
-      let shouldUpdateDefault = true
-      for (const item of items) {
-        if (selection === item) {
-          shouldUpdateDefault = false
-          break
-        }
-      }
-      if (shouldUpdateDefault) {
-        if (items.length > 0) {
-          setSelection(items[0])
-        } else {
-          setSelection("")
-        }
-      }
-    }
-
-    if (
-      items.length > 0 &&
-      selection !== "" &&
-      !items.join().includes(selection)
-    ) {
-      setSelection(items[0])
-    }
-
-    setSelectItems(newMenuItems)
-  }, [items])
-
   return (
     <>
       <Box justifyContent="center" display="flex">
@@ -97,7 +66,7 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
           <Select
             labelId={label.toLowerCase()}
             id={label.toLowerCase()}
-            defaultValue={defaultValue(items)}
+            defaultValue={defaultValue()}
             value={selection}
             label={label}
             onChange={(e: SelectChangeEvent<string>) => {
@@ -107,7 +76,7 @@ const DefaultSelectInput: React.FC<DefaultSelectInputProps> = ({
             {enableSelectAll && (
               <MenuItem value={"Select All"}>{"Select All"}</MenuItem>
             )}
-            {selectItems}
+            {itemElements}
           </Select>
         </FormControl>
       </Box>
