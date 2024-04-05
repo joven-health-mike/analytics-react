@@ -2,11 +2,11 @@
 
 import { ReactElement } from "react"
 import {
+  FaAddressCard,
   FaChartLine,
-  FaChild,
   FaHome,
-  FaPersonBooth,
-  FaWizardsOfTheCoast,
+  FaSchool,
+  FaUserMd,
 } from "react-icons/fa"
 import styled from "styled-components"
 import image from "../../assets/Logo-192sq-alphabg.png"
@@ -29,6 +29,8 @@ export type NavItem = {
 // should display convenience functions
 const always = () => true
 const ifSessionsExist = (sessionsLength: number) => sessionsLength > 0
+const ifStudentSessionsExist = (_: number, studentSessionsLength: number) =>
+  studentSessionsLength > 0
 
 export const allNavItems: NavItem[] = [
   {
@@ -51,20 +53,20 @@ export const allNavItems: NavItem[] = [
   },
   {
     title: "Customer Report",
-    icon: <FaPersonBooth />,
+    icon: <FaSchool />,
     path: "/customer",
     shouldDisplay: ifSessionsExist,
   },
   {
     title: "Provider Report",
-    icon: <FaWizardsOfTheCoast />,
+    icon: <FaUserMd />,
     path: "/provider",
     shouldDisplay: ifSessionsExist,
   },
   {
     title: "Student Report",
-    icon: <FaChild />,
+    icon: <FaAddressCard />,
     path: "/student",
-    shouldDisplay: ifSessionsExist,
+    shouldDisplay: ifStudentSessionsExist,
   },
 ]
