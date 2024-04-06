@@ -2,16 +2,8 @@
 
 import { Route, Routes } from "react-router"
 import { AvailableRoutes } from "./AvailableRoutes"
-import styled from "styled-components"
-import { h1Styles } from "../components/styles/mixins"
-
-const Header = styled.h1`
-  ${h1Styles}
-`
-
-const Container = styled.div`
-  margin-left: 250px;
-`
+import DefaultHeader from "../components/widgets/DefaultHeader"
+import { Box } from "@mui/system"
 
 const AppRouter: React.FC = () => {
   return (
@@ -21,11 +13,14 @@ const AppRouter: React.FC = () => {
           <Route
             key={index}
             path={route.url}
-            element={<Container>{route.element}</Container>}
+            element={<Box sx={{ marginLeft: "250px" }}>{route.element}</Box>}
           />
         )
       })}
-      <Route path="*" element={<Header>404 - Not Found</Header>} />
+      <Route
+        path="*"
+        element={<DefaultHeader>404 - Not Found</DefaultHeader>}
+      />
     </Routes>
   )
 }
