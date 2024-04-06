@@ -7,8 +7,8 @@ import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import ProviderReport from "../reports/ProviderReport"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
-import { ProviderNameContext } from "../../data/providers/ProviderNameProvider"
 import useNamesWithSelector from "../hooks/NamesWithSelector"
+import { ProviderNameContext } from "../../data/providers/providers"
 
 const ProviderReportPage: React.FC = () => {
   useNavigateToHomeWhenSessionsCleared()

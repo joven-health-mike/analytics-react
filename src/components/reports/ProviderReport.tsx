@@ -22,7 +22,7 @@ import {
 } from "../../data/Session"
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
-import { ProviderNameContext } from "../../data/providers/ProviderNameProvider"
+import { ProviderNameContext } from "../../data/providers/providers"
 
 const CHART_MONTH_OFFSET = 6
 

@@ -15,7 +15,7 @@ import NoShowPieChart from "../charts/NoShowPieChart"
 import NoShowLineChart from "../charts/NoShowLineChart"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { CustomerNameContext } from "../../data/providers/CustomerNameProvider"
+import { CustomerNameContext } from "../../data/providers/providers"
 
 const CustomerReport: React.FC = () => {
   const { customerSessionGroups } = useContext(SessionsContext)

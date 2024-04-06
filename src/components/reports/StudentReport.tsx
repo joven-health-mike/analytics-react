@@ -7,12 +7,12 @@ import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { StudentNameContext } from "../../data/providers/StudentNameProvider"
 import DefaultGrid from "../widgets/DefaultGrid"
 import DefaultGridItem from "../widgets/DefaultGridItem"
 import DefaultSubHeader from "../widgets/DefaultSubHeader"
 import DefaultText from "../widgets/DefaultText"
 import NoShowPieChart from "../charts/NoShowPieChart"
+import { StudentNameContext } from "../../data/providers/providers"
 
 const StudentReport: React.FC = () => {
   const { studentSessionGroups } = useContext(SessionsContext)
