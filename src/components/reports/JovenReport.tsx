@@ -20,8 +20,8 @@ const JovenReport: React.FC = () => {
   const { customerSessionGroups, providerSessionGroups, typeSessionGroups } =
     useContext(SessionsContext)
 
-  function* generateHoursByMonthData() {
-    for (const sessionGroup of typeSessionGroups) {
+  function* generateHoursByMonthData(sessionGroups: SessionGroups) {
+    for (const sessionGroup of sessionGroups) {
       const monthGenerator = monthOfYearIterator(CHART_MONTH_OFFSET)
       for (const month of monthGenerator) {
         const hoursForMonth = sessionGroup.totalHours(month)
@@ -53,17 +53,14 @@ const JovenReport: React.FC = () => {
     }
   }
 
-  type AllHoursLineSectionProps = {
-    label: string
-  }
-
-  const AllHoursLineSection: React.FC<AllHoursLineSectionProps> = ({
-    label,
-  }) => {
+  /* AllHoursLineSection */
+  const AllHoursLineSection: React.FC = () => {
     const hoursByMonthData = useMemo(() => {
       const newData: Map<string, number> = new Map()
 
-      for (const { month, hoursForMonth } of generateHoursByMonthData()) {
+      for (const { month, hoursForMonth } of generateHoursByMonthData(
+        typeSessionGroups
+      )) {
         const newHoursValue = (newData.get(month) ?? 0) + hoursForMonth
         newData.set(month, newHoursValue)
       }
@@ -79,19 +76,17 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {hoursByMonthData && (
-          <AllHoursLineChart chartTitle={label} data={hoursByMonthData} />
+          <AllHoursLineChart
+            chartTitle={"Total Hours Delivered by Month"}
+            data={hoursByMonthData}
+          />
         )}
       </>
     )
   }
 
-  type AllHoursStackedSectionProps = {
-    label: string
-  }
-
-  const AllHoursStackedSection: React.FC<AllHoursStackedSectionProps> = ({
-    label,
-  }) => {
+  /* AllHoursStackedSection */
+  const AllHoursStackedSection: React.FC = () => {
     const hoursByServiceData = useMemo(() => {
       const newData: Map<string, Map<string, number>> = new Map()
 
@@ -108,7 +103,7 @@ const JovenReport: React.FC = () => {
       <>
         {hoursByServiceData && (
           <AllHoursStackedBarChart
-            chartTitle={label}
+            chartTitle={"Service Hours Delivered by Month"}
             data={hoursByServiceData}
           />
         )}
@@ -116,13 +111,8 @@ const JovenReport: React.FC = () => {
     )
   }
 
-  type HoursByProviderSectionProps = {
-    label: string
-  }
-
-  const HoursByProviderSection: React.FC<HoursByProviderSectionProps> = ({
-    label,
-  }) => {
+  /* HoursByProviderSection */
+  const HoursByProviderSection: React.FC = () => {
     const hoursByProviderData = useMemo(() => {
       const newData: Map<string, Map<string, number>> = new Map()
 
@@ -139,7 +129,7 @@ const JovenReport: React.FC = () => {
       <>
         {hoursByProviderData && (
           <AllProvidersStackedBarChart
-            chartTitle={label}
+            chartTitle={"Provider Hours Delivered by Month"}
             data={hoursByProviderData}
           />
         )}
@@ -147,13 +137,8 @@ const JovenReport: React.FC = () => {
     )
   }
 
-  type CustomerNoShowSectionProps = {
-    label: string
-  }
-
-  const CustomerNoShowSection: React.FC<CustomerNoShowSectionProps> = ({
-    label,
-  }) => {
+  /* CustomerNoShowSection */
+  const CustomerNoShowSection: React.FC = () => {
     const customerNoShowData = useMemo(() => {
       const customerAbsentRates = new Map<string, number>()
 
@@ -169,19 +154,17 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {customerNoShowData && (
-          <NoShowChart chartTitle={label} data={customerNoShowData} />
+          <NoShowChart
+            chartTitle={"No-Show Rates by Customer"}
+            data={customerNoShowData}
+          />
         )}
       </>
     )
   }
 
-  type ProviderNoShowSectionProps = {
-    label: string
-  }
-
-  const ProviderNoShowSection: React.FC<ProviderNoShowSectionProps> = ({
-    label,
-  }) => {
+  /* ProviderNoShowSection */
+  const ProviderNoShowSection: React.FC = () => {
     const providerNoShowData = useMemo(() => {
       const providerAbsentRates = new Map<string, number>()
 
@@ -197,7 +180,10 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {providerNoShowData && (
-          <NoShowChart chartTitle={label} data={providerNoShowData} />
+          <NoShowChart
+            chartTitle={"No-Show Rates by Provider"}
+            data={providerNoShowData}
+          />
         )}
       </>
     )
@@ -221,15 +207,11 @@ const JovenReport: React.FC = () => {
               "No-Show Rates by Provider",
             ]}
             nodes={[
-              <AllHoursLineSection label={"Total Hours Delivered by Month"} />,
-              <AllHoursStackedSection
-                label={"Service Hours Delivered by Month"}
-              />,
-              <HoursByProviderSection
-                label={"Provider Hours Delivered by Month"}
-              />,
-              <CustomerNoShowSection label={"No-Show Rates by Customer"} />,
-              <ProviderNoShowSection label={"No-Show Rates by Provider"} />,
+              <AllHoursLineSection />,
+              <AllHoursStackedSection />,
+              <HoursByProviderSection />,
+              <CustomerNoShowSection />,
+              <ProviderNoShowSection />,
             ]}
             defaultExpanded={[true, true, true, true, true]}
           />
