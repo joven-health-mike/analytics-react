@@ -2,7 +2,6 @@
 
 import styled from "styled-components"
 import { buttonStyles } from "../styles/mixins"
-import Navbar from "../navbar/Navbar"
 import { useNavigate } from "react-router-dom"
 import DefaultGrid from "../widgets/DefaultGrid"
 import DefaultGridItem from "../widgets/DefaultGridItem"
@@ -61,7 +60,6 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <DefaultHeader>Home</DefaultHeader>
       <UploadServiceDataWidget />
       <HorizontalLine />

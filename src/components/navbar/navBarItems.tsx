@@ -34,9 +34,9 @@ const ifStudentSessionsExist = (_: number, studentSessionsLength: number) =>
 
 export const allNavItems: NavItem[] = [
   {
-    title: "Joven Health",
+    title: "",
     icon: <Image src={image} alt="logo" />,
-    path: "/",
+    path: "https://jovenhealth.com/",
     shouldDisplay: always,
   },
   {
@@ -46,7 +46,7 @@ export const allNavItems: NavItem[] = [
     shouldDisplay: always,
   },
   {
-    title: "Joven Health Report",
+    title: "Overview Report",
     icon: <FaChartLine />,
     path: "/joven",
     shouldDisplay: ifSessionsExist,

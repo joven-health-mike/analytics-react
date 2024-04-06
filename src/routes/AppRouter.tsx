@@ -3,7 +3,6 @@
 import { Route, Routes } from "react-router"
 import { AvailableRoutes } from "./AvailableRoutes"
 import DefaultHeader from "../components/widgets/DefaultHeader"
-import { Box } from "@mui/system"
 
 const AppRouter: React.FC = () => {
   return (
@@ -13,7 +12,7 @@ const AppRouter: React.FC = () => {
           <Route
             key={index}
             path={route.url}
-            element={<Box sx={{ marginLeft: "250px" }}>{route.element}</Box>}
+            element={<div>{route.element}</div>}
           />
         )
       })}

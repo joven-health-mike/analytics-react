@@ -1,7 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { useContext } from "react"
-import Navbar from "../navbar/Navbar"
 import DefaultHeader from "../widgets/DefaultHeader"
 import DefaultSelectInput from "../widgets/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
@@ -21,7 +20,6 @@ const ProviderReportPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <DefaultHeader>Provider Report</DefaultHeader>
       <DefaultSelectInput
         label="Select a Provider"

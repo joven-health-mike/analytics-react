@@ -2,93 +2,46 @@
 
 import { useContext } from "react"
 import { IconContext } from "react-icons"
-import { Link } from "react-router-dom"
-import styled, { css } from "styled-components"
-import { spanStyles } from "../styles/mixins"
 import { allNavItems, NavItem } from "./navBarItems"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-
-const linkStyles = css`
-  text-decoration: none;
-  color: white !important;
-  font-size: 18px;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  border-radius: 4px;
-`
-
-const StyledLink = styled(Link)`
-  ${linkStyles}
-`
-
-const LinkTitle = styled.span`
-  ${spanStyles}
-`
-
-const List = styled.ul`
-  width: 100%;
-  padding-left: 0px;
-`
-
-const Wrapper = styled.div`
-  background-color: #4891ce;
-  width: 250px;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-`
-
-const ListItem = styled.li`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px, 0ps, 8ps, 16px;
-  list-style: none;
-  height: 60px;
-
-  a {
-    ${linkStyles}
-  }
-
-  a:hover {
-    background-color: #77caf2;
-    color: #385aa8;
-  }
-`
+import { Link, useNavigate } from "react-router-dom"
+import { Button } from "@mui/material"
+import NavBarText from "../widgets/NavBarText"
 
 const Navbar: React.FC = () => {
   const { sessions: allSessions, studentSessionGroups } =
     useContext(SessionsContext)
+  const navigate = useNavigate()
 
   return (
     <>
       <nav>
-        <IconContext.Provider value={{ color: "#fff" }}>
-          <Wrapper>
-            <List>
-              {allNavItems.map((item: NavItem, index: number) => (
-                <div key={index}>
-                  {item.shouldDisplay(
-                    allSessions.length,
-                    [...studentSessionGroups].length
-                  ) && (
-                    <ListItem key={index}>
-                      <StyledLink to={item.path}>
-                        {item.icon}
-                        <LinkTitle>{item.title}</LinkTitle>
-                      </StyledLink>
-                    </ListItem>
-                  )}
-                </div>
-              ))}
-            </List>
-          </Wrapper>
+        <IconContext.Provider value={{ color: "#77caf2" }}>
+          {allNavItems.map((item: NavItem, index: number) => (
+            <>
+              {item.shouldDisplay(
+                allSessions.length,
+                [...studentSessionGroups].length
+              ) && (
+                <Button
+                  LinkComponent={Link}
+                  startIcon={item.icon}
+                  key={index}
+                  onClick={() => {
+                    console.log(`CLICK: ${item.path}`)
+                    if (item.path[0] === "/") {
+                      navigate(item.path, { replace: true })
+                    } else {
+                      window.location.href = item.path
+                    }
+                  }}
+                  sx={{ p: 3 }}
+                >
+                  <NavBarText>{item.title}</NavBarText>
+                </Button>
+              )}
+            </>
+          ))}
         </IconContext.Provider>
       </nav>
     </>
