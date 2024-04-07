@@ -62,17 +62,6 @@ export const createSession = (dataArray: string[]) => {
   )
 }
 
-export function* sessionFilterGenerator(
-  sessionList: Session[],
-  shouldSkip: (session: Session) => boolean = () => false
-) {
-  for (const session of sessionList) {
-    if (!shouldSkip(session)) {
-      yield session
-    }
-  }
-}
-
 export const skipTestData = (session: Session): boolean => {
   return (
     session.providerName === "Jacek McGuinness" ||

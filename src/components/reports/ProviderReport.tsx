@@ -12,7 +12,7 @@ import NoShowLineChart from "../charts/NoShowLineChart"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
-import { monthOfYearIterator } from "../../utils/DateUtils"
+import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
 import { createSessionGroups } from "../../data/SessionGroups"
@@ -24,7 +24,7 @@ import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { ProviderNameContext } from "../../data/providers/providers"
 
-const CHART_MONTH_OFFSET = 6
+const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
 
 const ProviderReport: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)

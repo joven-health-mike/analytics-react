@@ -1,4 +1,4 @@
-const MONTH_NAMES = [
+export const MONTH_NAMES = [
   "January",
   "February",
   "March",
@@ -119,12 +119,6 @@ export const sortMapByMonth = (map: Map<string, number>) => {
 
 export const monthComparator = (a: string, b: string): number => {
   return MONTH_NAMES.indexOf(a[0]) - MONTH_NAMES.indexOf(b[0])
-}
-
-export const schoolYearComparator = (a: string, b: string): number => {
-  const shiftA = (MONTH_NAMES.indexOf(a[0]) + 6) % MONTH_NAMES.length
-  const shiftB = (MONTH_NAMES.indexOf(b[0]) + 6) % MONTH_NAMES.length
-  return shiftA - shiftB
 }
 
 export const getEarlierDate = (date1: Date, date2: Date) => {

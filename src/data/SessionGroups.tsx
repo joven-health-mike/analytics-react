@@ -1,4 +1,4 @@
-import Session, { sessionFilterGenerator } from "./Session"
+import Session from "./Session"
 import SessionGroup, { createSessionGroup } from "./SessionGroup"
 
 export default class SessionGroups {
@@ -33,17 +33,14 @@ export const createEmptySessionGroups = () => {
 
 export const createSessionGroups = (
   allSessions: Session[],
-  nameFilter: (session: Session) => string,
-  sessionSkipper: Generator<Session, void, unknown> = sessionFilterGenerator(
-    allSessions
-  )
+  nameFilter: (session: Session) => string
 ) => {
   if (allSessions.length === 0) return createEmptySessionGroups()
 
   const newSessions: Map<string, Session[]> = new Map()
   const newNames: Set<string> = new Set()
 
-  for (const nextSession of sessionSkipper) {
+  for (const nextSession of allSessions) {
     const name = nameFilter(nextSession)
     if (name === "") continue
     newNames.add(name)

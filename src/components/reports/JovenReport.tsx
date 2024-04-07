@@ -5,7 +5,7 @@ import { Box } from "@mui/material"
 import NoShowChart from "../charts/NoShowChart"
 import { sortMapByValue } from "../../utils/SortUtils"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
-import { monthOfYearIterator } from "../../utils/DateUtils"
+import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "../charts/AllProvidersStackedBarChart"
 import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
@@ -13,7 +13,7 @@ import Printable from "../widgets/Printable"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import SessionGroups from "../../data/SessionGroups"
 
-const CHART_MONTH_OFFSET = 6
+const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
 
 const JovenReport: React.FC = () => {

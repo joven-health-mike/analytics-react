@@ -4,7 +4,6 @@ import SessionGroups, {
   createSessionGroups,
 } from "../SessionGroups"
 import Session from "../Session"
-
 import {
   filterByCustomer as byCustomer,
   filterByProvider as byProvider,

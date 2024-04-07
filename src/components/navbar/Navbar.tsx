@@ -1,13 +1,15 @@
 // Copyright 2022 Social Fabric, LLC
 
-import { useContext } from "react"
+import { useContext, useMemo } from "react"
 import { IconContext } from "react-icons"
-import { allNavItems, NavItem } from "./navBarItems"
+import { NavItem, allNavItems } from "./navBarItems"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
 import NavBarText from "../widgets/NavBarText"
 import useIsMobile from "../hooks/IsMobile"
+
+const ICON_COLOR = "#77caf2"
 
 const Navbar: React.FC = () => {
   const { sessions: allSessions, studentSessionGroups } =
@@ -15,38 +17,52 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate()
   const isMobile = useIsMobile()
 
+  const handleButtonClick = (path: string) => {
+    if (path[0] === "/") {
+      // internal link - use react-router to navigate
+      navigate(path)
+    } else {
+      // external link - use window to navigate
+      window.location.href = path
+    }
+  }
+
+  const buttonProps = (item: NavItem) => ({
+    LinkComponent: Link,
+    startIcon: item.icon,
+    key: item.title,
+    onClick: () => {
+      handleButtonClick(item.path)
+    },
+    sx: { p: 3 },
+  })
+
+  const navButtons = useMemo(
+    () => [...generateNavButtons()],
+    [allSessions, isMobile]
+  )
+
+  function* generateNavButtons() {
+    for (const item of allNavItems) {
+      if (
+        item.shouldDisplay(allSessions.length, [...studentSessionGroups].length)
+      ) {
+        yield (
+          <Button {...buttonProps(item)}>
+            {/* don't show nav item text on mobile */}
+            {!isMobile && <NavBarText>{item.title}</NavBarText>}
+          </Button>
+        )
+      }
+    }
+  }
+
   return (
-    <>
-      <nav>
-        <IconContext.Provider value={{ color: "#77caf2" }}>
-          {allNavItems.map((item: NavItem, index: number) => (
-            <>
-              {item.shouldDisplay(
-                allSessions.length,
-                [...studentSessionGroups].length
-              ) && (
-                <Button
-                  LinkComponent={Link}
-                  startIcon={item.icon}
-                  key={index}
-                  onClick={() => {
-                    console.log(`CLICK: ${item.path}`)
-                    if (item.path[0] === "/") {
-                      navigate(item.path, { replace: true })
-                    } else {
-                      window.location.href = item.path
-                    }
-                  }}
-                  sx={{ p: 3 }}
-                >
-                  {!isMobile && <NavBarText>{item.title}</NavBarText>}
-                </Button>
-              )}
-            </>
-          ))}
-        </IconContext.Provider>
-      </nav>
-    </>
+    <nav>
+      <IconContext.Provider value={{ color: ICON_COLOR }}>
+        {navButtons}
+      </IconContext.Provider>
+    </nav>
   )
 }
 

@@ -5,11 +5,13 @@ import {
   getMonthName,
   monthOfYearIterator,
   weekIterator,
+  MONTH_NAMES,
 } from "../utils/DateUtils"
 import Session from "./Session"
 
-const superEarlyDate = new Date("01/01/2990")
-const superLateDate = new Date("01/01/1990")
+const superEarlyDate = new Date("01/01/2100")
+const superLateDate = new Date("01/01/2000")
+const START_MONTH = MONTH_NAMES.indexOf("July")
 
 export default class SessionGroupData {
   numMinutes = 0
@@ -46,7 +48,7 @@ export default class SessionGroupData {
 
   private calculateHoursByMonth(): void {
     // calculate absent rates for each month
-    for (const monthName of monthOfYearIterator(6)) {
+    for (const monthName of monthOfYearIterator(START_MONTH)) {
       const minutesForMonth = this.minutesByMonth!.get(monthName) ?? 0
       this.hoursByMonth.set(
         monthName,
@@ -92,7 +94,7 @@ export default class SessionGroupData {
   }
 
   private calculateMonthlyAbsentRates = () => {
-    for (const monthName of monthOfYearIterator(6)) {
+    for (const monthName of monthOfYearIterator(START_MONTH)) {
       const presencesForMonth = this.presencesByMonth!.get(monthName) ?? 0
       const absencesForMonth = this.absencesByMonth!.get(monthName) ?? 0
       this.absenceRatesByMonth.set(
@@ -103,13 +105,6 @@ export default class SessionGroupData {
   }
 
   private calculateWeeklyAbsentRates = () => {
-    // if (
-    //   this.earliestDate === superEarlyDate ||
-    //   this.latestDate === superLateDate
-    // ) {
-    //   // this is called with initial values, so we don't want to calculate weekly absent rates yet. It will be updated on a future render.
-    //   return
-    // }
     for (const weekName of weekIterator(this.earliestDate, this.latestDate)) {
       this.absenceRatesByWeek.set(
         weekName,

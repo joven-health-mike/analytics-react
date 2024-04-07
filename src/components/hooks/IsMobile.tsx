@@ -1,7 +1,11 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+
+const MOBILE_THREASHOLD = 1110
 
 const useIsMobile = () => {
   const [width, setWidth] = useState<number>(window.innerWidth)
+
+  const isMobile = useMemo(() => width <= MOBILE_THREASHOLD, [width])
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth)
@@ -13,7 +17,7 @@ const useIsMobile = () => {
     }
   }, [])
 
-  return width <= 768
+  return isMobile
 }
 
 export default useIsMobile
