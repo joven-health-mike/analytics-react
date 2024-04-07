@@ -57,6 +57,14 @@ export default class SessionGroup {
     return this.sessionGroupData.sessionTypeTimes
   }
 
+  *filteredSessions(filter = (_: Session) => true): IterableIterator<Session> {
+    for (const session of this.sessions) {
+      if (filter(session)) {
+        yield session
+      }
+    }
+  }
+
   *[Symbol.iterator](): IterableIterator<Session> {
     for (const session of this.sessions) {
       yield session
