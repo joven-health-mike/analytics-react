@@ -7,11 +7,13 @@ import { SessionsContext } from "../../data/providers/SessionProvider"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
 import NavBarText from "../widgets/NavBarText"
+import useIsMobile from "../hooks/IsMobile"
 
 const Navbar: React.FC = () => {
   const { sessions: allSessions, studentSessionGroups } =
     useContext(SessionsContext)
   const navigate = useNavigate()
+  const isMobile = useIsMobile()
 
   return (
     <>
@@ -37,7 +39,7 @@ const Navbar: React.FC = () => {
                   }}
                   sx={{ p: 3 }}
                 >
-                  <NavBarText>{item.title}</NavBarText>
+                  {!isMobile && <NavBarText>{item.title}</NavBarText>}
                 </Button>
               )}
             </>
