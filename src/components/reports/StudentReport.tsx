@@ -14,6 +14,10 @@ import DefaultText from "../widgets/DefaultText"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
 
+const CHART_PROPS = {
+  sx: { pl: 10, pr: 10 },
+}
+
 const StudentReport: React.FC = () => {
   const { studentSessionGroups } = useContext(SessionsContext)
   // TODO: What if a student name exists for multiple schools? Or the same name in a particular school?
@@ -38,12 +42,19 @@ const StudentReport: React.FC = () => {
       <DefaultGrid direction="column">
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <DefaultSubHeader>Attendance</DefaultSubHeader>
-            <NoShowPieChart absences={absences} presences={presences} />
+            <Box {...CHART_PROPS}>
+              <NoShowPieChart
+                chartTitle="Attendance"
+                absences={absences}
+                presences={presences}
+              />
+            </Box>
           </DefaultGridItem>
           <DefaultGridItem>
-            <DefaultSubHeader>Total Service Hours Provided</DefaultSubHeader>
-            <DefaultText>{numberOfHours.toFixed(1)} hours</DefaultText>
+            <Box {...CHART_PROPS}>
+              <DefaultSubHeader>Total Service Hours Provided</DefaultSubHeader>
+              <DefaultText>{numberOfHours.toFixed(1)} hours</DefaultText>
+            </Box>
           </DefaultGridItem>
         </DefaultGrid>
       </DefaultGrid>

@@ -9,7 +9,6 @@ import {
   Legend,
   ChartData,
 } from "chart.js"
-import styled from "styled-components"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 import { Line } from "react-chartjs-2"
 Chart.register(
@@ -22,10 +21,6 @@ Chart.register(
   Legend
 )
 
-const ChartDiv = styled.div`
-  padding: 50px;
-`
-
 type LineChartProps = {
   chartTitle: string
   chartData: ChartData<"line", (number | [number, number] | null)[], unknown>
@@ -36,7 +31,7 @@ export const LineChart: React.FC<LineChartProps> = ({
   chartData,
 }) => {
   return (
-    <ChartDiv>
+    <>
       <h2 style={{ textAlign: "center" }}>{chartTitle}</h2>
       <Line
         data={chartData}
@@ -56,6 +51,6 @@ export const LineChart: React.FC<LineChartProps> = ({
           },
         }}
       />
-    </ChartDiv>
+    </>
   )
 }

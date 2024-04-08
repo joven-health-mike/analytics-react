@@ -25,6 +25,9 @@ import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { ProviderNameContext } from "../../data/providers/providers"
 
 const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
+const CHART_PROPS = {
+  sx: { pl: 10, pr: 10 },
+}
 
 const ProviderReport: React.FC = () => {
   const { providerSessionGroups } = useContext(SessionsContext)
@@ -80,19 +83,25 @@ const ProviderReport: React.FC = () => {
     return (
       <DefaultGrid direction="row">
         <DefaultGridItem>
-          <NoShowPieChart
-            chartTitle={"Overall No-Show Rate"}
-            presences={presences}
-            absences={absences}
-          />
+          <Box {...CHART_PROPS}>
+            <NoShowPieChart
+              chartTitle={"Overall No-Show Rate"}
+              presences={presences}
+              absences={absences}
+            />
+          </Box>
         </DefaultGridItem>
         <DefaultGridItem>
-          <DefaultHeader>
-            Total No-Show Rate:{" "}
-            {formatPercent(
-              presences + absences === 0 ? 0 : absences / (presences + absences)
-            )}
-          </DefaultHeader>
+          <Box {...CHART_PROPS}>
+            <DefaultHeader>
+              Total No-Show Rate:{" "}
+              {formatPercent(
+                presences + absences === 0
+                  ? 0
+                  : absences / (presences + absences)
+              )}
+            </DefaultHeader>
+          </Box>
         </DefaultGridItem>
       </DefaultGrid>
     )
@@ -103,10 +112,12 @@ const ProviderReport: React.FC = () => {
     return (
       <DefaultGrid direction="row">
         <DefaultGridItem>
-          <NoShowLineChart
-            chartTitle="No-Show Rate by Month"
-            data={currentSessionGroup.noShowRatesByMonth()}
-          />
+          <Box {...CHART_PROPS}>
+            <NoShowLineChart
+              chartTitle="No-Show Rate by Month"
+              data={currentSessionGroup.noShowRatesByMonth()}
+            />
+          </Box>
         </DefaultGridItem>
       </DefaultGrid>
     )
@@ -125,10 +136,12 @@ const ProviderReport: React.FC = () => {
     return (
       <DefaultGrid direction="row">
         <DefaultGridItem>
-          <NoShowLineChart
-            chartTitle="No-Show Rate by Week"
-            data={noShowRatesByWeek}
-          />
+          <Box {...CHART_PROPS}>
+            <NoShowLineChart
+              chartTitle="No-Show Rate by Week"
+              data={noShowRatesByWeek}
+            />
+          </Box>
         </DefaultGridItem>
       </DefaultGrid>
     )
@@ -162,10 +175,12 @@ const ProviderReport: React.FC = () => {
     }, [providerSessionGroups, providerName])
 
     return (
-      <AllHoursLineChart
-        chartTitle={"Hours Delivered"}
-        data={hoursByMonthData}
-      />
+      <Box {...CHART_PROPS}>
+        <AllHoursLineChart
+          chartTitle={"Hours Delivered"}
+          data={hoursByMonthData}
+        />
+      </Box>
     )
   }
 
@@ -201,10 +216,12 @@ const ProviderReport: React.FC = () => {
     }, [providerName])
 
     return (
-      <AllHoursStackedBarChart
-        chartTitle={"Services Delivered"}
-        data={hoursByServiceData}
-      />
+      <Box {...CHART_PROPS}>
+        <AllHoursStackedBarChart
+          chartTitle={"Services Delivered"}
+          data={hoursByServiceData}
+        />
+      </Box>
     )
   }
 
@@ -237,10 +254,12 @@ const ProviderReport: React.FC = () => {
     }, [providerSessionGroups, providerName])
 
     return (
-      <AllHoursStackedBarChart
-        chartTitle={"Customers Serviced"}
-        data={hoursByServiceData}
-      />
+      <Box {...CHART_PROPS}>
+        <AllHoursStackedBarChart
+          chartTitle={"Customers Serviced"}
+          data={hoursByServiceData}
+        />
+      </Box>
     )
   }
 

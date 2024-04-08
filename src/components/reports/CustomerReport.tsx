@@ -17,6 +17,10 @@ import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { CustomerNameContext } from "../../data/providers/providers"
 
+const CHART_PROPS = {
+  sx: { pl: 10, pr: 10 },
+}
+
 const CustomerReport: React.FC = () => {
   const { customerSessionGroups } = useContext(SessionsContext)
   const { name: customerName, currentSessionGroup } = useCurrentSessionGroup(
@@ -95,22 +99,39 @@ const CustomerReport: React.FC = () => {
       <DefaultGrid direction="column">
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <DefaultSubHeader>Hours By Service Type</DefaultSubHeader>
-            <ServiceTypePieChart hoursByServiceType={hoursByServiceType} />
+            <Box {...CHART_PROPS}>
+              <ServiceTypePieChart
+                chartTitle="Hours By Service Type"
+                hoursByServiceType={hoursByServiceType}
+              />
+            </Box>
           </DefaultGridItem>
           <DefaultGridItem>
-            <DefaultSubHeader>Hours By Month</DefaultSubHeader>
-            <AllHoursLineChart data={hoursByMonth} />
+            <Box {...CHART_PROPS}>
+              <AllHoursLineChart
+                chartTitle="Hours By Month"
+                data={hoursByMonth}
+              />
+            </Box>
           </DefaultGridItem>
         </DefaultGrid>
         <DefaultGrid direction="row">
           <DefaultGridItem>
-            <DefaultSubHeader>Attendance</DefaultSubHeader>
-            <NoShowPieChart absences={absences} presences={presences} />
+            <Box {...CHART_PROPS}>
+              <NoShowPieChart
+                chartTitle="Attendance"
+                absences={absences}
+                presences={presences}
+              />
+            </Box>
           </DefaultGridItem>
           <DefaultGridItem>
-            <DefaultSubHeader>Absent Rates By Month</DefaultSubHeader>
-            <NoShowLineChart data={absentRateByMonth} />
+            <Box {...CHART_PROPS}>
+              <NoShowLineChart
+                chartTitle="Absent Rates By Month"
+                data={absentRateByMonth}
+              />
+            </Box>
           </DefaultGridItem>
         </DefaultGrid>
       </DefaultGrid>

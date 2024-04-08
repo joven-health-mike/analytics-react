@@ -1,12 +1,7 @@
 import { Chart, ChartData, Legend, Tooltip, ArcElement } from "chart.js"
 import { Pie } from "react-chartjs-2"
-import styled from "styled-components"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 Chart.register(ArcElement, Tooltip, Legend, ChartDataLabels)
-
-const ChartDiv = styled.div`
-  padding: 0px;
-`
 
 type PieChartProps = {
   chartTitle: string
@@ -18,7 +13,7 @@ export const PieChart: React.FC<PieChartProps> = ({
   chartData,
 }) => {
   return (
-    <ChartDiv>
+    <>
       <h2 style={{ textAlign: "center" }}>{chartTitle}</h2>
       <Pie
         data={chartData}
@@ -37,6 +32,6 @@ export const PieChart: React.FC<PieChartProps> = ({
           },
         }}
       />
-    </ChartDiv>
+    </>
   )
 }

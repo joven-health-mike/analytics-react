@@ -15,6 +15,9 @@ import SessionGroups from "../../data/SessionGroups"
 
 const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
+const CHART_PROPS = {
+  sx: { pl: 10, pr: 10 },
+}
 
 const JovenReport: React.FC = () => {
   const { customerSessionGroups, providerSessionGroups, typeSessionGroups } =
@@ -76,10 +79,12 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {hoursByMonthData && (
-          <AllHoursLineChart
-            chartTitle={"Total Hours Delivered by Month"}
-            data={hoursByMonthData}
-          />
+          <Box {...CHART_PROPS}>
+            <AllHoursLineChart
+              chartTitle={"Total Hours Delivered by Month"}
+              data={hoursByMonthData}
+            />
+          </Box>
         )}
       </>
     )
@@ -102,10 +107,12 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {hoursByServiceData && (
-          <AllHoursStackedBarChart
-            chartTitle={"Service Hours Delivered by Month"}
-            data={hoursByServiceData}
-          />
+          <Box {...CHART_PROPS}>
+            <AllHoursStackedBarChart
+              chartTitle={"Service Hours Delivered by Month"}
+              data={hoursByServiceData}
+            />
+          </Box>
         )}
       </>
     )
@@ -128,10 +135,12 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {hoursByProviderData && (
-          <AllProvidersStackedBarChart
-            chartTitle={"Provider Hours Delivered by Month"}
-            data={hoursByProviderData}
-          />
+          <Box {...CHART_PROPS}>
+            <AllProvidersStackedBarChart
+              chartTitle={"Provider Hours Delivered by Month"}
+              data={hoursByProviderData}
+            />
+          </Box>
         )}
       </>
     )
@@ -154,10 +163,12 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {customerNoShowData && (
-          <NoShowChart
-            chartTitle={"No-Show Rates by Customer"}
-            data={customerNoShowData}
-          />
+          <Box {...CHART_PROPS}>
+            <NoShowChart
+              chartTitle={"No-Show Rates by Customer"}
+              data={customerNoShowData}
+            />
+          </Box>
         )}
       </>
     )
@@ -180,10 +191,12 @@ const JovenReport: React.FC = () => {
     return (
       <>
         {providerNoShowData && (
-          <NoShowChart
-            chartTitle={"No-Show Rates by Provider"}
-            data={providerNoShowData}
-          />
+          <Box {...CHART_PROPS}>
+            <NoShowChart
+              chartTitle={"No-Show Rates by Provider"}
+              data={providerNoShowData}
+            />
+          </Box>
         )}
       </>
     )

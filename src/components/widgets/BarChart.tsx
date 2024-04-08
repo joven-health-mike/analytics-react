@@ -6,13 +6,8 @@ import {
   BarElement,
 } from "chart.js"
 import { Bar } from "react-chartjs-2"
-import styled from "styled-components"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 Chart.register(CategoryScale, LinearScale, BarElement, ChartDataLabels)
-
-const ChartDiv = styled.div`
-  padding: 50;
-`
 
 type BarChartProps = {
   chartTitle: string
@@ -26,7 +21,7 @@ export const BarChart: React.FC<BarChartProps> = ({
   enableLegend = false,
 }) => {
   return (
-    <ChartDiv>
+    <>
       <h2 style={{ textAlign: "center" }}>{chartTitle}</h2>
       <Bar
         data={chartData}
@@ -54,6 +49,6 @@ export const BarChart: React.FC<BarChartProps> = ({
           },
         }}
       />
-    </ChartDiv>
+    </>
   )
 }
