@@ -44,6 +44,12 @@ export default class Session {
 }
 
 export const createSession = (dataArray: string[]) => {
+  if (dataArray.length < 14) {
+    throw new RangeError(
+      "Session data is missing values. Please make sure the uploaded file is well-formed and contains the proper columns."
+    )
+  }
+
   return new Session(
     dataArray[0].trim(),
     dataArray[1].trim(),
