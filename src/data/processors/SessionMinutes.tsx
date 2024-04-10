@@ -18,14 +18,14 @@ class SessionMinutes implements ISessionProcessor {
     const sessionTime = parseInt(session.totalTime)
     this.minutesByMonth.set(
       monthName,
-      this.minutesByMonth.get(monthName) ?? 0 + sessionTime
+      (this.minutesByMonth.get(monthName) ?? 0) + sessionTime
     )
     this.numMinutes += sessionTime
   }
 
   finalize() {
     for (const monthName of monthOfYearIterator(START_MONTH)) {
-      const minutesForMonth = this.minutesByMonth!.get(monthName) ?? 0
+      const minutesForMonth = this.minutesByMonth.get(monthName) ?? 0
       this.hoursByMonth.set(
         monthName,
         parseFloat((minutesForMonth / 60).toFixed(3))
