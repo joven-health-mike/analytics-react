@@ -7,13 +7,7 @@ import DefaultGrid from "./mui/DefaultGrid"
 import DefaultGridItem from "./mui/DefaultGridItem"
 import CsvLoader from "./CsvLoader"
 import GreenCheckMark from "../icons/GreenCheckMark"
-import { buttonStyles } from "../styles/mixins"
-import styled from "styled-components"
-
-const CustomButton = styled.button`
-  ${buttonStyles}
-  width: 300px;
-`
+import DefaultButton from "./mui/DefaultButton"
 
 type UploadDataWidgetProps = {
   prompt: string
@@ -90,14 +84,14 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
         )}
       </DefaultGrid>
       {(hasData || dataLoaded) && (
-        <CustomButton
+        <DefaultButton
           onClick={() => {
             setAndSendData([])
             setAndSendData2([])
           }}
         >
           Clear All Data
-        </CustomButton>
+        </DefaultButton>
       )}
     </>
   )

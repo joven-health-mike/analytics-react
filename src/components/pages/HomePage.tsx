@@ -1,7 +1,5 @@
 // Copyright 2022 Social Fabric, LLC
 
-import styled from "styled-components"
-import { buttonStyles } from "../styles/mixins"
 import { useNavigate } from "react-router-dom"
 import DefaultGrid from "../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../widgets/mui/DefaultGridItem"
@@ -10,11 +8,7 @@ import UploadServiceDataWidget from "../widgets/UploadServiceDataWidget"
 import HorizontalLine from "../widgets/mui/HorizontalLine"
 import useSessionsPopulated from "../hooks/SessionsPopulated"
 import { useMemo } from "react"
-
-const CustomButton = styled.button`
-  ${buttonStyles}
-  width: 100%;
-`
+import DefaultButton from "../widgets/mui/DefaultButton"
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate()
@@ -69,9 +63,9 @@ const HomePage: React.FC = () => {
           {buttons.map((button, index) => {
             return button.shouldDisplay() ? (
               <DefaultGridItem key={index}>
-                <CustomButton onClick={button.onClick}>
+                <DefaultButton onClick={button.onClick}>
                   {button.name}
-                </CustomButton>
+                </DefaultButton>
               </DefaultGridItem>
             ) : (
               <></>

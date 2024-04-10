@@ -11,7 +11,10 @@ function App() {
   const { sessions: allSessions } = useContext(SessionsContext)
 
   const theme = createTheme({
-    palette: { primary: { main: "#385aa8" }, secondary: { main: "#4891ce" } },
+    palette: {
+      primary: { main: "#385aa8" },
+      secondary: { main: "#4891ce" },
+    },
     typography: {
       allVariants: {
         textAlign: "center",
