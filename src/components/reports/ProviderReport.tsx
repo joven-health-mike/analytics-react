@@ -15,11 +15,11 @@ import { sortMapByValue } from "../../utils/SortUtils"
 import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
-import { createSessionGroups } from "../../data/SessionGroups"
+import { createSessionGroups } from "../../data/models/SessionGroups"
 import {
   filterByCustomer as byCustomer,
   filterByType as byType,
-} from "../../data/Session"
+} from "../../data/models/Session"
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { ProviderNameContext } from "../../data/providers/providers"

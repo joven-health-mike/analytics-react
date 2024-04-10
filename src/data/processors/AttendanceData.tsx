@@ -1,28 +1,23 @@
 import {
+  MONTH_NAMES,
   getEarlierDate,
   getFirstDayOfWeekName,
   getLaterDate,
   getMonthName,
   monthOfYearIterator,
   weekIterator,
-  MONTH_NAMES,
-} from "../utils/DateUtils"
-import Session from "./Session"
+} from "../../utils/DateUtils"
+import Session from "../models/Session"
+import { ISessionProcessor } from "./ISessionProcessor"
 
 const superEarlyDate = new Date("01/01/2100")
 const superLateDate = new Date("01/01/2000")
 const START_MONTH = MONTH_NAMES.indexOf("July")
 
-export default class SessionGroupData {
-  numMinutes = 0
-  minutesByMonth: Map<string, number> = new Map()
-  hoursByMonth: Map<string, number> = new Map()
-
+class AttendanceData implements ISessionProcessor {
   numPresences = 0
   numAbsences = 0
   absentRate = 0
-
-  uniqueStudents: Map<string, number> = new Map()
 
   presencesByMonth: Map<string, number> = new Map()
   absencesByMonth: Map<string, number> = new Map()
@@ -32,30 +27,8 @@ export default class SessionGroupData {
   absencesByWeek: Map<string, number> = new Map()
   absenceRatesByWeek: Map<string, number> = new Map()
 
-  sessionTypeTimes: Map<string, number> = new Map()
-
   private earliestDate: Date = superEarlyDate
   private latestDate: Date = superLateDate
-
-  private calculateMinutesByMonth(session: Session): void {
-    const sessionDate = new Date(session.date)
-    const monthName = getMonthName(sessionDate)
-    const newHoursCount = this.minutesByMonth.get(monthName) ?? 0
-    const sessionTime = parseInt(session.totalTime)
-    this.minutesByMonth.set(monthName, newHoursCount + sessionTime)
-    this.numMinutes += sessionTime
-  }
-
-  private calculateHoursByMonth(): void {
-    // calculate absent rates for each month
-    for (const monthName of monthOfYearIterator(START_MONTH)) {
-      const minutesForMonth = this.minutesByMonth!.get(monthName) ?? 0
-      this.hoursByMonth.set(
-        monthName,
-        parseFloat((minutesForMonth / 60).toFixed(3))
-      )
-    }
-  }
 
   private calculateOverallAttendance(session: Session): void {
     if (session.isDirect() && session.isPresent()) {
@@ -116,40 +89,19 @@ export default class SessionGroupData {
     }
   }
 
-  private calculateSessionTypeTimes = (session: Session) => {
-    const newValue =
-      (this.sessionTypeTimes.get(session.enhancedServiceName()) ?? 0) +
-      parseInt(session.totalTime)
-
-    this.sessionTypeTimes.set(session.enhancedServiceName(), newValue)
-  }
-
-  private calculateUniqueStudents = (session: Session) => {
-    if (session.isDirect()) {
-      for (const studentName of session.sessionStudents) {
-        const newUniqueStudents = this.uniqueStudents.get(studentName) ?? 0
-        this.uniqueStudents.set(studentName, newUniqueStudents + 1)
-      }
-    }
-  }
-
-  processNewSession(session: Session): void {
+  processNewSession(session: Session) {
     const sessionDate = new Date(session.date)
     this.earliestDate = getEarlierDate(this.earliestDate, sessionDate)
     this.latestDate = getLaterDate(this.latestDate, sessionDate)
     this.calculateOverallAttendance(session)
     this.calculateMonthlyAttendance(session)
     this.calculateWeeklyAttendance(session)
-    this.calculateMinutesByMonth(session)
-    this.calculateSessionTypeTimes(session)
-    this.calculateUniqueStudents(session)
   }
 
-  finalize(): void {
+  finalize() {
     this.calculateOverallAbsentRates()
     this.calculateMonthlyAbsentRates()
     this.calculateWeeklyAbsentRates()
-    this.calculateHoursByMonth()
   }
 }
 
@@ -160,3 +112,5 @@ const calculateAbsentRate = (present: number, absent: number): number => {
     )
   )
 }
+
+export default AttendanceData

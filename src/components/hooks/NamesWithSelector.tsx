@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
-import SessionGroups from "../../data/SessionGroups"
+import SessionGroups from "../../data/models/SessionGroups"
 
 const useNamesWithSelector = (sessionGroups: SessionGroups) => {
   const [selected, setSelected] = useState<string>("")

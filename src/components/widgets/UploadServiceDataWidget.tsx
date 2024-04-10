@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import UploadDataWidget from "./UploadDataWidget"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import { createSession } from "../../data/Session"
+import { createSession } from "../../data/models/Session"
 import { adaptTeleTeachersData } from "../../utils/TeleTeachersAdapter"
 import { createItemsFromCsv } from "../../utils/CsvUtils"
 import useSessionsPopulated from "../hooks/SessionsPopulated"

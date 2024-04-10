@@ -1,4 +1,4 @@
-import { compareDates } from "../utils/DateUtils"
+import { compareDates } from "../../utils/DateUtils"
 import Session from "./Session"
 import SessionGroupData from "./SessionGroupData"
 
@@ -9,52 +9,56 @@ export default class SessionGroup {
 
   uniqueStudents(): number {
     this.loadMetrics()
-    return [...this.sessionGroupData.uniqueStudents.keys()].length
+    return [...this.sessionGroupData.uniqueStudents.uniqueStudents.keys()]
+      .length
   }
 
   totalHours(month?: string): number {
     this.loadMetrics()
     if (month) {
-      const hours = this.sessionGroupData.hoursByMonth.get(month) ?? 0
+      const hours =
+        this.sessionGroupData.sessionMinutes.hoursByMonth.get(month) ?? 0
       return hours
     } else {
-      return parseFloat((this.sessionGroupData.numMinutes / 60).toFixed(3))
+      return parseFloat(
+        (this.sessionGroupData.sessionMinutes.numMinutes / 60).toFixed(3)
+      )
     }
   }
 
   hoursByMonth(): Map<string, number> {
     this.loadMetrics()
-    return this.sessionGroupData.hoursByMonth
+    return this.sessionGroupData.sessionMinutes.hoursByMonth
   }
 
   presences(): number {
     this.loadMetrics()
-    return this.sessionGroupData.numPresences
+    return this.sessionGroupData.attendanceData.numPresences
   }
 
   absences(): number {
     this.loadMetrics()
-    return this.sessionGroupData.numAbsences
+    return this.sessionGroupData.attendanceData.numAbsences
   }
 
   absentRate(): number {
     this.loadMetrics()
-    return this.sessionGroupData.absentRate
+    return this.sessionGroupData.attendanceData.absentRate
   }
 
   noShowRatesByMonth(): Map<string, number> {
     this.loadMetrics()
-    return this.sessionGroupData.absenceRatesByMonth
+    return this.sessionGroupData.attendanceData.absenceRatesByMonth
   }
 
   noShowRatesByWeek(): Map<string, number> {
     this.loadMetrics()
-    return this.sessionGroupData.absenceRatesByWeek
+    return this.sessionGroupData.attendanceData.absenceRatesByWeek
   }
 
   sessionTypeTimes(): Map<string, number> {
     this.loadMetrics()
-    return this.sessionGroupData.sessionTypeTimes
+    return this.sessionGroupData.sessionTypeTimes.sessionTypeTimes
   }
 
   *filteredSessions(filter = (_: Session) => true): IterableIterator<Session> {
