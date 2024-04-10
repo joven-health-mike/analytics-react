@@ -1,7 +1,7 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { randomColor } from "../../utils/Colors"
-import { LineChart } from "../widgets/LineChart"
+import { LineChart } from "../widgets/chartjs/LineChart"
 
 type AllHoursLineChartProps = {
   chartTitle?: string

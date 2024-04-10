@@ -1,10 +1,10 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { useState } from "react"
-import DefaultSubHeader from "./DefaultSubHeader"
-import DefaultText from "./DefaultText"
-import DefaultGrid from "./DefaultGrid"
-import DefaultGridItem from "./DefaultGridItem"
+import DefaultSubHeader from "./mui/DefaultSubHeader"
+import DefaultText from "./mui/DefaultText"
+import DefaultGrid from "./mui/DefaultGrid"
+import DefaultGridItem from "./mui/DefaultGridItem"
 import CsvLoader from "./CsvLoader"
 import GreenCheckMark from "../icons/GreenCheckMark"
 import { buttonStyles } from "../styles/mixins"

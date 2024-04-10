@@ -1,7 +1,7 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { randomColor } from "../../utils/Colors"
-import { PieChart } from "../widgets/PieChart"
+import { PieChart } from "../widgets/chartjs/PieChart"
 
 const GRAPH_TRANSPARENCY = 0.6
 

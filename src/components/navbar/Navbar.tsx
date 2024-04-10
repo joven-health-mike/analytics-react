@@ -6,7 +6,7 @@ import { NavItem, allNavItems } from "./navBarItems"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { Link, useNavigate } from "react-router-dom"
 import { Button } from "@mui/material"
-import NavBarText from "../widgets/NavBarText"
+import NavBarText from "../widgets/mui/NavBarText"
 import useIsMobile from "../hooks/IsMobile"
 
 const ICON_COLOR = "#77caf2"

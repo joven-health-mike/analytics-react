@@ -2,7 +2,7 @@
 
 import { Route, Routes } from "react-router"
 import { AvailableRoutes } from "./AvailableRoutes"
-import DefaultHeader from "../components/widgets/DefaultHeader"
+import DefaultHeader from "../components/widgets/mui/DefaultHeader"
 
 const AppRouter: React.FC = () => {
   return (

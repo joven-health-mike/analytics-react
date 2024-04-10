@@ -1,8 +1,8 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { useContext } from "react"
-import DefaultHeader from "../widgets/DefaultHeader"
-import DefaultSelectInput from "../widgets/DefaultSelectInput"
+import DefaultHeader from "../widgets/mui/DefaultHeader"
+import DefaultSelectInput from "../widgets/mui/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import useNamesWithSelector from "../hooks/NamesWithSelector"

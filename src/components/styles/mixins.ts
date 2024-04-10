@@ -17,27 +17,4 @@ const buttonStyles = css`
   }
 `
 
-const h1Styles = css`
-  text-align: center;
-  color: ${azure};
-`
-
-const linkStyles = css`
-  color: ${azure} !important;
-`
-
-const spanStyles = css`
-  align-items: center !important;
-  display: flex !important;
-  margin-left: 16px;
-`
-
-const inputStyles = css`
-  display: block;
-  padding: 1px;
-  width: 25em !important;
-  margin: auto;
-  margin-bottom: 20px;
-`
-
-export { buttonStyles, h1Styles, linkStyles, spanStyles, inputStyles }
+export { buttonStyles }
