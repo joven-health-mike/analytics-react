@@ -13,6 +13,7 @@ import DefaultSubHeader from "../widgets/mui/DefaultSubHeader"
 import DefaultText from "../widgets/mui/DefaultText"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
+import { sortMapByValue } from "../../utils/SortUtils"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -37,10 +38,39 @@ const StudentReport: React.FC = () => {
     const numberOfHours = useMemo(() => {
       return currentSessionGroup.totalHours()
     }, [currentSessionGroup])
+    const monthlyReportData = useMemo(
+      () => currentSessionGroup.sessionTypeTimes(),
+      [studentSessionGroups, studentName]
+    )
+    const reportViews = useMemo(
+      () => [...monthlyReportViewGenerator(sortMapByValue(monthlyReportData))],
+      [monthlyReportData]
+    )
+
+    function* monthlyReportViewGenerator(
+      monthlyReportData: Map<string, number>
+    ) {
+      let i = 0
+      for (const [key, value] of monthlyReportData.entries()) {
+        yield (
+          <DefaultText key={i}>
+            {`${key}: ${(value / 60).toFixed(1)} hours`}
+          </DefaultText>
+        )
+        i++
+      }
+    }
 
     return (
       <DefaultGrid direction="column">
         <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <Box {...CHART_PROPS}>
+              <DefaultSubHeader>Total Service Hours Provided</DefaultSubHeader>
+              <>{reportViews}</>
+              <DefaultText>Total: {numberOfHours.toFixed(1)} hours</DefaultText>
+            </Box>
+          </DefaultGridItem>
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
               <NoShowPieChart
@@ -48,12 +78,6 @@ const StudentReport: React.FC = () => {
                 absences={absences}
                 presences={presences}
               />
-            </Box>
-          </DefaultGridItem>
-          <DefaultGridItem>
-            <Box {...CHART_PROPS}>
-              <DefaultSubHeader>Total Service Hours Provided</DefaultSubHeader>
-              <DefaultText>{numberOfHours.toFixed(1)} hours</DefaultText>
             </Box>
           </DefaultGridItem>
         </DefaultGrid>
