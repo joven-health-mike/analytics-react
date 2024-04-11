@@ -1,16 +1,16 @@
 // Copyright 2022 Social Fabric, LLC
 
 import React, { useContext, useMemo } from "react"
-import DefaultHeader from "../widgets/DefaultHeader"
+import DefaultHeader from "../widgets/mui/DefaultHeader"
 import { Box } from "@mui/material"
-import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
+import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import DefaultGrid from "../widgets/DefaultGrid"
-import DefaultGridItem from "../widgets/DefaultGridItem"
-import DefaultSubHeader from "../widgets/DefaultSubHeader"
-import DefaultText from "../widgets/DefaultText"
+import DefaultGrid from "../widgets/mui/DefaultGrid"
+import DefaultGridItem from "../widgets/mui/DefaultGridItem"
+import DefaultSubHeader from "../widgets/mui/DefaultSubHeader"
+import DefaultText from "../widgets/mui/DefaultText"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
 

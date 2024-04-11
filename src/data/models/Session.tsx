@@ -1,4 +1,4 @@
-import { formatDateStr } from "../utils/DateUtils"
+import { formatDateStr } from "../../utils/DateUtils"
 
 export default class Session {
   constructor(

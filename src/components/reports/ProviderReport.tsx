@@ -1,25 +1,25 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { ReactNode, useContext, useEffect, useMemo, useState } from "react"
-import DefaultHeader from "../widgets/DefaultHeader"
-import DefaultSubHeader from "../widgets/DefaultSubHeader"
+import DefaultHeader from "../widgets/mui/DefaultHeader"
+import DefaultSubHeader from "../widgets/mui/DefaultSubHeader"
 import { Box } from "@mui/material"
-import DefaultGrid from "../widgets/DefaultGrid"
-import DefaultGridItem from "../widgets/DefaultGridItem"
+import DefaultGrid from "../widgets/mui/DefaultGrid"
+import DefaultGridItem from "../widgets/mui/DefaultGridItem"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import { formatPercent } from "../../utils/MathUtils"
 import NoShowLineChart from "../charts/NoShowLineChart"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
+import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
 import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
-import { createSessionGroups } from "../../data/SessionGroups"
+import { createSessionGroups } from "../../data/models/SessionGroups"
 import {
   filterByCustomer as byCustomer,
   filterByType as byType,
-} from "../../data/Session"
+} from "../../data/models/Session"
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { ProviderNameContext } from "../../data/providers/providers"

@@ -12,11 +12,24 @@ function App() {
 
   const theme = createTheme({
     palette: {
-      primary: {
-        main: "#385aa8",
+      primary: { main: "#385aa8" },
+      secondary: { main: "#4891ce" },
+    },
+    typography: {
+      allVariants: {
+        textAlign: "center",
       },
-      secondary: {
-        main: "#77caf2",
+      h1: {
+        color: "#385aa8",
+      },
+      h2: {
+        color: "#385aa8",
+      },
+      h3: {
+        color: "#385aa8",
+      },
+      h4: {
+        color: "#385aa8",
       },
     },
   })

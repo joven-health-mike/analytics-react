@@ -1,13 +1,7 @@
 // Copyright 2022 Social Fabric, LLC
 
 import { useCSVReader } from "react-papaparse"
-import styled from "styled-components"
-import { buttonStyles } from "../styles/mixins"
-
-const CustomButton = styled.button`
-  ${buttonStyles}
-  width:250px;
-`
+import DefaultButton from "./mui/DefaultButton"
 
 type CsvLoaderProps = {
   buttonText: string
@@ -32,15 +26,15 @@ const CsvLoader: React.FC<CsvLoaderProps> = ({
         {({ getRootProps, ProgressBar, getRemoveFileProps }: any) => {
           return (
             <>
-              <CustomButton {...getRootProps()}>{buttonText}</CustomButton>
+              <DefaultButton {...getRootProps()}>{buttonText}</DefaultButton>
               {csvData && csvData.length > 0 && (
                 <>
-                  <CustomButton
+                  <DefaultButton
                     {...getRemoveFileProps()}
                     onClick={() => setCsvData([])}
                   >
                     Remove
-                  </CustomButton>
+                  </DefaultButton>
                 </>
               )}
               <ProgressBar />

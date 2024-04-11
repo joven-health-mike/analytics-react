@@ -8,10 +8,10 @@ import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
 import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "../charts/AllProvidersStackedBarChart"
-import DefaultAccordionGroup from "../widgets/DefaultAccordionGroup"
+import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import { SessionsContext } from "../../data/providers/SessionProvider"
-import SessionGroups from "../../data/SessionGroups"
+import SessionGroups from "../../data/models/SessionGroups"
 
 const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"

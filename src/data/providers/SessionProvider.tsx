@@ -2,14 +2,14 @@ import { ReactNode, createContext, useMemo, useState } from "react"
 import SessionGroups, {
   createEmptySessionGroups,
   createSessionGroups,
-} from "../SessionGroups"
-import Session from "../Session"
+} from "../models/SessionGroups"
+import Session from "../models/Session"
 import {
   filterByCustomer as byCustomer,
   filterByProvider as byProvider,
   filterByType as byType,
   filterByStudent as byStudent,
-} from "../Session"
+} from "../models/Session"
 
 export type SessionsDataProviderProps = {
   sessions: Session[]

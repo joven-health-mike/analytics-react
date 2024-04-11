@@ -1,6 +1,6 @@
 // Copyright 2022 Social Fabric, LLC
 
-import { LineChart } from "../widgets/LineChart"
+import { LineChart } from "../widgets/chartjs/LineChart"
 import { randomColor } from "../../utils/Colors"
 
 type NoShowLineChartProps = {

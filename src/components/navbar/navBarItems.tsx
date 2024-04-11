@@ -8,13 +8,7 @@ import {
   FaSchool,
   FaUserMd,
 } from "react-icons/fa"
-import styled from "styled-components"
 import image from "../../assets/Logo-192sq-alphabg.png"
-
-const Image = styled.img`
-  height: 19px;
-  width: 19px;
-`
 
 export type NavItem = {
   title: string
@@ -35,7 +29,7 @@ const ifStudentSessionsExist = (_: number, studentSessionsLength: number) =>
 export const allNavItems: NavItem[] = [
   {
     title: "",
-    icon: <Image src={image} alt="logo" />,
+    icon: <img src={image} alt="logo" height={"19px"} width={"19px"} />,
     path: "https://jovenhealth.com/",
     shouldDisplay: always,
   },

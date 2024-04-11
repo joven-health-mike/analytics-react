@@ -2,13 +2,7 @@
 
 import { ReactNode, useRef } from "react"
 import { useReactToPrint } from "react-to-print"
-import styled from "styled-components"
-import { buttonStyles } from "../styles/mixins"
-
-const CustomButton = styled.button`
-  ${buttonStyles}
-  width: 300px;
-`
+import DefaultButton from "./mui/DefaultButton"
 
 type PrintableProps = {
   docTitle: string
@@ -23,7 +17,7 @@ const Printable: React.FC<PrintableProps> = ({ docTitle, children }) => {
   })
   return (
     <>
-      <CustomButton onClick={handlePrint}>Download PDF</CustomButton>
+      <DefaultButton onClick={handlePrint}>Download PDF</DefaultButton>
       <div ref={componentRef}>{children}</div>
     </>
   )
