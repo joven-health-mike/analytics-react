@@ -49,10 +49,6 @@ const HomePage: React.FC = () => {
     ]
   )
 
-  // TODO: Add selection for "Joven" or "Customer" or "Provider" user type
-  // TODO: Add error handling for invalid file upload
-  // TODO: Documentation in README.md
-
   return (
     <>
       <DefaultHeader>Home</DefaultHeader>
