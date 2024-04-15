@@ -26,6 +26,11 @@ export default class SessionGroup {
     }
   }
 
+  hoursByDayOfWeek(): Map<string, number> {
+    this.loadMetrics()
+    return this.sessionGroupData.sessionMinutes.hoursByDayOfWeek
+  }
+
   hoursByMonth(): Map<string, number> {
     this.loadMetrics()
     return this.sessionGroupData.sessionMinutes.hoursByMonth

@@ -13,10 +13,30 @@ export const MONTH_NAMES = [
   "December",
 ]
 
+export const DAY_OF_WEEK_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+]
+
+export function* dayOfWeekIterator(shiftAmount: number = 0) {
+  for (let i = 0; i < DAY_OF_WEEK_NAMES.length; i++) {
+    yield DAY_OF_WEEK_NAMES[(i + shiftAmount) % DAY_OF_WEEK_NAMES.length]
+  }
+}
+
 export function* monthOfYearIterator(shiftAmount: number = 0) {
   for (let i = 0; i < MONTH_NAMES.length; i++) {
-    yield MONTH_NAMES[(i + shiftAmount) % 12]
+    yield MONTH_NAMES[(i + shiftAmount) % MONTH_NAMES.length]
   }
+}
+
+export const getDayOfWeekName = (date: Date) => {
+  return DAY_OF_WEEK_NAMES[date.getDay()]
 }
 
 export const todaysDate = () => {
