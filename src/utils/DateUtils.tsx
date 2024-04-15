@@ -131,14 +131,17 @@ export const getMonthName = (date: Date) => {
   return MONTH_NAMES[date.getMonth()]
 }
 
-export const sortMapByMonth = (map: Map<string, number>) => {
-  const entries = Array.from(map)
-  entries.sort((a, b) => monthComparator(a[0], b[0]))
-  return new Map(entries)
+export const sortMapByDayOfWeek = (
+  map: Map<string, number>
+): Map<string, number> => {
+  const sortedMap = new Map(
+    [...map.entries()].sort(([a], [b]) => dayOfWeekComparator(a, b))
+  )
+  return sortedMap
 }
 
-export const monthComparator = (a: string, b: string): number => {
-  return MONTH_NAMES.indexOf(a[0]) - MONTH_NAMES.indexOf(b[0])
+export const dayOfWeekComparator = (a: string, b: string): number => {
+  return DAY_OF_WEEK_NAMES.indexOf(a) - DAY_OF_WEEK_NAMES.indexOf(b)
 }
 
 export const getEarlierDate = (date1: Date, date2: Date) => {

@@ -9,6 +9,7 @@ import {
   MONTH_NAMES,
   dayOfWeekIterator,
   monthOfYearIterator,
+  sortMapByDayOfWeek,
 } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "../charts/AllProvidersStackedBarChart"
@@ -219,21 +220,20 @@ const JovenReport: React.FC = () => {
   /* HoursByDayOfWeekSection */
   const HoursByDayOfWeekSection: React.FC = () => {
     const dayOfWeekData = useMemo(() => {
-      let dayOfWeekData = new Map<string, number>()
+      let result = new Map<string, number>()
 
       for (const {
         dayOfWeek,
         hoursForDayOfWeek,
       } of generateHoursByDayOfWeekData(providerSessionGroups)) {
         if (hoursForDayOfWeek) {
-          let newHoursValue =
-            (dayOfWeekData.get(dayOfWeek) ?? 0) + hoursForDayOfWeek
+          let newHoursValue = (result.get(dayOfWeek) ?? 0) + hoursForDayOfWeek
           newHoursValue = parseFloat(newHoursValue.toFixed(0))
-          dayOfWeekData.set(dayOfWeek, newHoursValue)
+          result.set(dayOfWeek, newHoursValue)
         }
       }
 
-      return dayOfWeekData
+      return sortMapByDayOfWeek(result)
     }, [providerSessionGroups])
 
     return (
