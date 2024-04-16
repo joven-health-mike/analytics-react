@@ -10,6 +10,8 @@ import {
   dayOfWeekIterator,
   monthOfYearIterator,
   sortMapByDayOfWeek,
+  sortMapByWeek,
+  weekIterator,
 } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllProvidersStackedBarChart from "../charts/AllProvidersStackedBarChart"
@@ -44,6 +46,16 @@ const JovenReport: React.FC = () => {
       for (const dayOfWeek of dayOfWeekIterator()) {
         const hoursForDayOfWeek = sessionGroup.hoursByDayOfWeek().get(dayOfWeek)
         yield { dayOfWeek, hoursForDayOfWeek }
+      }
+    }
+  }
+
+  function* generateHoursByWeekData(sessionGroups: SessionGroups) {
+    for (const sessionGroup of sessionGroups) {
+      const { earliestDate, latestDate } = sessionGroup.dateRange()
+      for (const week of weekIterator(earliestDate, latestDate)) {
+        const hoursForDayOfWeek = sessionGroup.hoursByWeek().get(week)
+        yield { week, hoursForDayOfWeek }
       }
     }
   }
@@ -217,6 +229,31 @@ const JovenReport: React.FC = () => {
     )
   }
 
+  /* HoursByWeekSection */
+  const HoursByWeekSection: React.FC = () => {
+    const weekData = useMemo(() => {
+      let result = new Map<string, number>()
+
+      for (const { week, hoursForDayOfWeek } of generateHoursByWeekData(
+        providerSessionGroups
+      )) {
+        if (hoursForDayOfWeek) {
+          let newHoursValue = (result.get(week) ?? 0) + hoursForDayOfWeek
+          newHoursValue = parseFloat(newHoursValue.toFixed(0))
+          result.set(week, newHoursValue)
+        }
+      }
+
+      return sortMapByWeek(result)
+    }, [providerSessionGroups])
+
+    return (
+      <Box {...CHART_PROPS}>
+        <AllHoursLineChart chartTitle={"Hours by Week"} data={weekData} />
+      </Box>
+    )
+  }
+
   /* HoursByDayOfWeekSection */
   const HoursByDayOfWeekSection: React.FC = () => {
     const dayOfWeekData = useMemo(() => {
@@ -237,16 +274,12 @@ const JovenReport: React.FC = () => {
     }, [providerSessionGroups])
 
     return (
-      <>
-        {
-          <Box {...CHART_PROPS}>
-            <DayOfWeekHoursBarChart
-              chartTitle={"Hours by Day of Week"}
-              data={dayOfWeekData}
-            />
-          </Box>
-        }
-      </>
+      <Box {...CHART_PROPS}>
+        <DayOfWeekHoursBarChart
+          chartTitle={"Hours by Day of Week"}
+          data={dayOfWeekData}
+        />
+      </Box>
     )
   }
 
@@ -267,6 +300,7 @@ const JovenReport: React.FC = () => {
               "No-Show Rates by Customer",
               "No-Show Rates by Provider",
               "Hours by Day of Week",
+              "Hours by Week",
             ]}
             nodes={[
               <AllHoursLineSection />,
@@ -275,8 +309,9 @@ const JovenReport: React.FC = () => {
               <CustomerNoShowSection />,
               <ProviderNoShowSection />,
               <HoursByDayOfWeekSection />,
+              <HoursByWeekSection />,
             ]}
-            defaultExpanded={[true, true, true, true, true, true]}
+            defaultExpanded={[true, true, true, true, true, true, true]}
           />
         </Printable>
       </Box>

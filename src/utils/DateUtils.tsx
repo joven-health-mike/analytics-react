@@ -13,6 +13,21 @@ export const MONTH_NAMES = [
   "December",
 ]
 
+export const MONTH_NAMES_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+]
+
 export const DAY_OF_WEEK_NAMES = [
   "Sunday",
   "Monday",
@@ -129,6 +144,29 @@ export const getFirstDayOfWeekName = (date: Date) => {
 
 export const getMonthName = (date: Date) => {
   return MONTH_NAMES[date.getMonth()]
+}
+
+export const sortMapByWeek = (
+  map: Map<string, number>
+): Map<string, number> => {
+  const sortedMap = new Map(
+    [...map.entries()].sort(([a], [b]) => weekComparator(a, b))
+  )
+  return sortedMap
+}
+
+export const weekComparator = (a: string, b: string): number => {
+  const dateA = parseDate(a)
+  const dateB = parseDate(b)
+  return compareDates(dateA, dateB)
+}
+
+export const parseDate = (dateStr: string): Date => {
+  const [month, day, year] = dateStr.split(" ")
+  const formattedDateStr = `${
+    MONTH_NAMES_SHORT.indexOf(month) + 1
+  }/${day}/${year}`
+  return new Date(formattedDateStr)
 }
 
 export const sortMapByDayOfWeek = (
