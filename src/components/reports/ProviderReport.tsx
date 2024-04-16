@@ -16,6 +16,7 @@ import {
   MONTH_NAMES,
   monthOfYearIterator,
   sortMapByDayOfWeek,
+  sortMapByWeek,
 } from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
@@ -268,7 +269,21 @@ const ProviderReport: React.FC = () => {
     )
   }
 
-  /* ProviderCustomerStackedSection */
+  /* HoursByWeekSection */
+  const HoursByWeekSection: React.FC = () => {
+    const hoursByWeek = useMemo(
+      () => sortMapByWeek(currentSessionGroup.hoursByWeek()),
+      [currentSessionGroup]
+    )
+
+    return (
+      <Box {...CHART_PROPS}>
+        <AllHoursLineChart chartTitle={"Hours By Week"} data={hoursByWeek} />
+      </Box>
+    )
+  }
+
+  /* HoursByDayOfWeekSection */
   const HoursByDayOfWeekSection: React.FC = () => {
     const hoursByDayOfWeek = useMemo(
       () => sortMapByDayOfWeek(currentSessionGroup.hoursByDayOfWeek()),
@@ -306,6 +321,7 @@ const ProviderReport: React.FC = () => {
               "Services Delivered",
               "Customers Serviced",
               "Hours By Day of Week",
+              "Hours By Week",
             ]}
             nodes={[
               <ServiceOverviewSection />,
@@ -316,8 +332,19 @@ const ProviderReport: React.FC = () => {
               <ProviderHoursStackedSection />,
               <ProviderCustomerStackedSection />,
               <HoursByDayOfWeekSection />,
+              <HoursByWeekSection />,
             ]}
-            defaultExpanded={[false, true, true, true, true, true, true, true]}
+            defaultExpanded={[
+              false,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+            ]}
           />
         </Printable>
 
