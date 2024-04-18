@@ -8,6 +8,7 @@ import DefaultGridItem from "./mui/DefaultGridItem"
 import CsvLoader from "./CsvLoader"
 import GreenCheckMark from "../icons/GreenCheckMark"
 import DefaultButton from "./mui/DefaultButton"
+import { Box } from "@mui/material"
 
 type UploadDataWidgetProps = {
   prompt: string
@@ -63,7 +64,11 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
   return (
     <>
       <DefaultSubHeader>{prompt}</DefaultSubHeader>
-      {(hasData || dataLoaded) && <GreenCheckMark />}
+      {(hasData || dataLoaded) && (
+        <Box textAlign={"center"}>
+          <GreenCheckMark />
+        </Box>
+      )}
       <DefaultText>{subPrompt}</DefaultText>
       <DefaultGrid direction="row">
         <DefaultGridItem>
@@ -84,14 +89,17 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
         )}
       </DefaultGrid>
       {(hasData || dataLoaded) && (
-        <DefaultButton
-          onClick={() => {
-            setAndSendData([])
-            setAndSendData2([])
-          }}
-        >
-          Clear All Data
-        </DefaultButton>
+        <Box textAlign={"center"}>
+          <DefaultButton
+            width={500}
+            onClick={() => {
+              setAndSendData([])
+              setAndSendData2([])
+            }}
+          >
+            Clear All Data
+          </DefaultButton>
+        </Box>
       )}
     </>
   )

@@ -24,7 +24,7 @@ const DefaultToggleButton: React.FC<DefaultToggleButtonProps> = ({
     <ToggleButtonGroup value={selection} exclusive onChange={handleSelection}>
       {selectionOptions.map((option) => {
         return (
-          <ToggleButton value={option} aria-label={option}>
+          <ToggleButton key={option} value={option} aria-label={option}>
             {option}
           </ToggleButton>
         )
