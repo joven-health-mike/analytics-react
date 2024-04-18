@@ -24,6 +24,7 @@ const CHART_PROPS = {
 const StudentReport: React.FC = () => {
   const { studentSessionGroups } = useContext(SessionsContext)
   // TODO: What if a student name exists for multiple schools? Or the same name in a particular school?
+  // TODO: List out every session the student attended
   const { name: studentName, currentSessionGroup } = useCurrentSessionGroup(
     studentSessionGroups,
     StudentNameContext
