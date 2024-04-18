@@ -19,7 +19,7 @@ const AllHoursSection: React.FC = () => {
     "Week" | "Month"
   >("Week")
   const [chartSelection, setChartSelection] = useState<
-    "Service Types" | "Providers"
+    "Service Types" | "Providers" | "Customers"
   >("Service Types")
   const { customerSessionGroups } = useContext(SessionsContext)
   const {
@@ -27,6 +27,7 @@ const AllHoursSection: React.FC = () => {
     hoursByWeekGeneratorFactory,
     allHoursStackedGeneratorFactory,
     allProvidersStackedGeneratorFactory,
+    allCustomersStackedGeneratorFactory,
   } = useGeneratorFactories()
 
   return (
@@ -65,9 +66,11 @@ const AllHoursSection: React.FC = () => {
       <Paper elevation={4} sx={{ p: 2 }}>
         <Box sx={{ p: 5 }} textAlign={"center"}>
           <DefaultToggleButton
-            selectionOptions={["Service Types", "Providers"]}
+            selectionOptions={["Service Types", "Providers", "Customers"]}
             onSelectionChanged={(selection) =>
-              setChartSelection(selection as "Service Types" | "Providers")
+              setChartSelection(
+                selection as "Service Types" | "Providers" | "Customers"
+              )
             }
           />
         </Box>
@@ -76,10 +79,7 @@ const AllHoursSection: React.FC = () => {
             sessionGroups={customerSessionGroups}
             dataGeneratorFactory={allHoursStackedGeneratorFactory}
             chartFactory={(data) => (
-              <AllHoursStackedBarChart
-                chartTitle="Service Hours Delivered by Month"
-                data={data}
-              />
+              <AllHoursStackedBarChart chartTitle="Service Hours" data={data} />
             )}
           />
         )}
@@ -89,7 +89,19 @@ const AllHoursSection: React.FC = () => {
             dataGeneratorFactory={allProvidersStackedGeneratorFactory}
             chartFactory={(data) => (
               <AllProvidersStackedBarChart
-                chartTitle="Provider Hours Delivered by Month"
+                chartTitle="Provider Hours"
+                data={data}
+              />
+            )}
+          />
+        )}
+        {chartSelection === "Customers" && (
+          <StackedHoursSubsection
+            sessionGroups={customerSessionGroups}
+            dataGeneratorFactory={allCustomersStackedGeneratorFactory}
+            chartFactory={(data) => (
+              <AllProvidersStackedBarChart
+                chartTitle="Customer Hours"
                 data={data}
               />
             )}

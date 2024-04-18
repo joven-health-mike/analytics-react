@@ -12,7 +12,7 @@ import {
 } from "../../data/generators/HoursGenerator"
 
 const useGeneratorFactories = () => {
-  const { typeSessionGroups, providerSessionGroups } =
+  const { typeSessionGroups, providerSessionGroups, customerSessionGroups } =
     useContext(SessionsContext)
 
   const totalHoursGeneratorFactory = useCallback(
@@ -60,12 +60,23 @@ const useGeneratorFactories = () => {
       ),
     [providerSessionGroups]
   )
+  const allCustomersStackedGeneratorFactory = useCallback(
+    () =>
+      generateHoursByMonthData(
+        customerSessionGroups,
+        monthOfYearIteratorFactory,
+        totalHoursData
+      ),
+    [providerSessionGroups]
+  )
+
   return {
     totalHoursGeneratorFactory,
     hoursByWeekGeneratorFactory,
     hoursByDayOfWeekGeneratorFactory,
     allHoursStackedGeneratorFactory,
     allProvidersStackedGeneratorFactory,
+    allCustomersStackedGeneratorFactory,
   }
 }
 
