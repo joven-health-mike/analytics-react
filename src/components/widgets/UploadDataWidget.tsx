@@ -88,7 +88,7 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
           </DefaultGridItem>
         )}
       </DefaultGrid>
-      {(hasData || dataLoaded) && (
+      {(hasData || dataLoaded) && enableSecondOption && (
         <Box textAlign={"center"}>
           <DefaultButton
             width={500}

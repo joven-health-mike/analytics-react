@@ -10,14 +10,16 @@ const DefaultToggleButton: React.FC<DefaultToggleButtonProps> = ({
   selectionOptions,
   onSelectionChanged,
 }) => {
-  const [selection, setSelection] = React.useState<string>(selectionOptions[0])
+  const [selection, setSelection] = React.useState<string | null>(null)
 
   const handleSelection = (
     _: React.MouseEvent<HTMLElement>,
     newSelection: string
   ) => {
-    setSelection(newSelection)
-    onSelectionChanged(newSelection)
+    if (newSelection) {
+      setSelection(newSelection)
+      onSelectionChanged(newSelection)
+    }
   }
 
   return (
