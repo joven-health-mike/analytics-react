@@ -12,9 +12,9 @@ const UploadServiceDataWidget: React.FC = () => {
   return (
     <>
       <UploadDataWidget
-        prompt="Upload Service Data"
-        subPrompt="Service data can be uploaded in either SAD or TeleTeachers format. Select the appropriate format below."
-        button1Text={"Upload SAD Format"}
+        prompt="Upload"
+        subPrompt="Select your data export file to upload."
+        button1Text={"Upload"}
         hasData={sessionsPopulated}
         onDataLoaded={(data: string[][]) => {
           createItemsFromCsv(data, setSessions, createSession)

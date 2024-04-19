@@ -2,6 +2,7 @@
 
 import { useCSVReader } from "react-papaparse"
 import DefaultButton from "./mui/DefaultButton"
+import { Box } from "@mui/material"
 
 type CsvLoaderProps = {
   buttonText: string
@@ -26,16 +27,18 @@ const CsvLoader: React.FC<CsvLoaderProps> = ({
         {({ getRootProps, ProgressBar, getRemoveFileProps }: any) => {
           return (
             <>
-              <DefaultButton {...getRootProps()}>{buttonText}</DefaultButton>
+              {(!csvData || csvData.length === 0) && (
+                <DefaultButton {...getRootProps()}>{buttonText}</DefaultButton>
+              )}
               {csvData && csvData.length > 0 && (
-                <>
+                <Box sx={{ pt: 2, pb: 2 }}>
                   <DefaultButton
                     {...getRemoveFileProps()}
                     onClick={() => setCsvData([])}
                   >
                     Remove
                   </DefaultButton>
-                </>
+                </Box>
               )}
               <ProgressBar />
             </>
