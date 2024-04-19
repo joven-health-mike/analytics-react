@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react"
 import DefaultAccordion from "./DefaultAccordion"
+import { Paper } from "@mui/material"
 
 type DefaultAccordionGroupProps = {
   nodes: ReactNode[]
@@ -24,7 +25,7 @@ const DefaultAccordionGroup: React.FC<DefaultAccordionGroupProps> = ({
               label={labels[index]}
               defaultExpanded={defaultExpanded ? defaultExpanded[index] : false}
             >
-              {node}
+              <Paper elevation={4}>{node}</Paper>
             </DefaultAccordion>
           )
       )}

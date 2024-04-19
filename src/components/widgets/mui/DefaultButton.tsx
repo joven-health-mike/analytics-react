@@ -5,16 +5,20 @@ import { ReactNode } from "react"
 
 type DefaultButtonProps = {
   onClick?: () => void
-  width?: string
+  width?: string | number
   children?: ReactNode
 }
 
-const DefaultButton: React.FC<DefaultButtonProps> = ({ onClick, children }) => {
+const DefaultButton: React.FC<DefaultButtonProps> = ({
+  onClick,
+  width = 300,
+  children,
+}) => {
   return (
     <Button
       onClick={onClick}
       sx={{
-        width: 300,
+        width: width,
         backgroundColor: "primary.main",
         color: "#fff",
         ":hover": {

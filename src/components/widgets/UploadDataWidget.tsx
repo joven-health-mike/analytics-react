@@ -8,6 +8,7 @@ import DefaultGridItem from "./mui/DefaultGridItem"
 import CsvLoader from "./CsvLoader"
 import GreenCheckMark from "../icons/GreenCheckMark"
 import DefaultButton from "./mui/DefaultButton"
+import { Alert, Box } from "@mui/material"
 
 type UploadDataWidgetProps = {
   prompt: string
@@ -63,8 +64,17 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
   return (
     <>
       <DefaultSubHeader>{prompt}</DefaultSubHeader>
-      {(hasData || dataLoaded) && <GreenCheckMark />}
-      <DefaultText>{subPrompt}</DefaultText>
+      {(hasData || dataLoaded) && (
+        <>
+          <Box textAlign={"center"}>
+            <GreenCheckMark />
+            <Alert severity="success" variant="outlined">
+              Data uploaded successfully.
+            </Alert>
+          </Box>
+        </>
+      )}
+      {!(hasData || dataLoaded) && <DefaultText>{subPrompt}</DefaultText>}
       <DefaultGrid direction="row">
         <DefaultGridItem>
           <CsvLoader
@@ -83,15 +93,18 @@ const UploadDataWidget: React.FC<UploadDataWidgetProps> = ({
           </DefaultGridItem>
         )}
       </DefaultGrid>
-      {(hasData || dataLoaded) && (
-        <DefaultButton
-          onClick={() => {
-            setAndSendData([])
-            setAndSendData2([])
-          }}
-        >
-          Clear All Data
-        </DefaultButton>
+      {(hasData || dataLoaded) && enableSecondOption && (
+        <Box textAlign={"center"}>
+          <DefaultButton
+            width={500}
+            onClick={() => {
+              setAndSendData([])
+              setAndSendData2([])
+            }}
+          >
+            Clear All Data
+          </DefaultButton>
+        </Box>
       )}
     </>
   )

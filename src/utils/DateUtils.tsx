@@ -13,10 +13,45 @@ export const MONTH_NAMES = [
   "December",
 ]
 
+export const MONTH_NAMES_SHORT = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+]
+
+export const DAY_OF_WEEK_NAMES = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+]
+
+export function* dayOfWeekIterator(shiftAmount: number = 0) {
+  for (let i = 0; i < DAY_OF_WEEK_NAMES.length; i++) {
+    yield DAY_OF_WEEK_NAMES[(i + shiftAmount) % DAY_OF_WEEK_NAMES.length]
+  }
+}
+
 export function* monthOfYearIterator(shiftAmount: number = 0) {
   for (let i = 0; i < MONTH_NAMES.length; i++) {
-    yield MONTH_NAMES[(i + shiftAmount) % 12]
+    yield MONTH_NAMES[(i + shiftAmount) % MONTH_NAMES.length]
   }
+}
+
+export const getDayOfWeekName = (date: Date) => {
+  return DAY_OF_WEEK_NAMES[date.getDay()]
 }
 
 export const todaysDate = () => {
@@ -111,14 +146,40 @@ export const getMonthName = (date: Date) => {
   return MONTH_NAMES[date.getMonth()]
 }
 
-export const sortMapByMonth = (map: Map<string, number>) => {
-  const entries = Array.from(map)
-  entries.sort((a, b) => monthComparator(a[0], b[0]))
-  return new Map(entries)
+export const sortMapByWeek = (
+  map: Map<string, number>
+): Map<string, number> => {
+  const sortedMap = new Map(
+    [...map.entries()].sort(([a], [b]) => weekComparator(a, b))
+  )
+  return sortedMap
 }
 
-export const monthComparator = (a: string, b: string): number => {
-  return MONTH_NAMES.indexOf(a[0]) - MONTH_NAMES.indexOf(b[0])
+export const weekComparator = (a: string, b: string): number => {
+  const dateA = parseDate(a)
+  const dateB = parseDate(b)
+  return compareDates(dateA, dateB)
+}
+
+export const parseDate = (dateStr: string): Date => {
+  const [month, day, year] = dateStr.split(" ")
+  const formattedDateStr = `${
+    MONTH_NAMES_SHORT.indexOf(month) + 1
+  }/${day}/${year}`
+  return new Date(formattedDateStr)
+}
+
+export const sortMapByDayOfWeek = (
+  map: Map<string, number>
+): Map<string, number> => {
+  const sortedMap = new Map(
+    [...map.entries()].sort(([a], [b]) => dayOfWeekComparator(a, b))
+  )
+  return sortedMap
+}
+
+export const dayOfWeekComparator = (a: string, b: string): number => {
+  return DAY_OF_WEEK_NAMES.indexOf(a) - DAY_OF_WEEK_NAMES.indexOf(b)
 }
 
 export const getEarlierDate = (date1: Date, date2: Date) => {

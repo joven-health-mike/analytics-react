@@ -13,6 +13,14 @@ export default class SessionGroup {
       .length
   }
 
+  dateRange(): { earliestDate: Date; latestDate: Date } {
+    this.loadMetrics()
+    return {
+      earliestDate: this.sessionGroupData.sessionMinutes.earliestDate,
+      latestDate: this.sessionGroupData.sessionMinutes.latestDate,
+    }
+  }
+
   totalHours(month?: string): number {
     this.loadMetrics()
     if (month) {
@@ -24,6 +32,16 @@ export default class SessionGroup {
         (this.sessionGroupData.sessionMinutes.numMinutes / 60).toFixed(3)
       )
     }
+  }
+
+  hoursByDayOfWeek(): Map<string, number> {
+    this.loadMetrics()
+    return this.sessionGroupData.sessionMinutes.hoursByDayOfWeek
+  }
+
+  hoursByWeek(): Map<string, number> {
+    this.loadMetrics()
+    return this.sessionGroupData.sessionMinutes.hoursByWeek
   }
 
   hoursByMonth(): Map<string, number> {

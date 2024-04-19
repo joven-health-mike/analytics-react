@@ -12,7 +12,12 @@ import NoShowLineChart from "../charts/NoShowLineChart"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import { sortMapByValue } from "../../utils/SortUtils"
-import { MONTH_NAMES, monthOfYearIterator } from "../../utils/DateUtils"
+import {
+  MONTH_NAMES,
+  monthOfYearIterator,
+  sortMapByDayOfWeek,
+  sortMapByWeek,
+} from "../../utils/DateUtils"
 import AllHoursLineChart from "../charts/AllHoursLineChart"
 import AllHoursStackedBarChart from "../charts/AllHoursStackedBarChart"
 import { createSessionGroups } from "../../data/models/SessionGroups"
@@ -23,6 +28,7 @@ import {
 import Printable from "../widgets/Printable"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { ProviderNameContext } from "../../data/providers/providers"
+import DayOfWeekHoursBarChart from "../charts/DayOfWeekHoursBarChart"
 
 const CHART_MONTH_OFFSET = MONTH_NAMES.indexOf("July")
 const CHART_PROPS = {
@@ -263,6 +269,37 @@ const ProviderReport: React.FC = () => {
     )
   }
 
+  /* HoursByWeekSection */
+  const HoursByWeekSection: React.FC = () => {
+    const hoursByWeek = useMemo(
+      () => sortMapByWeek(currentSessionGroup.hoursByWeek()),
+      [currentSessionGroup]
+    )
+
+    return (
+      <Box {...CHART_PROPS}>
+        <AllHoursLineChart chartTitle={"Hours By Week"} data={hoursByWeek} />
+      </Box>
+    )
+  }
+
+  /* HoursByDayOfWeekSection */
+  const HoursByDayOfWeekSection: React.FC = () => {
+    const hoursByDayOfWeek = useMemo(
+      () => sortMapByDayOfWeek(currentSessionGroup.hoursByDayOfWeek()),
+      [currentSessionGroup]
+    )
+
+    return (
+      <Box {...CHART_PROPS}>
+        <DayOfWeekHoursBarChart
+          chartTitle={"Hours By Day of Week"}
+          data={hoursByDayOfWeek}
+        />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Box
@@ -283,6 +320,8 @@ const ProviderReport: React.FC = () => {
               "Hours Delivered",
               "Services Delivered",
               "Customers Serviced",
+              "Hours By Day of Week",
+              "Hours By Week",
             ]}
             nodes={[
               <ServiceOverviewSection />,
@@ -292,8 +331,20 @@ const ProviderReport: React.FC = () => {
               <ProviderHoursLineSection />,
               <ProviderHoursStackedSection />,
               <ProviderCustomerStackedSection />,
+              <HoursByDayOfWeekSection />,
+              <HoursByWeekSection />,
             ]}
-            defaultExpanded={[false, true, true, true, true, true, true]}
+            defaultExpanded={[
+              false,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+              true,
+            ]}
           />
         </Printable>
 

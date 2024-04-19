@@ -14,6 +14,8 @@ import DefaultText from "../widgets/mui/DefaultText"
 import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
 import { sortMapByValue } from "../../utils/SortUtils"
+import { sortMapByWeek } from "../../utils/DateUtils"
+import AllHoursLineChart from "../charts/AllHoursLineChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -22,6 +24,7 @@ const CHART_PROPS = {
 const StudentReport: React.FC = () => {
   const { studentSessionGroups } = useContext(SessionsContext)
   // TODO: What if a student name exists for multiple schools? Or the same name in a particular school?
+  // TODO: List out every session the student attended
   const { name: studentName, currentSessionGroup } = useCurrentSessionGroup(
     studentSessionGroups,
     StudentNameContext
@@ -46,6 +49,9 @@ const StudentReport: React.FC = () => {
       () => [...monthlyReportViewGenerator(sortMapByValue(monthlyReportData))],
       [monthlyReportData]
     )
+    const hoursByWeek = useMemo(() => {
+      return sortMapByWeek(currentSessionGroup.hoursByWeek())
+    }, [currentSessionGroup])
 
     function* monthlyReportViewGenerator(
       monthlyReportData: Map<string, number>
@@ -77,6 +83,16 @@ const StudentReport: React.FC = () => {
                 chartTitle="Attendance"
                 absences={absences}
                 presences={presences}
+              />
+            </Box>
+          </DefaultGridItem>
+        </DefaultGrid>
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <Box {...CHART_PROPS}>
+              <AllHoursLineChart
+                chartTitle="Hours By Week"
+                data={hoursByWeek}
               />
             </Box>
           </DefaultGridItem>

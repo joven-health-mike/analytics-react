@@ -12,6 +12,7 @@ const DefaultGridItem: React.FC<DefaultGridItemProps> = ({ children }) => {
     <>
       <Grid
         item
+        textAlign={"center"}
         xs={true}
         sm={true}
         md={true}

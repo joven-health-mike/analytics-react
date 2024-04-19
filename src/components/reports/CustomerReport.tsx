@@ -16,6 +16,8 @@ import NoShowLineChart from "../charts/NoShowLineChart"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { CustomerNameContext } from "../../data/providers/providers"
+import DayOfWeekHoursBarChart from "../charts/DayOfWeekHoursBarChart"
+import { sortMapByDayOfWeek, sortMapByWeek } from "../../utils/DateUtils"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -94,6 +96,14 @@ const CustomerReport: React.FC = () => {
       () => currentSessionGroup.hoursByMonth(),
       [currentSessionGroup]
     )
+    const hoursByDayOfWeek = useMemo(
+      () => sortMapByDayOfWeek(currentSessionGroup.hoursByDayOfWeek()),
+      [currentSessionGroup]
+    )
+    const hoursByWeek = useMemo(
+      () => sortMapByWeek(currentSessionGroup.hoursByWeek()),
+      [currentSessionGroup]
+    )
 
     return (
       <DefaultGrid direction="column">
@@ -130,6 +140,26 @@ const CustomerReport: React.FC = () => {
               <NoShowLineChart
                 chartTitle="Absent Rates By Month"
                 data={absentRateByMonth}
+              />
+            </Box>
+          </DefaultGridItem>
+        </DefaultGrid>
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <Box {...CHART_PROPS}>
+              <DayOfWeekHoursBarChart
+                chartTitle="Hours by Day of Week"
+                data={hoursByDayOfWeek}
+              />
+            </Box>
+          </DefaultGridItem>
+        </DefaultGrid>
+        <DefaultGrid direction="row">
+          <DefaultGridItem>
+            <Box {...CHART_PROPS}>
+              <AllHoursLineChart
+                chartTitle="Hours by Week"
+                data={hoursByWeek}
               />
             </Box>
           </DefaultGridItem>

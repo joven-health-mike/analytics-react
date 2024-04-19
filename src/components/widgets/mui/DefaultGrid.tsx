@@ -14,7 +14,7 @@ const DefaultGrid: React.FC<DefaultGridProps> = ({
 }) => {
   return (
     <>
-      <Grid container direction={direction} alignItems={"center"} sx={{ p: 1 }}>
+      <Grid container direction={direction} sx={{ p: 1 }}>
         {children}
       </Grid>
     </>
