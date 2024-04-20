@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react"
-import SessionGroups from "../../../data/models/SessionGroups"
 import { Box, Paper } from "@mui/material"
 import useGeneratorFactories from "../../hooks/GeneratorFactories"
 import AllHoursLineChart from "../../charts/AllHoursLineChart"
@@ -13,24 +12,25 @@ const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
 }
 
-type AllHoursSectionProps = {
-  sessionGroups: SessionGroups
+type HoursSectionProps = {
+  currentSessionGroup: SessionGroup
 }
 
-const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
+const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
   const [timeFrameSelection, setTimeFrameSelection] = useState<
     "Week" | "Month"
   >("Week")
   const [chartSelection, setChartSelection] = useState<
-    "Service Types" | "Providers" | "Customers"
+    "Service Types" | "Customers"
   >("Service Types")
   const {
     totalHoursGeneratorFactory,
     hoursByWeekGeneratorFactory,
     allHoursStackedGeneratorFactory,
-    allProvidersStackedGeneratorFactory,
     allCustomersStackedGeneratorFactory,
   } = useGeneratorFactories()
+
+  // TODO: All sessions are being added up. Instead, we should only be adding up the sessions for the current session group
 
   return (
     <>
@@ -45,7 +45,6 @@ const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
         </Box>
         {timeFrameSelection === "Week" && (
           <HoursSubsection
-            sessionGroups={sessionGroups}
             dataGeneratorFactory={hoursByWeekGeneratorFactory}
             chartFactory={(data) => (
               <AllHoursLineChart
@@ -57,7 +56,6 @@ const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
         )}
         {timeFrameSelection === "Month" && (
           <HoursSubsection
-            sessionGroups={sessionGroups}
             dataGeneratorFactory={totalHoursGeneratorFactory}
             chartFactory={(data) => (
               <AllHoursLineChart chartTitle="Hours by Month" data={data} />
@@ -70,36 +68,20 @@ const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
           <DefaultToggleButton
             selectionOptions={["Service Types", "Providers", "Customers"]}
             onSelectionChanged={(selection) =>
-              setChartSelection(
-                selection as "Service Types" | "Providers" | "Customers"
-              )
+              setChartSelection(selection as "Service Types" | "Customers")
             }
           />
         </Box>
         {chartSelection === "Service Types" && (
           <StackedHoursSubsection
-            sessionGroups={sessionGroups}
             dataGeneratorFactory={allHoursStackedGeneratorFactory}
             chartFactory={(data) => (
               <AllHoursStackedBarChart chartTitle="Service Hours" data={data} />
             )}
           />
         )}
-        {chartSelection === "Providers" && (
-          <StackedHoursSubsection
-            sessionGroups={sessionGroups}
-            dataGeneratorFactory={allProvidersStackedGeneratorFactory}
-            chartFactory={(data) => (
-              <AllProvidersStackedBarChart
-                chartTitle="Provider Hours"
-                data={data}
-              />
-            )}
-          />
-        )}
         {chartSelection === "Customers" && (
           <StackedHoursSubsection
-            sessionGroups={sessionGroups}
             dataGeneratorFactory={allCustomersStackedGeneratorFactory}
             chartFactory={(data) => (
               <AllProvidersStackedBarChart
@@ -115,7 +97,6 @@ const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
 }
 
 type HoursSubsectionProps = {
-  sessionGroups: SessionGroups
   dataGeneratorFactory: () => Generator<
     {
       timeFrame: string
@@ -128,7 +109,6 @@ type HoursSubsectionProps = {
 }
 
 const HoursSubsection: React.FC<HoursSubsectionProps> = ({
-  sessionGroups,
   dataGeneratorFactory,
   chartFactory,
 }) => {
@@ -146,13 +126,12 @@ const HoursSubsection: React.FC<HoursSubsectionProps> = ({
     }
 
     return newData
-  }, [sessionGroups])
+  }, [dataGeneratorFactory])
 
   return <Box {...CHART_PROPS}>{chartFactory(hoursData)}</Box>
 }
 
 type StackedHoursSubsectionProps = {
-  sessionGroups: SessionGroups
   dataGeneratorFactory: () => Generator<
     { sessionGroup: SessionGroup; hoursData: Map<string, number> },
     void,
@@ -162,7 +141,6 @@ type StackedHoursSubsectionProps = {
 }
 
 const StackedHoursSubsection: React.FC<StackedHoursSubsectionProps> = ({
-  sessionGroups,
   dataGeneratorFactory,
   chartFactory,
 }) => {
@@ -174,9 +152,9 @@ const StackedHoursSubsection: React.FC<StackedHoursSubsectionProps> = ({
     }
 
     return newData
-  }, [sessionGroups])
+  }, [dataGeneratorFactory])
 
   return <Box {...CHART_PROPS}>{chartFactory(hoursData)}</Box>
 }
 
-export default AllHoursSection
+export default HoursSection

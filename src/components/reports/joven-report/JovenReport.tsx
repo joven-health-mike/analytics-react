@@ -5,10 +5,14 @@ import DefaultAccordionGroup from "../../widgets/mui/DefaultAccordionGroup"
 import Printable from "../../widgets/Printable"
 import AllHoursSection from "./AllHoursSection"
 import AllNoShowSection from "./AllNoShowSection"
+import { SessionsContext } from "../../../data/providers/SessionProvider"
+import { useContext } from "react"
 
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
 
 const JovenReport: React.FC = () => {
+  const { customerSessionGroups } = useContext(SessionsContext)
+
   return (
     <>
       <Box
@@ -20,7 +24,10 @@ const JovenReport: React.FC = () => {
         <Printable docTitle={`${PDF_DOWNLOAD_FILENAME}.pdf`}>
           <DefaultAccordionGroup
             labels={["Hours Delivered", "No-Show Rates"]}
-            nodes={[<AllHoursSection />, <AllNoShowSection />]}
+            nodes={[
+              <AllHoursSection sessionGroups={customerSessionGroups} />,
+              <AllNoShowSection />,
+            ]}
             defaultExpanded={[true, true, true, true, true, true, true]}
           />
         </Printable>
