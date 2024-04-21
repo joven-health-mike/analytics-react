@@ -7,6 +7,11 @@ import AllHoursStackedBarChart from "../../charts/AllHoursStackedBarChart"
 import AllProvidersStackedBarChart from "../../charts/AllProvidersStackedBarChart"
 import { sortMapByWeek } from "../../../utils/DateUtils"
 import DefaultToggleButton from "../../widgets/mui/DefaultToggleButton"
+import {
+  createEmptySessionGroups,
+  createSessionGroups,
+} from "../../../data/models/SessionGroups"
+import { filterByCustomer, filterByType } from "../../../data/models/Session"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -28,9 +33,11 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
     hoursByWeekGeneratorFactory,
     allHoursStackedGeneratorFactory,
     allCustomersStackedGeneratorFactory,
-  } = useGeneratorFactories()
-
-  // TODO: All sessions are being added up. Instead, we should only be adding up the sessions for the current session group
+  } = useGeneratorFactories(
+    createSessionGroups([...currentSessionGroup.sessions], filterByType),
+    createEmptySessionGroups(),
+    createSessionGroups([...currentSessionGroup.sessions], filterByCustomer)
+  )
 
   return (
     <>
@@ -66,7 +73,7 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
       <Paper elevation={4} sx={{ p: 2 }}>
         <Box sx={{ p: 5 }} textAlign={"center"}>
           <DefaultToggleButton
-            selectionOptions={["Service Types", "Providers", "Customers"]}
+            selectionOptions={["Service Types", "Customers"]}
             onSelectionChanged={(selection) =>
               setChartSelection(selection as "Service Types" | "Customers")
             }

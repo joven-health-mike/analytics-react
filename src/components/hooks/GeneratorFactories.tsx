@@ -1,5 +1,4 @@
-import { useCallback, useContext } from "react"
-import { SessionsContext } from "../../data/providers/SessionProvider"
+import { useCallback } from "react"
 import {
   dayOfWeekIteratorFactory,
   generateHoursByMonthData,
@@ -10,11 +9,13 @@ import {
   totalHoursData,
   weekIteratorFactory,
 } from "../../data/generators/HoursGenerator"
+import SessionGroups from "../../data/models/SessionGroups"
 
-const useGeneratorFactories = () => {
-  const { typeSessionGroups, providerSessionGroups, customerSessionGroups } =
-    useContext(SessionsContext)
-
+const useGeneratorFactories = (
+  typeSessionGroups: SessionGroups,
+  providerSessionGroups: SessionGroups,
+  customerSessionGroups: SessionGroups
+) => {
   const totalHoursGeneratorFactory = useCallback(
     () =>
       generateHoursData(
@@ -67,7 +68,7 @@ const useGeneratorFactories = () => {
         monthOfYearIteratorFactory,
         totalHoursData
       ),
-    [providerSessionGroups]
+    [customerSessionGroups]
   )
 
   return {

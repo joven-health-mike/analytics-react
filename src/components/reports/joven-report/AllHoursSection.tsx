@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useContext, useMemo, useState } from "react"
 import SessionGroups from "../../../data/models/SessionGroups"
 import { Box, Paper } from "@mui/material"
 import useGeneratorFactories from "../../hooks/GeneratorFactories"
@@ -8,6 +8,7 @@ import AllHoursStackedBarChart from "../../charts/AllHoursStackedBarChart"
 import AllProvidersStackedBarChart from "../../charts/AllProvidersStackedBarChart"
 import { sortMapByWeek } from "../../../utils/DateUtils"
 import DefaultToggleButton from "../../widgets/mui/DefaultToggleButton"
+import { SessionsContext } from "../../../data/providers/SessionProvider"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -18,6 +19,8 @@ type AllHoursSectionProps = {
 }
 
 const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
+  const { customerSessionGroups, providerSessionGroups } =
+    useContext(SessionsContext)
   const [timeFrameSelection, setTimeFrameSelection] = useState<
     "Week" | "Month"
   >("Week")
@@ -30,7 +33,11 @@ const AllHoursSection: React.FC<AllHoursSectionProps> = ({ sessionGroups }) => {
     allHoursStackedGeneratorFactory,
     allProvidersStackedGeneratorFactory,
     allCustomersStackedGeneratorFactory,
-  } = useGeneratorFactories()
+  } = useGeneratorFactories(
+    sessionGroups,
+    providerSessionGroups,
+    customerSessionGroups
+  )
 
   return (
     <>
