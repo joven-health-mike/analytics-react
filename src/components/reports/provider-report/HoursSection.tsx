@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react"
 import { Box, Paper } from "@mui/material"
 import useGeneratorFactories from "../../hooks/GeneratorFactories"
-import AllHoursLineChart from "../../charts/AllHoursLineChart"
 import SessionGroup from "../../../data/models/SessionGroup"
 import AllHoursStackedBarChart from "../../charts/AllHoursStackedBarChart"
 import AllProvidersStackedBarChart from "../../charts/AllProvidersStackedBarChart"
@@ -12,6 +11,8 @@ import {
   createSessionGroups,
 } from "../../../data/models/SessionGroups"
 import { filterByCustomer, filterByType } from "../../../data/models/Session"
+import { LineChartDataGenerator } from "../../charts/IChartDataGenerator"
+import { LineChart } from "../../widgets/chartjs/LineChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -54,9 +55,11 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
           <HoursSubsection
             dataGeneratorFactory={hoursByWeekGeneratorFactory}
             chartFactory={(data) => (
-              <AllHoursLineChart
+              <LineChart
                 chartTitle="Hours by Week"
-                data={sortMapByWeek(data)}
+                dataGenerator={
+                  new LineChartDataGenerator(sortMapByWeek(data), "Hours")
+                }
               />
             )}
           />
@@ -65,7 +68,10 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
           <HoursSubsection
             dataGeneratorFactory={totalHoursGeneratorFactory}
             chartFactory={(data) => (
-              <AllHoursLineChart chartTitle="Hours by Month" data={data} />
+              <LineChart
+                chartTitle="Hours by Month"
+                dataGenerator={new LineChartDataGenerator(data, "Hours")}
+              />
             )}
           />
         )}

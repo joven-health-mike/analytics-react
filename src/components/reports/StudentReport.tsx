@@ -15,7 +15,8 @@ import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
 import { sortMapByValue } from "../../utils/SortUtils"
 import { sortMapByWeek } from "../../utils/DateUtils"
-import AllHoursLineChart from "../charts/AllHoursLineChart"
+import { LineChartDataGenerator } from "../charts/IChartDataGenerator"
+import { LineChart } from "../widgets/chartjs/LineChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -90,9 +91,9 @@ const StudentReport: React.FC = () => {
         <DefaultGrid direction="row">
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <AllHoursLineChart
+              <LineChart
                 chartTitle="Hours By Week"
-                data={hoursByWeek}
+                dataGenerator={new LineChartDataGenerator(hoursByWeek, "Hours")}
               />
             </Box>
           </DefaultGridItem>

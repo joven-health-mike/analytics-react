@@ -10,14 +10,14 @@ import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import DefaultText from "../widgets/mui/DefaultText"
 import ServiceTypePieChart from "../charts/ServiceTypePieChart"
-import AllHoursLineChart from "../charts/AllHoursLineChart"
 import NoShowPieChart from "../charts/NoShowPieChart"
-import NoShowLineChart from "../charts/NoShowLineChart"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { CustomerNameContext } from "../../data/providers/providers"
 import DayOfWeekHoursBarChart from "../charts/DayOfWeekHoursBarChart"
 import { sortMapByDayOfWeek, sortMapByWeek } from "../../utils/DateUtils"
+import { LineChart } from "../widgets/chartjs/LineChart"
+import { LineChartDataGenerator } from "../charts/IChartDataGenerator"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -118,9 +118,11 @@ const CustomerReport: React.FC = () => {
           </DefaultGridItem>
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <AllHoursLineChart
+              <LineChart
                 chartTitle="Hours By Month"
-                data={hoursByMonth}
+                dataGenerator={
+                  new LineChartDataGenerator(hoursByMonth, "Hours")
+                }
               />
             </Box>
           </DefaultGridItem>
@@ -137,9 +139,11 @@ const CustomerReport: React.FC = () => {
           </DefaultGridItem>
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <NoShowLineChart
+              <LineChart
                 chartTitle="Absent Rates By Month"
-                data={absentRateByMonth}
+                dataGenerator={
+                  new LineChartDataGenerator(absentRateByMonth, "% Absent")
+                }
               />
             </Box>
           </DefaultGridItem>
@@ -157,9 +161,9 @@ const CustomerReport: React.FC = () => {
         <DefaultGrid direction="row">
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <AllHoursLineChart
+              <LineChart
                 chartTitle="Hours by Week"
-                data={hoursByWeek}
+                dataGenerator={new LineChartDataGenerator(hoursByWeek, "Hours")}
               />
             </Box>
           </DefaultGridItem>

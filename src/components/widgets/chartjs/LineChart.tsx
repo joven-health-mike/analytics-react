@@ -7,10 +7,10 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartData,
 } from "chart.js"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 import { Line } from "react-chartjs-2"
+import { ILineChartDataGenerator } from "../../charts/IChartDataGenerator"
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -23,18 +23,18 @@ Chart.register(
 
 type LineChartProps = {
   chartTitle: string
-  chartData: ChartData<"line", (number | [number, number] | null)[], unknown>
+  dataGenerator: ILineChartDataGenerator
 }
 
 export const LineChart: React.FC<LineChartProps> = ({
   chartTitle,
-  chartData,
+  dataGenerator,
 }) => {
   return (
     <>
       <h2 style={{ textAlign: "center" }}>{chartTitle}</h2>
       <Line
-        data={chartData}
+        data={dataGenerator.generateChartData()}
         plugins={[ChartDataLabels]}
         options={{
           plugins: {
