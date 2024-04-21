@@ -6,7 +6,8 @@ import Printable from "../../widgets/Printable"
 import AllHoursSection from "./AllHoursSection"
 import AllNoShowSection from "./AllNoShowSection"
 import { SessionsContext } from "../../../data/providers/SessionProvider"
-import { useContext } from "react"
+import React, { useContext } from "react"
+import AllProvidersSection from "./AllProvidersSection"
 
 const PDF_DOWNLOAD_FILENAME = "Joven Health Analytics"
 
@@ -23,12 +24,13 @@ const JovenReport: React.FC = () => {
       >
         <Printable docTitle={`${PDF_DOWNLOAD_FILENAME}.pdf`}>
           <DefaultAccordionGroup
-            labels={["Hours Delivered", "No-Show Rates"]}
+            labels={["Hours Delivered", "No-Show Rates", "Provider Hours"]}
             nodes={[
               <AllHoursSection sessionGroups={customerSessionGroups} />,
               <AllNoShowSection />,
+              <AllProvidersSection />,
             ]}
-            defaultExpanded={[true, true, true, true, true, true, true]}
+            defaultExpanded={[false, false, true]}
           />
         </Printable>
       </Box>
