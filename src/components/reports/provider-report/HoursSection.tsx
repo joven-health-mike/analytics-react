@@ -11,8 +11,10 @@ import {
   createSessionGroups,
 } from "../../../data/models/SessionGroups"
 import { filterByCustomer, filterByType } from "../../../data/models/Session"
-import { LineChartDataGenerator } from "../../charts/IChartDataGenerator"
-import { LineChart } from "../../widgets/chartjs/LineChart"
+import {
+  LineChart,
+  LineChartDataGenerator,
+} from "../../widgets/chartjs/LineChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },

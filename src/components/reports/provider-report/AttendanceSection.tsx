@@ -2,10 +2,10 @@ import { useEffect, useState } from "react"
 import SessionGroup from "../../../data/models/SessionGroup"
 import DefaultGrid from "../../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../../widgets/mui/DefaultGridItem"
-import NoShowPieChart from "../../charts/NoShowPieChart"
 import DefaultHeader from "../../widgets/mui/DefaultHeader"
 import { formatPercent } from "../../../utils/MathUtils"
 import { Box } from "@mui/material"
+import { PieChart, PieChartDataGenerator } from "../../widgets/chartjs/PieChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -30,10 +30,17 @@ const AttendanceSection: React.FC<AttendanceSectionProps> = ({
     <DefaultGrid direction="row">
       <DefaultGridItem>
         <Box {...CHART_PROPS}>
-          <NoShowPieChart
+          <PieChart
             chartTitle={"Attendance"}
-            presences={presences}
-            absences={absences}
+            dataGenerator={
+              new PieChartDataGenerator(
+                new Map([
+                  [`Present`, presences],
+                  [`Absent`, absences],
+                ]),
+                "Attendance"
+              )
+            }
           />
         </Box>
       </DefaultGridItem>

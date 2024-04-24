@@ -7,10 +7,11 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartData,
 } from "chart.js"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 import { Line } from "react-chartjs-2"
-import { ILineChartDataGenerator } from "../../charts/IChartDataGenerator"
+import { randomColor } from "../../../utils/Colors"
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -53,4 +54,30 @@ export const LineChart: React.FC<LineChartProps> = ({
       />
     </>
   )
+}
+
+export interface ILineChartDataGenerator {
+  generateChartData(): ChartData<
+    "line",
+    (number | [number, number] | null)[],
+    unknown
+  >
+}
+
+export class LineChartDataGenerator implements ILineChartDataGenerator {
+  constructor(private dataMap: Map<string, number>, private units: string) {}
+
+  generateChartData() {
+    return {
+      labels: [...this.dataMap.keys()],
+      datasets: [
+        {
+          label: this.units,
+          data: [...this.dataMap.values()],
+          borderColor: randomColor(1),
+          borderWidth: 5,
+        },
+      ],
+    }
+  }
 }

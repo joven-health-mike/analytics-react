@@ -11,12 +11,11 @@ import DefaultGrid from "../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../widgets/mui/DefaultGridItem"
 import DefaultSubHeader from "../widgets/mui/DefaultSubHeader"
 import DefaultText from "../widgets/mui/DefaultText"
-import NoShowPieChart from "../charts/NoShowPieChart"
 import { StudentNameContext } from "../../data/providers/providers"
 import { sortMapByValue } from "../../utils/SortUtils"
 import { sortMapByWeek } from "../../utils/DateUtils"
-import { LineChartDataGenerator } from "../charts/IChartDataGenerator"
-import { LineChart } from "../widgets/chartjs/LineChart"
+import { LineChart, LineChartDataGenerator } from "../widgets/chartjs/LineChart"
+import { PieChart, PieChartDataGenerator } from "../widgets/chartjs/PieChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -33,12 +32,14 @@ const StudentReport: React.FC = () => {
 
   /** Overview Section */
   const OverviewSection: React.FC = () => {
-    const presences = useMemo(() => {
-      return currentSessionGroup.presences()
-    }, [currentSessionGroup])
-    const absences = useMemo(() => {
-      return currentSessionGroup.absences()
-    }, [currentSessionGroup])
+    const attendanceData = useMemo(
+      () =>
+        new Map([
+          ["Present", currentSessionGroup.presences()],
+          ["Absent", currentSessionGroup.absences()],
+        ]),
+      [currentSessionGroup]
+    )
     const numberOfHours = useMemo(() => {
       return currentSessionGroup.totalHours()
     }, [currentSessionGroup])
@@ -80,10 +81,11 @@ const StudentReport: React.FC = () => {
           </DefaultGridItem>
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <NoShowPieChart
+              <PieChart
                 chartTitle="Attendance"
-                absences={absences}
-                presences={presences}
+                dataGenerator={
+                  new PieChartDataGenerator(attendanceData, "Attendance")
+                }
               />
             </Box>
           </DefaultGridItem>

@@ -9,15 +9,13 @@ import DefaultGridItem from "../widgets/mui/DefaultGridItem"
 import DefaultAccordionGroup from "../widgets/mui/DefaultAccordionGroup"
 import Printable from "../widgets/Printable"
 import DefaultText from "../widgets/mui/DefaultText"
-import ServiceTypePieChart from "../charts/ServiceTypePieChart"
-import NoShowPieChart from "../charts/NoShowPieChart"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { CustomerNameContext } from "../../data/providers/providers"
 import DayOfWeekHoursBarChart from "../charts/DayOfWeekHoursBarChart"
 import { sortMapByDayOfWeek, sortMapByWeek } from "../../utils/DateUtils"
-import { LineChart } from "../widgets/chartjs/LineChart"
-import { LineChartDataGenerator } from "../charts/IChartDataGenerator"
+import { LineChart, LineChartDataGenerator } from "../widgets/chartjs/LineChart"
+import { PieChart, PieChartDataGenerator } from "../widgets/chartjs/PieChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -68,12 +66,13 @@ const CustomerReport: React.FC = () => {
 
   /** Charts Section */
   const ChartsSection: React.FC = () => {
-    const presences = useMemo(
-      () => currentSessionGroup.presences(),
-      [currentSessionGroup]
-    )
-    const absences = useMemo(
-      () => currentSessionGroup.absences(),
+    const attendanceData = useMemo(
+      () =>
+        new Map([
+          ["Present", currentSessionGroup.presences()],
+          ["Absent", currentSessionGroup.absences()],
+        ]),
+
       [currentSessionGroup]
     )
     const absentRateByMonth = useMemo(
@@ -110,9 +109,11 @@ const CustomerReport: React.FC = () => {
         <DefaultGrid direction="row">
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <ServiceTypePieChart
+              <PieChart
                 chartTitle="Hours By Service Type"
-                hoursByServiceType={hoursByServiceType}
+                dataGenerator={
+                  new PieChartDataGenerator(hoursByServiceType, "Hours")
+                }
               />
             </Box>
           </DefaultGridItem>
@@ -130,10 +131,11 @@ const CustomerReport: React.FC = () => {
         <DefaultGrid direction="row">
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <NoShowPieChart
+              <PieChart
                 chartTitle="Attendance"
-                absences={absences}
-                presences={presences}
+                dataGenerator={
+                  new PieChartDataGenerator(attendanceData, "Attendance")
+                }
               />
             </Box>
           </DefaultGridItem>

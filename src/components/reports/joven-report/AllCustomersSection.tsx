@@ -3,8 +3,8 @@ import { SessionsContext } from "../../../data/providers/SessionProvider"
 import { sortMapByValue } from "../../../utils/SortUtils"
 import DefaultGrid from "../../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../../widgets/mui/DefaultGridItem"
-import ServiceTypePieChart from "../../charts/ServiceTypePieChart"
 import NoShowChart from "../../charts/NoShowChart"
+import { PieChart, PieChartDataGenerator } from "../../widgets/chartjs/PieChart"
 
 const AllCustomersSection: React.FC = () => {
   const { customerSessionGroups } = useContext(SessionsContext)
@@ -19,10 +19,10 @@ const AllCustomersSection: React.FC = () => {
   return (
     <DefaultGrid direction="row">
       <DefaultGridItem>
-        <ServiceTypePieChart
+        <PieChart
           chartTitle="Customer Hours"
-          hoursByServiceType={hoursByCustomer}
-        ></ServiceTypePieChart>
+          dataGenerator={new PieChartDataGenerator(hoursByCustomer, "Hours")}
+        ></PieChart>
       </DefaultGridItem>
       <DefaultGridItem>
         <NoShowChart chartTitle="Customer Hours" data={hoursByCustomer} />
