@@ -2,8 +2,6 @@ import { useMemo, useState } from "react"
 import { Box, Paper } from "@mui/material"
 import useGeneratorFactories from "../../hooks/GeneratorFactories"
 import SessionGroup from "../../../data/models/SessionGroup"
-import AllHoursStackedBarChart from "../../charts/AllHoursStackedBarChart"
-import AllProvidersStackedBarChart from "../../charts/AllProvidersStackedBarChart"
 import { sortMapByWeek } from "../../../utils/DateUtils"
 import DefaultToggleButton from "../../widgets/mui/DefaultToggleButton"
 import {
@@ -15,6 +13,10 @@ import {
   LineChart,
   LineChartDataGenerator,
 } from "../../widgets/chartjs/LineChart"
+import {
+  BarChart,
+  StackedBarChartDataGenerator,
+} from "../../widgets/chartjs/BarChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -91,7 +93,10 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
           <StackedHoursSubsection
             dataGeneratorFactory={allHoursStackedGeneratorFactory}
             chartFactory={(data) => (
-              <AllHoursStackedBarChart chartTitle="Service Hours" data={data} />
+              <BarChart
+                chartTitle="Service Hours"
+                dataGenerator={new StackedBarChartDataGenerator(data)}
+              />
             )}
           />
         )}
@@ -99,9 +104,9 @@ const HoursSection: React.FC<HoursSectionProps> = ({ currentSessionGroup }) => {
           <StackedHoursSubsection
             dataGeneratorFactory={allCustomersStackedGeneratorFactory}
             chartFactory={(data) => (
-              <AllProvidersStackedBarChart
+              <BarChart
                 chartTitle="Customer Hours"
-                data={data}
+                dataGenerator={new StackedBarChartDataGenerator(data)}
               />
             )}
           />

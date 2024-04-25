@@ -12,10 +12,10 @@ import DefaultText from "../widgets/mui/DefaultText"
 import useCurrentSessionGroup from "../hooks/CurrentSessionGroup"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import { CustomerNameContext } from "../../data/providers/providers"
-import DayOfWeekHoursBarChart from "../charts/DayOfWeekHoursBarChart"
 import { sortMapByDayOfWeek, sortMapByWeek } from "../../utils/DateUtils"
 import { LineChart, LineChartDataGenerator } from "../widgets/chartjs/LineChart"
 import { PieChart, PieChartDataGenerator } from "../widgets/chartjs/PieChart"
+import { BarChart, BarChartDataGenerator } from "../widgets/chartjs/BarChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -153,9 +153,11 @@ const CustomerReport: React.FC = () => {
         <DefaultGrid direction="row">
           <DefaultGridItem>
             <Box {...CHART_PROPS}>
-              <DayOfWeekHoursBarChart
+              <BarChart
                 chartTitle="Hours by Day of Week"
-                data={hoursByDayOfWeek}
+                dataGenerator={
+                  new BarChartDataGenerator(hoursByDayOfWeek, "Hours")
+                }
               />
             </Box>
           </DefaultGridItem>
