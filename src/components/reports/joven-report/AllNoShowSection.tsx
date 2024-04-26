@@ -4,8 +4,8 @@ import DefaultToggleButton from "../../widgets/mui/DefaultToggleButton"
 import SessionGroups from "../../../data/models/SessionGroups"
 import { generateAbsentRates } from "../../../data/generators/AttendanceGenerator"
 import { sortMapByValue } from "../../../utils/SortUtils"
-import NoShowChart from "../../charts/NoShowChart"
 import { SessionsContext } from "../../../data/providers/SessionProvider"
+import { BarChart, BarChartDataGenerator } from "../../widgets/chartjs/BarChart"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -71,7 +71,10 @@ const NoShowSection: React.FC<NoShowSectionProps> = ({
     <>
       {noShowData && (
         <Box {...CHART_PROPS}>
-          <NoShowChart chartTitle={chartTitle} data={noShowData} />
+          <BarChart
+            chartTitle={chartTitle}
+            dataGenerator={new BarChartDataGenerator(noShowData, "Attendance")}
+          />
         </Box>
       )}
     </>

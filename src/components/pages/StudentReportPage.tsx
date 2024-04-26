@@ -6,7 +6,7 @@ import DefaultSelectInput from "../widgets/mui/DefaultSelectInput"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 import useNavigateToHomeWhenSessionsCleared from "../hooks/NavigateToHome"
 import useNamesWithSelector from "../hooks/NamesWithSelector"
-import StudentReport from "../reports/StudentReport"
+import StudentReport from "../reports/student-report/StudentReport"
 import { StudentNameContext } from "../../data/providers/providers"
 
 const StudentReportPage: React.FC = () => {

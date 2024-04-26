@@ -11,6 +11,7 @@ import {
 } from "chart.js"
 import ChartDataLabels from "chartjs-plugin-datalabels"
 import { Line } from "react-chartjs-2"
+import { randomColor } from "../../../utils/Colors"
 Chart.register(
   CategoryScale,
   LinearScale,
@@ -23,18 +24,18 @@ Chart.register(
 
 type LineChartProps = {
   chartTitle: string
-  chartData: ChartData<"line", (number | [number, number] | null)[], unknown>
+  dataGenerator: ILineChartDataGenerator
 }
 
 export const LineChart: React.FC<LineChartProps> = ({
   chartTitle,
-  chartData,
+  dataGenerator,
 }) => {
   return (
     <>
       <h2 style={{ textAlign: "center" }}>{chartTitle}</h2>
       <Line
-        data={chartData}
+        data={dataGenerator.generateChartData()}
         plugins={[ChartDataLabels]}
         options={{
           plugins: {
@@ -53,4 +54,30 @@ export const LineChart: React.FC<LineChartProps> = ({
       />
     </>
   )
+}
+
+export interface ILineChartDataGenerator {
+  generateChartData(): ChartData<
+    "line",
+    (number | [number, number] | null)[],
+    unknown
+  >
+}
+
+export class LineChartDataGenerator implements ILineChartDataGenerator {
+  constructor(private dataMap: Map<string, number>, private units: string) {}
+
+  generateChartData() {
+    return {
+      labels: [...this.dataMap.keys()],
+      datasets: [
+        {
+          label: this.units,
+          data: [...this.dataMap.values()],
+          borderColor: randomColor(1),
+          borderWidth: 5,
+        },
+      ],
+    }
+  }
 }
