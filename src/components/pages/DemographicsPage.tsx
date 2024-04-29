@@ -6,6 +6,7 @@ import UploadDataWidget from "../widgets/UploadDataWidget"
 import Student, { createStudent } from "../../data/models/Student"
 import { createItemsFromCsv } from "../../utils/CsvUtils"
 import DemographicsReport from "../reports/demographics-report/DemographicsReport"
+import { StudentsContext } from "../../data/providers/providers"
 
 const DemographicsPage: React.FC = () => {
   const [sessionsPopulated, setSessionsPopulated] = useState<boolean>(false)
@@ -33,7 +34,5 @@ const DemographicsPage: React.FC = () => {
     </>
   )
 }
-
-export const StudentsContext = React.createContext<Student[]>([])
 
 export default DemographicsPage

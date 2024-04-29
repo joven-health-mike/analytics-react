@@ -1,12 +1,12 @@
 // Copyright 2024 Social Fabric, LLC
 
 import React, { useContext, useMemo } from "react"
-import { StudentsContext } from "../../pages/DemographicsPage"
 import { sortMapByValue } from "../../../utils/SortUtils"
 import { PieChart, PieChartDataGenerator } from "../../widgets/chartjs/PieChart"
 import DefaultHeader from "../../widgets/mui/DefaultHeader"
 import DefaultGrid from "../../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../../widgets/mui/DefaultGridItem"
+import { StudentsContext } from "../../../data/providers/providers"
 
 const OverviewSection: React.FC = () => {
   const students = useContext(StudentsContext)
