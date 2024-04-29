@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext, useMemo, useState } from "react"
 import SessionGroups from "../../../data/models/SessionGroups"
 import { Box, Paper } from "@mui/material"

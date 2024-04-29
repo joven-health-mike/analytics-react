@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import Session from "../models/Session"
 import { ISessionProcessor } from "./ISessionProcessor"
 

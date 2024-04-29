@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import HomePage from "../components/pages/HomePage"
 import JovenReportPage from "../components/pages/JovenReportPage"
 import CustomerReportPage from "../components/pages/CustomerReportPage"

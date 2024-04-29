@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useCallback } from "react"
 import {
   dayOfWeekIteratorFactory,

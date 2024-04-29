@@ -1,4 +1,4 @@
-// Copyright 2022 Social Fabric, LLC
+// Copyright 2024 Social Fabric, LLC
 
 import React, { useContext } from "react"
 import DefaultHeader from "../../widgets/mui/DefaultHeader"

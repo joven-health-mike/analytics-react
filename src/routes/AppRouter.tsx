@@ -1,4 +1,4 @@
-// Copyright 2022 Social Fabric, LLC
+// Copyright 2024 Social Fabric, LLC
 
 import { Route, Routes } from "react-router"
 import { AvailableRoutes } from "./AvailableRoutes"

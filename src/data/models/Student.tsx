@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 export default class Student {
   constructor(
     public school: string,

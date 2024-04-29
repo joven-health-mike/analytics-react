@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { SessionsContext } from "../../data/providers/SessionProvider"

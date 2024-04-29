@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import React, { useContext, useMemo } from "react"
 import { StudentsContext } from "../../pages/DemographicsPage"
 import { sortMapByValue } from "../../../utils/SortUtils"

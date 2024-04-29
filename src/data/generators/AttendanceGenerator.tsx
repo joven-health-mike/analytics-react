@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import SessionGroups from "../models/SessionGroups"
 
 export function* generateAbsentRates(sessionGroups: SessionGroups) {

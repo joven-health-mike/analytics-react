@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import Session from "./Session"
 import SessionGroup, { createSessionGroup } from "./SessionGroup"
 

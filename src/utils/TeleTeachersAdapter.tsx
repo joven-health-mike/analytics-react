@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 export const adaptTeleTeachersData = (data: string[][]): string[][] => {
   return parseData(data)
 }

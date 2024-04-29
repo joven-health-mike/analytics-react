@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext } from "react"
 import AppRouter from "./routes/AppRouter"
 import {

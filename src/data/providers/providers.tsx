@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { createContext } from "react"
 
 export const CustomerNameContext = createContext<string>("")

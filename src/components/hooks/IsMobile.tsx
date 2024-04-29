@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useEffect, useMemo, useState } from "react"
 
 const MOBILE_THREASHOLD = 1110

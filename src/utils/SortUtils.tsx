@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 export const sortMapByValue = (
   map: Map<string, number>,
   filter: (
