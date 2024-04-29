@@ -12,6 +12,8 @@ class UniqueStudents implements ISessionProcessor {
         .split(",")
         .map((student) => student.trim())
       students.forEach((studentName) => {
+        if (studentName.length === 0) return
+
         const newUniqueStudents = this.uniqueStudents.get(studentName) ?? 0
         this.uniqueStudents.set(studentName, newUniqueStudents + 1)
       })
