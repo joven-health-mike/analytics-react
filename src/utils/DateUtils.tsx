@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 export const MONTH_NAMES = [
   "January",
   "February",

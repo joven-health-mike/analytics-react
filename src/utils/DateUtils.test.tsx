@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { describe, expect, it } from "@jest/globals"
 import { sortMapByDayOfWeek, sortMapByWeek } from "./DateUtils"
 

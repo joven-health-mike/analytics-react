@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import Session from "../models/Session"
 import { ISessionProcessor } from "./ISessionProcessor"
 
@@ -6,10 +8,15 @@ class UniqueStudents implements ISessionProcessor {
 
   processNewSession(session: Session) {
     if (session.isDirect()) {
-      for (const studentName of session.sessionStudents) {
+      const students = session.sessionStudents
+        .split(",")
+        .map((student) => student.trim())
+      students.forEach((studentName) => {
+        if (studentName.length === 0) return
+
         const newUniqueStudents = this.uniqueStudents.get(studentName) ?? 0
         this.uniqueStudents.set(studentName, newUniqueStudents + 1)
-      }
+      })
     }
   }
 

@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useEffect, useState } from "react"
 import SessionGroup from "../../../data/models/SessionGroup"
 import DefaultGrid from "../../widgets/mui/DefaultGrid"

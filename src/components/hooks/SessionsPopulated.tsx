@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext, useMemo } from "react"
 import { SessionsContext } from "../../data/providers/SessionProvider"
 

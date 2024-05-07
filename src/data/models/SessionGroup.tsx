@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { compareDates } from "../../utils/DateUtils"
 import Session from "./Session"
 import SessionGroupData from "./SessionGroupData"

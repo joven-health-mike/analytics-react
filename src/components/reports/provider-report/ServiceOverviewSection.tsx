@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { ReactNode, useEffect, useState } from "react"
 import { sortMapByValue } from "../../../utils/SortUtils"
 import DefaultSubHeader from "../../widgets/mui/DefaultSubHeader"

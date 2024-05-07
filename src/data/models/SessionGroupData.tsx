@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import AttendanceData from "../processors/AttendanceData"
 import { ISessionProcessor } from "../processors/ISessionProcessor"
 import SessionMinutes from "../processors/SessionMinutes"

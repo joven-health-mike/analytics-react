@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext, useMemo } from "react"
 import DefaultGrid from "../../widgets/mui/DefaultGrid"
 import DefaultGridItem from "../../widgets/mui/DefaultGridItem"

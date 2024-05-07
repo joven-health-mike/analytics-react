@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 export const downloadCsv = (dataStr: string, filename: string) => {
   const blob = new Blob([dataStr], { type: "text/csv" })
   const url = URL.createObjectURL(blob)

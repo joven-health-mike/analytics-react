@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useContext } from "react"
 import UploadDataWidget from "./UploadDataWidget"
 import { SessionsContext } from "../../data/providers/SessionProvider"

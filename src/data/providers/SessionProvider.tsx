@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { ReactNode, createContext, useMemo, useState } from "react"
 import SessionGroups, {
   createEmptySessionGroups,

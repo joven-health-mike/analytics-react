@@ -1,3 +1,5 @@
+// Copyright 2024 Social Fabric, LLC
+
 import { useCallback, useEffect, useMemo, useState } from "react"
 import SessionGroups from "../../data/models/SessionGroups"
 

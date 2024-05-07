@@ -1,4 +1,4 @@
-// Copyright 2022 Social Fabric, LLC
+// Copyright 2024 Social Fabric, LLC
 
 import { ReactElement } from "react"
 import {
@@ -7,6 +7,7 @@ import {
   FaHome,
   FaSchool,
   FaUserMd,
+  FaUsers,
 } from "react-icons/fa"
 import image from "../../assets/Logo-192sq-alphabg.png"
 
@@ -62,5 +63,11 @@ export const allNavItems: NavItem[] = [
     icon: <FaAddressCard />,
     path: "/student",
     shouldDisplay: ifStudentSessionsExist,
+  },
+  {
+    title: "Demographics",
+    icon: <FaUsers />,
+    path: "/demographics",
+    shouldDisplay: always,
   },
 ]
