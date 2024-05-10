@@ -40,6 +40,28 @@ export const DAY_OF_WEEK_NAMES = [
   "Saturday",
 ]
 
+export const getWeekdayCountInMonth = (
+  year: number,
+  monthStr: string
+): number => {
+  const month = MONTH_NAMES.indexOf(monthStr)
+  const firstDayOfMonth = new Date(year, month, 1)
+  const lastDayOfMonth = new Date(year, month + 1, 0)
+  let weekdayCount = 0
+
+  for (
+    let date = firstDayOfMonth;
+    date <= lastDayOfMonth;
+    date.setDate(date.getDate() + 1)
+  ) {
+    if (date.getDay() >= 1 && date.getDay() <= 5) {
+      weekdayCount++
+    }
+  }
+
+  return weekdayCount
+}
+
 export function* dayOfWeekIterator(shiftAmount: number = 0) {
   for (let i = 0; i < DAY_OF_WEEK_NAMES.length; i++) {
     yield DAY_OF_WEEK_NAMES[(i + shiftAmount) % DAY_OF_WEEK_NAMES.length]
