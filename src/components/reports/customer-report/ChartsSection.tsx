@@ -14,6 +14,7 @@ import { SessionsContext } from "../../../data/providers/SessionProvider"
 import useCurrentSessionGroup from "../../hooks/CurrentSessionGroup"
 import { CustomerNameContext } from "../../../data/providers/providers"
 import { sortMapByDayOfWeek, sortMapByWeek } from "../../../utils/DateUtils"
+import DefaultHeader from "../../widgets/mui/DefaultHeader"
 
 const CHART_PROPS = {
   sx: { pl: 10, pr: 10 },
@@ -63,6 +64,19 @@ const ChartsSection: React.FC = () => {
     () => sortMapByWeek(currentSessionGroup.hoursByWeek()),
     [currentSessionGroup]
   )
+  const dailyHours = useMemo(
+    () => sortMapByWeek(currentSessionGroup.dailyHours()),
+    [currentSessionGroup]
+  )
+  const avgDailyHours = useMemo(() => {
+    const dailyHoursArray = Array.from(
+      currentSessionGroup.dailyHours().values()
+    )
+    const totalHours = dailyHoursArray.reduce((a, b) => a + b, 0)
+    const numMonths = dailyHoursArray.reduce((a, b) => a + (b > 0 ? 1 : 0), 0)
+    console.log(`totalHours: ${totalHours}, numMonths: ${numMonths}`)
+    return totalHours / numMonths
+  }, [currentSessionGroup])
 
   return (
     <DefaultGrid direction="column">
@@ -128,6 +142,19 @@ const ChartsSection: React.FC = () => {
               dataGenerator={new LineChartDataGenerator(hoursByWeek, "Hours")}
             />
           </Box>
+        </DefaultGridItem>
+      </DefaultGrid>
+      <DefaultGrid direction="row">
+        <DefaultGridItem>
+          <Box {...CHART_PROPS}>
+            <LineChart
+              chartTitle="Average Daily Hours"
+              dataGenerator={new LineChartDataGenerator(dailyHours, "Hours")}
+            />
+          </Box>
+        </DefaultGridItem>
+        <DefaultGridItem>
+          <DefaultHeader>{`Average: ${avgDailyHours}`}</DefaultHeader>
         </DefaultGridItem>
       </DefaultGrid>
     </DefaultGrid>

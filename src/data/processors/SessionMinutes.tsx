@@ -8,6 +8,7 @@ import {
   getFirstDayOfWeekName,
   getLaterDate,
   getMonthName,
+  getWeekdayCountInMonth,
   monthOfYearIterator,
   weekIterator,
 } from "../../utils/DateUtils"
@@ -26,6 +27,7 @@ class SessionMinutes implements ISessionProcessor {
   hoursByMonth: Map<string, number> = new Map()
   minutesByWeek: Map<string, number> = new Map()
   hoursByWeek: Map<string, number> = new Map()
+  dailyHours: Map<string, number> = new Map()
 
   earliestDate: Date = superEarlyDate
   latestDate: Date = superLateDate
@@ -56,9 +58,14 @@ class SessionMinutes implements ISessionProcessor {
   finalize() {
     for (const monthName of monthOfYearIterator(START_MONTH)) {
       const minutesForMonth = this.minutesByMonth.get(monthName) ?? 0
+      const schoolDaysForMonth = getWeekdayCountInMonth(2024, monthName)
       this.hoursByMonth.set(
         monthName,
         parseFloat((minutesForMonth / 60).toFixed(3))
+      )
+      this.dailyHours.set(
+        monthName,
+        parseFloat((minutesForMonth / 60 / schoolDaysForMonth).toFixed(3))
       )
     }
 
