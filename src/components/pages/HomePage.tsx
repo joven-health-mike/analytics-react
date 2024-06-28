@@ -22,11 +22,6 @@ const HomePage: React.FC = () => {
   const buttons = useMemo(
     () => [
       {
-        name: "Joven Health Report",
-        onClick: () => navigate("/joven"),
-        shouldDisplay: () => true,
-      },
-      {
         name: "Customer Report",
         onClick: () => navigate("/customer"),
         shouldDisplay: () => customerSessionGroupsPopulated,
