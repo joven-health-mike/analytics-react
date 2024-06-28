@@ -1,14 +1,7 @@
 // Copyright 2024 Social Fabric, LLC
 
 import { ReactElement } from "react"
-import {
-  FaAddressCard,
-  FaChartLine,
-  FaHome,
-  FaSchool,
-  FaUserMd,
-  FaUsers,
-} from "react-icons/fa"
+import { FaAddressCard, FaHome, FaSchool, FaUserMd } from "react-icons/fa"
 import image from "../../assets/Logo-192sq-alphabg.png"
 
 export type NavItem = {
@@ -41,12 +34,6 @@ export const allNavItems: NavItem[] = [
     shouldDisplay: always,
   },
   {
-    title: "Overview Report",
-    icon: <FaChartLine />,
-    path: "/joven",
-    shouldDisplay: ifSessionsExist,
-  },
-  {
     title: "Customer Report",
     icon: <FaSchool />,
     path: "/customer",
@@ -63,11 +50,5 @@ export const allNavItems: NavItem[] = [
     icon: <FaAddressCard />,
     path: "/student",
     shouldDisplay: ifStudentSessionsExist,
-  },
-  {
-    title: "Demographics",
-    icon: <FaUsers />,
-    path: "/demographics",
-    shouldDisplay: always,
   },
 ]
